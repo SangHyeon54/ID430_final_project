@@ -4,9 +4,12 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import ps.PSApp;
 import ps.PSCanvas2D;
+import ps.PSNode;
 import ps.PSScene;
+import ps.cmd.PSCmdToCreateNode;
 import x.XApp;
 import x.XCmdToChangeScene;
 import x.XScenario;
@@ -54,6 +57,7 @@ public class PSDrawNodeScenario extends XScenario {
         public void handleMousePress(MouseEvent e) {
             PSApp app = (PSApp) this.mScenario.getApp();
             Point pt = e.getPoint();
+            PSCmdToCreateNode.execute(app, pt);
         }
 
         @Override
@@ -91,6 +95,9 @@ public class PSDrawNodeScenario extends XScenario {
 
         @Override
         public void renderScreenOjbects(Graphics2D g2) {
+            PSApp app = (PSApp) this.mScenario.getApp();
+            PSDrawNodeScenario scenario = (PSDrawNodeScenario) this.mScenario;
+            scenario.drawNode(g2);
         }
 
         @Override
@@ -101,4 +108,19 @@ public class PSDrawNodeScenario extends XScenario {
         public void wrapUp() {
         }
     }
+    Point2D.Double mm = new Point2D.Double(50, 50);
+    private PSNode mNode = null;
+    public PSNode getNode() {
+        return mNode;
+    }
+    public void setNode(PSNode node) {
+        this.mNode = node;
+    }
+    
+    private void drawNode(Graphics2D g2) {
+        if (mNode != null) {
+            mNode.drawNode(g2);
+        }
+    }
+    
 }

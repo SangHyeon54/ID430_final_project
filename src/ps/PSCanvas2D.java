@@ -16,13 +16,15 @@ public class PSCanvas2D extends JPanel {
     //constants (final keywords)
     private static final Color COLOR_PT_CURVE_DEFAULT = new Color(0, 0, 0, 192);
     private static final Color COLOR_SELECTED_PT_CURVE = Color.ORANGE;
-    public static final Color COLOR_SELECTION_BOX = Color.RED;
+//    public static final Color COLOR_SELECTION_BOX = Color.RED;
+    public static final Color COLOR_NODE_ELLIPSE = Color.BLACK;
     public static final Color COLOR_CROSSHAIR = new Color(255, 0, 0, 64);
     private static final Color COLOR_INFO = new Color(255, 0, 0, 128);
     
     private static final Stroke STROKE_PT_CURVE_DEFAULT = new BasicStroke(5.0f,
         BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
-    public static final Stroke STROKE_SELECTION_BOX = new BasicStroke(5.0f);
+//    public static final Stroke STROKE_SELECTION_BOX = new BasicStroke(5.0f);
+    public static final Stroke STROKE_NODE_ELLIPSE = new BasicStroke(2.0f);
     public static final Stroke STROKE_CROSSHAIR = new BasicStroke(5.0f);
     private static final Font FONT_INFO = 
         new Font("Monospaced", Font.PLAIN, 24);
