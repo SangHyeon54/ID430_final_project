@@ -30,14 +30,17 @@ public class PSCmdToUpdateNodeRadius extends XLoggableCmd {
         PSApp app = (PSApp) this.mApp;
         PSNode curNode = app.getNodeMgr().getCurNode();
         Point2D.Double nodeCenter = curNode.getCenter();
+        
+        this.mWorldPt = app.getXform().calcPtFromScreenToWorld(this.mScreenPt);
+        
         Point CenterScreenPt = app.getXform().calcPtFromWorldToScreen(
             nodeCenter);
         
-        if (this.mScreenPt.distance(CenterScreenPt) < 
+        if (this.mWorldPt.distance(nodeCenter) < 
             PSNode.MIN_RADIUS) {
             return false;
         }
-        if (this.mScreenPt.distance(CenterScreenPt) > 
+        if (this.mWorldPt.distance(nodeCenter) > 
             PSNode.MAX_RADIUS) {
             return false;
         }

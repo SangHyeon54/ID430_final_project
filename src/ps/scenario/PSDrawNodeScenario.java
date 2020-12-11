@@ -147,9 +147,10 @@ public class PSDrawNodeScenario extends XScenario {
         public void handleMousePress(MouseEvent e) {
             PSApp app = (PSApp) this.mScenario.getApp();
             Point pt = e.getPoint();
+            Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
             PSNode node = app.getNodeMgr().getCurNode();
             // if the mouse press inside of ellipse, make node name
-            if (node.contains(pt)) {
+            if (node.contains(mWorldPt)) {
                 PSCmdToCreateCurPtCurve.execute(app, pt);
                 XCmdToChangeScene.execute(app, 
                     PSDrawNodeScenario.EditNodeNameScene.getSingleton(), this);
@@ -177,14 +178,21 @@ public class PSDrawNodeScenario extends XScenario {
             PSApp app = (PSApp)this.mScenario.getApp();
             
             switch (code) {
-                case KeyEvent.VK_DELETE:
+                case KeyEvent.VK_C:
                     PSCmdToClearCurNodeName.execute(app);
                     break;
                 case KeyEvent.VK_M:
                     PSCmdToChangeQuasi.execute(app);
                     break;
+                case KeyEvent.VK_DELETE:
+                    app.getNodeMgr().setCurNode(null);
+                    XCmdToChangeScene.execute(app, 
+                        PSDefaultScenario.ReadyScene.getSingleton(), 
+                        null);
+                    break;
                 case KeyEvent.VK_ENTER:
                     PSCmdToAddCurNodeToNodes.execute(app);
+                    app.getNodeMgr().setCurNode(null);
                     XCmdToChangeScene.execute(app, 
                         PSDefaultScenario.ReadyScene.getSingleton(), 
                         null);

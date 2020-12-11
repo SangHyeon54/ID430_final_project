@@ -34,4 +34,9 @@ public class PSNodeMgr {
         this.mNodes = new ArrayList<PSNode>();
         this.mSelectedNodes = new ArrayList<PSNode>();
     }
+    
+    public void removeNode(int index) {
+        this.mNodes.remove(index);
+    }
+    
 }

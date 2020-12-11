@@ -4,8 +4,10 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import ps.PSApp;
 import ps.PSCanvas2D;
+import ps.PSNode;
 import ps.PSScene;
 import x.XApp;
 import x.XCmdToChangeScene;
@@ -54,6 +56,25 @@ public class PSDefaultScenario extends XScenario {
         public void handleMousePress(MouseEvent e) {
             PSApp app = (PSApp) this.mScenario.getApp();
             Point pt = e.getPoint();
+            Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
+            ArrayList<PSNode> nodes = app.getNodeMgr().getNodes();
+            for (int i = 0; i < nodes.size(); i ++) {
+                PSNode node = nodes.get(i);
+                // if the point is inside of node.
+                if (node.getCenter().distance(mWorldPt.x, mWorldPt.y) < 
+                    node.getRadius()) {
+                    app.getNodeMgr().setCurNode(node);
+                    app.getNodeMgr().removeNode(i);
+                    break;
+                }
+            }
+            
+            if (app.getNodeMgr().getCurNode() != null) {
+                XCmdToChangeScene.execute(app,
+                    PSDrawNodeScenario.EditNodeReadyScene.getSingleton(),
+                    this);
+            }
+            
         }
 
         @Override
@@ -74,6 +95,11 @@ public class PSDefaultScenario extends XScenario {
                     XCmdToChangeScene.execute(app,
                         PSDrawNodeScenario.DrawNodeScene.getSingleton(), this);
 
+                    break;
+                case KeyEvent.VK_CONTROL:
+                    XCmdToChangeScene.execute(app, 
+                        PSNavigateScenario.ZoomNRotateReadyScene.getSingleton(), 
+                        this);
                     break;
             }
         }
