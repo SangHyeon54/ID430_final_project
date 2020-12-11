@@ -17,10 +17,11 @@ public class PSCanvas2D extends JPanel {
     private static final Color COLOR_PT_CURVE_DEFAULT = new Color(0, 0, 0, 192);
     private static final Color COLOR_SELECTED_PT_CURVE = Color.ORANGE;
 //    public static final Color COLOR_SELECTION_BOX = Color.RED;
-    public static final Color COLOR_CUR_NODE_ELLIPSE = new Color(0, 0, 0, 150);
+    public static final Color COLOR_CUR_NODE_ELLIPSE = new Color(51, 51, 255, 255);
     public static final Color COLOR_NODE_ELLIPSE = Color.BLACK;
     public static final Color COLOR_CROSSHAIR = new Color(255, 0, 0, 64);
     private static final Color COLOR_INFO = new Color(255, 0, 0, 128);
+    private static final Color COLOR_MODE_INFO = new Color(0, 0, 0, 192);
     
     private static final Stroke STROKE_PT_CURVE_DEFAULT = new BasicStroke(3.0f,
         BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
@@ -30,6 +31,8 @@ public class PSCanvas2D extends JPanel {
     public static final Stroke STROKE_CROSSHAIR = new BasicStroke(5.0f);
     private static final Font FONT_INFO = 
         new Font("Monospaced", Font.PLAIN, 24);
+    private static final Font FONT_MODE_INFO = 
+        new Font("Monospaced", Font.PLAIN, 40);
 
     public static final double CROSSHAIR_RADIUS = 30;
     public static final float STROKE_WIDTH_INCREASEMENT = 1.0f;
@@ -82,7 +85,7 @@ public class PSCanvas2D extends JPanel {
         
         // render common screen objects.
         this.drawInfo(g2);
-        this.drawPenTip(g2);
+        //this.drawPenTip(g2);
         
         // render curscene objects
         curScene.renderScreenOjbects(g2);
@@ -92,7 +95,7 @@ public class PSCanvas2D extends JPanel {
         for (PSPtCurve ptCurve : this.mApp.getPtCurveMgr().getPtCurves()) {
             this.drawPtCurve(g2, ptCurve, ptCurve.getColor(), 
                 ptCurve.getStroke());
-        }    
+        }
     }
     
     private void drawNodes(Graphics2D g2) {
@@ -112,16 +115,31 @@ public class PSCanvas2D extends JPanel {
     }
     
     private void drawNode(Graphics2D g2, PSNode node, Color c, Stroke s) {
-
         g2.setColor(c);
         g2.setStroke(s);
         g2.draw(node);
+        
+        // draw mode of node
+        g2.setFont(PSCanvas2D.FONT_MODE_INFO);
+        
+        int x_mode = (int) Math.round(node.getCenter().x - 10);
+        int y_mode = (int) Math.round(node.getCenter().y + node.getRadius() 
+            - 10);
+        
+        if (node.getIsQusai()) {
+            g2.drawString("Q", x_mode, y_mode);
+        } else {
+            g2.drawString("M", x_mode, y_mode);
+        }
+        
         // draw node name pt curves
         for (PSPtCurve namePtCurve : node.getName()) {
                 this.drawPtCurve(g2, namePtCurve, 
                     namePtCurve.getColor(),
                     namePtCurve.getStroke());
         }
+
+        
     }
 
     private void drawCurPtCurve(Graphics2D g2) {

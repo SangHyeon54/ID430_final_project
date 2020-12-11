@@ -11,6 +11,7 @@ import ps.PSNode;
 import ps.PSScene;
 import ps.cmd.PSCmdToAddCurNodeToNodes;
 import ps.cmd.PSCmdToAddCurPtCurveToNodeName;
+import ps.cmd.PSCmdToChangeQuasi;
 import ps.cmd.PSCmdToClearCurNodeName;
 import ps.cmd.PSCmdToCreateCurPtCurve;
 import ps.cmd.PSCmdToCreateNode;
@@ -179,12 +180,15 @@ public class PSDrawNodeScenario extends XScenario {
                 case KeyEvent.VK_DELETE:
                     PSCmdToClearCurNodeName.execute(app);
                     break;
+                case KeyEvent.VK_M:
+                    PSCmdToChangeQuasi.execute(app);
+                    break;
                 case KeyEvent.VK_ENTER:
                     PSCmdToAddCurNodeToNodes.execute(app);
                     XCmdToChangeScene.execute(app, 
                         PSDefaultScenario.ReadyScene.getSingleton(), 
                         null);
-                    
+                    break;
             }
         }
 

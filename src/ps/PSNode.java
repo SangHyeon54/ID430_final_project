@@ -1,7 +1,5 @@
 package ps;
 
-
-
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Ellipse2D;
@@ -31,9 +29,12 @@ public class PSNode extends Ellipse2D.Double {
         return this.mName;
     }
     
-    private boolean isQusai = false;
+    private boolean isQuasi = false;
     public boolean getIsQusai() {
-        return this.isQusai;
+        return this.isQuasi;
+    }
+    public void changeQusai() {
+        this.isQuasi = !isQuasi;
     }
     
     //constructor
