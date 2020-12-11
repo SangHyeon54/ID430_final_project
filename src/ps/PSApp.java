@@ -23,6 +23,11 @@ public class PSApp extends XApp {
     
     private PSEventListener mEventListener = null;
     
+    private PSNodeMgr mNodeMgr = null;
+    public PSNodeMgr getNodeMgr() {
+        return this.mNodeMgr;
+    }
+    
     private PSPenMarkMgr mPenMarkMgr = null;
     public PSPenMarkMgr getPenMarkMgr() {
         return this.mPenMarkMgr;
@@ -54,6 +59,7 @@ public class PSApp extends XApp {
         this.mCanvas2D = new PSCanvas2D(this);
         this.mXform = new PSXform();
         this.mEventListener = new PSEventListener(this);
+        this.mNodeMgr = new PSNodeMgr();
         this.mPenMarkMgr = new PSPenMarkMgr();
         this.mPtCurveMgr = new PSPtCurveMgr();
         this.mScenarioMgr = new PSScenarioMgr(this);

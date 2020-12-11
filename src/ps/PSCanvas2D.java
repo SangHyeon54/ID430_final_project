@@ -65,9 +65,10 @@ public class PSCanvas2D extends JPanel {
         g2.transform(this.mApp.getXform().getCurXformFromWorldToScreen());
         
         // render common world objects.
-        this.drawPtCurves(g2);
-        this.drawSelectedPtCurves(g2);
-        this.drawCurPtCurve(g2);
+        this.drawCurNode(g2);
+//        this.drawPtCurves(g2);
+//        this.drawSelectedPtCurves(g2);
+//        this.drawCurPtCurve(g2);
         
         // render the current scene's world objects.
         PSScene curScene = (PSScene) this.mApp.getScenarioMgr().getCurScene();
@@ -89,6 +90,20 @@ public class PSCanvas2D extends JPanel {
             this.drawPtCurve(g2, ptCurve, ptCurve.getColor(), 
                 ptCurve.getStroke());
         }    
+    }
+    
+    private void drawCurNode(Graphics2D g2) {
+        PSNode node = this.mApp.getNodeMgr().getCurNode();
+        if (node != null) {
+            this.drawNode(g2, node);
+        }
+    }
+    
+    private void drawNode(Graphics2D g2, PSNode node) {
+
+        g2.setColor(COLOR_NODE_ELLIPSE);
+        g2.setStroke(STROKE_NODE_ELLIPSE);
+        g2.draw(node);
     }
 
     private void drawCurPtCurve(Graphics2D g2) {

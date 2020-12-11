@@ -28,6 +28,7 @@ public class PSCmdToCreateNode extends XLoggableCmd {
         PSApp app = (PSApp) this.mApp;
         this.mWorldPt = app.getXform().calcPtFromScreenToWorld(this.mScreenPt);
         PSNode mPSNode = new PSNode(this.mWorldPt);
+        app.getNodeMgr().setCurNode(mPSNode);
         return true;
     }
 

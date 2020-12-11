@@ -10,16 +10,37 @@ import java.lang.Math;
 import java.util.ArrayList;
 
 public class PSNode extends Ellipse2D.Double {
-    //field
+    
+    // constants
+    public static final double MIN_RADIUS = 75;
+    public static final double MAX_RADIUS = 150;
+
+    // field
     private Point.Double mCenter = null;
+    public Point.Double getCenter() {
+        return this.mCenter;
+    }
+    
     private double mRadius = 75;
+    public double getRadius() {
+        return this.mRadius;
+    }
+    
     private ArrayList<PSPtCurve> mName = null;
+    public ArrayList<PSPtCurve> getName() {
+        return this.mName;
+    }
+    
+    private boolean isQusai = false;
+    public boolean getIsQusai() {
+        return this.isQusai;
+    }
     
     //constructor
     public PSNode (Point.Double pt) {
         super(pt.x - 75, pt.y - 75, 150.0, 150.0);
         this.mRadius = 75;
-        this.mCenter = new Point.Double(pt.x + mRadius, pt.y + mRadius);
+        this.mCenter = new Point.Double(pt.x, pt.y);
         this.mName = new ArrayList<PSPtCurve>();
     }
     

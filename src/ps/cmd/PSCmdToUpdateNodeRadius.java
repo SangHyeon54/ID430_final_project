@@ -2,6 +2,8 @@ package ps.cmd;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import ps.PSApp;
+import ps.PSNode;
 import ps.PSXform;
 import ps.scenario.PSDrawNodeScenario;
 import x.XApp;
@@ -25,8 +27,25 @@ public class PSCmdToUpdateNodeRadius extends XLoggableCmd {
     
     @Override
     protected boolean defineCmd() {
-        //PSDrawNodeScenario scenario = PSDrawNodeScenario.getSingleton();
-        //scenario.getNode().updateEllipse(mScreenPt);
+        PSApp app = (PSApp) this.mApp;
+        PSNode curNode = app.getNodeMgr().getCurNode();
+        Point2D.Double nodeCenter = 
+            app.getNodeMgr().getCurNode().getCenter();
+        Point CenterScreenPt = app.getXform().calcPtFromWorldToScreen(
+            nodeCenter);
+        
+        if (this.mScreenPt.distance(CenterScreenPt) < 
+            PSNode.MIN_RADIUS) {
+            return false;
+        }
+        if (this.mScreenPt.distance(CenterScreenPt) > 
+            PSNode.MAX_RADIUS) {
+            return false;
+        }
+
+        this.mWorldPt = app.getXform().calcPtFromScreenToWorld(this.mScreenPt);
+        curNode.updateEllipse(mWorldPt);
+        
         return true;
     }
 
@@ -35,6 +54,7 @@ public class PSCmdToUpdateNodeRadius extends XLoggableCmd {
         StringBuffer sb = new StringBuffer();
         sb.append(this.getClass().getSimpleName()).append("\t");
         sb.append(this.mScreenPt).append("\t");
+        sb.append(this.mWorldPt).append("\t");
         return sb.toString();
     }
 }
