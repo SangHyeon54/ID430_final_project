@@ -9,7 +9,12 @@ import ps.PSApp;
 import ps.PSCanvas2D;
 import ps.PSNode;
 import ps.PSScene;
+import ps.cmd.PSCmdToAddCurNodeToNodes;
+import ps.cmd.PSCmdToAddCurPtCurveToNodeName;
+import ps.cmd.PSCmdToClearCurNodeName;
+import ps.cmd.PSCmdToCreateCurPtCurve;
 import ps.cmd.PSCmdToCreateNode;
+import ps.cmd.PSCmdToUpdateCurPtCurve;
 import ps.cmd.PSCmdToUpdateNodeRadius;
 import x.XApp;
 import x.XCmdToChangeScene;
@@ -35,7 +40,8 @@ public class PSDrawNodeScenario extends XScenario {
     @Override
     protected void addScenes() {
         this.addScene(PSDrawNodeScenario.DrawNodeScene.createSingleton(this));
-        this.addScene(PSDrawNodeScenario.EditNodeScene.createSingleton(this));
+        this.addScene(PSDrawNodeScenario.EditNodeReadyScene.createSingleton(this));
+        this.addScene(PSDrawNodeScenario.EditNodeNameScene.createSingleton(this));
     }
     
     public static class DrawNodeScene extends PSScene {
@@ -76,7 +82,7 @@ public class PSDrawNodeScenario extends XScenario {
             PSApp app = (PSApp) this.mScenario.getApp();
             if (app.getNodeMgr().getCurNode() != null) {
                 XCmdToChangeScene.execute(app,
-                    PSDrawNodeScenario.EditNodeScene.getSingleton(), null);
+                    PSDrawNodeScenario.EditNodeReadyScene.getSingleton(), null);
             }
         }
 
@@ -91,7 +97,7 @@ public class PSDrawNodeScenario extends XScenario {
             PSApp app = (PSApp)this.mScenario.getApp();
             
             switch (code) {
-                case KeyEvent.VK_N:
+                case KeyEvent.VK_S:
                     app.getNodeMgr().setCurNode(null);
                     XCmdToChangeScene.execute(app, this.mReturnScene, null);
                     break;
@@ -108,9 +114,6 @@ public class PSDrawNodeScenario extends XScenario {
 
         @Override
         public void renderScreenOjbects(Graphics2D g2) {
-            PSApp app = (PSApp) this.mScenario.getApp();
-            PSDrawNodeScenario scenario = (PSDrawNodeScenario) this.mScenario;
-            scenario.drawNode(g2);
         }
 
         @Override
@@ -122,20 +125,20 @@ public class PSDrawNodeScenario extends XScenario {
         }
     }
     
-    public static class EditNodeScene extends PSScene {
-        private static EditNodeScene mSingleton = null;
-        public static EditNodeScene getSingleton() {
-            assert(EditNodeScene.mSingleton != null);
-            return EditNodeScene.mSingleton;
+    public static class EditNodeReadyScene extends PSScene {
+        private static EditNodeReadyScene mSingleton = null;
+        public static EditNodeReadyScene getSingleton() {
+            assert(EditNodeReadyScene.mSingleton != null);
+            return EditNodeReadyScene.mSingleton;
         }
         
-        public static EditNodeScene createSingleton(XScenario scenario) {
-            assert(EditNodeScene.mSingleton == null);
-            EditNodeScene.mSingleton = new EditNodeScene(scenario);
-            return EditNodeScene.mSingleton;
+        public static EditNodeReadyScene createSingleton(XScenario scenario) {
+            assert(EditNodeReadyScene.mSingleton == null);
+            EditNodeReadyScene.mSingleton = new EditNodeReadyScene(scenario);
+            return EditNodeReadyScene.mSingleton;
         }
         
-        private EditNodeScene(XScenario scenario) {
+        private EditNodeReadyScene(XScenario scenario) {
             super(scenario);
         }
         
@@ -143,6 +146,13 @@ public class PSDrawNodeScenario extends XScenario {
         public void handleMousePress(MouseEvent e) {
             PSApp app = (PSApp) this.mScenario.getApp();
             Point pt = e.getPoint();
+            PSNode node = app.getNodeMgr().getCurNode();
+            // if the mouse press inside of ellipse, make node name
+            if (node.contains(pt)) {
+                PSCmdToCreateCurPtCurve.execute(app, pt);
+                XCmdToChangeScene.execute(app, 
+                    PSDrawNodeScenario.EditNodeNameScene.getSingleton(), this);
+            }
         }
 
         @Override
@@ -162,6 +172,87 @@ public class PSDrawNodeScenario extends XScenario {
 
         @Override
         public void handleKeyUp(KeyEvent e) {
+            int code = e.getKeyCode();
+            PSApp app = (PSApp)this.mScenario.getApp();
+            
+            switch (code) {
+                case KeyEvent.VK_DELETE:
+                    PSCmdToClearCurNodeName.execute(app);
+                    break;
+                case KeyEvent.VK_ENTER:
+                    PSCmdToAddCurNodeToNodes.execute(app);
+                    XCmdToChangeScene.execute(app, 
+                        PSDefaultScenario.ReadyScene.getSingleton(), 
+                        null);
+                    
+            }
+        }
+
+        @Override
+        public void updateSupportObjects() {
+        }
+
+        @Override
+        public void renderWorldOjbects(Graphics2D g2) {
+        }
+
+        @Override
+        public void renderScreenOjbects(Graphics2D g2) {
+        }
+
+        @Override
+        public void getReady() {
+        }
+
+        @Override
+        public void wrapUp() {
+        }
+    }
+    
+    public static class EditNodeNameScene extends PSScene {
+        private static EditNodeNameScene mSingleton = null;
+        public static EditNodeNameScene getSingleton() {
+            assert(EditNodeNameScene.mSingleton != null);
+            return EditNodeNameScene.mSingleton;
+        }
+        
+        public static EditNodeNameScene createSingleton(XScenario scenario) {
+            assert(EditNodeNameScene.mSingleton == null);
+            EditNodeNameScene.mSingleton = new EditNodeNameScene(scenario);
+            return EditNodeNameScene.mSingleton;
+        }
+        
+        private EditNodeNameScene(XScenario scenario) {
+            super(scenario);
+        }
+        
+        @Override
+        public void handleMousePress(MouseEvent e) {
+        }
+
+        @Override
+        public void handleMouseDrag(MouseEvent e) {
+            PSApp app = (PSApp) this.mScenario.getApp();
+            Point pt = e.getPoint();
+            PSCmdToUpdateCurPtCurve.execute(app, pt);
+        }
+
+        @Override
+        public void handleMouseRelease(MouseEvent e) {
+            PSApp app = (PSApp) this.mScenario.getApp();
+            Point pt = e.getPoint();
+            PSCmdToAddCurPtCurveToNodeName.execute(app);
+            XCmdToChangeScene.execute(app, 
+                PSDrawNodeScenario.EditNodeReadyScene.getSingleton(), null);
+        }
+
+        @Override
+        public void handleKeyDown(KeyEvent e) {
+            
+        }
+
+        @Override
+        public void handleKeyUp(KeyEvent e) {
         }
 
         @Override
@@ -185,6 +276,8 @@ public class PSDrawNodeScenario extends XScenario {
 
         @Override
         public void wrapUp() {
+            PSApp app = (PSApp) this.mScenario.getApp();
+            app.getPtCurveMgr().setCurPtCurve(null);
         }
     }
     

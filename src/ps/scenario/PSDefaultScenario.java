@@ -30,23 +30,23 @@ public class PSDefaultScenario extends XScenario {
     
     @Override
     protected void addScenes() {
-        this.addScene(PSDefaultScenario.NodeReadyScene.createSingleton(this));
+        this.addScene(PSDefaultScenario.ReadyScene.createSingleton(this));
     }
     
-    public static class NodeReadyScene extends PSScene {
-        private static NodeReadyScene mSingleton = null;
-        public static NodeReadyScene getSingleton() {
-            assert(NodeReadyScene.mSingleton != null);
-            return NodeReadyScene.mSingleton;
+    public static class ReadyScene extends PSScene {
+        private static ReadyScene mSingleton = null;
+        public static ReadyScene getSingleton() {
+            assert(ReadyScene.mSingleton != null);
+            return ReadyScene.mSingleton;
         }
         
-        public static NodeReadyScene createSingleton(XScenario scenario) {
-            assert(NodeReadyScene.mSingleton == null);
-            NodeReadyScene.mSingleton = new NodeReadyScene(scenario);
-            return NodeReadyScene.mSingleton;
+        public static ReadyScene createSingleton(XScenario scenario) {
+            assert(ReadyScene.mSingleton == null);
+            ReadyScene.mSingleton = new ReadyScene(scenario);
+            return ReadyScene.mSingleton;
         }
         
-        private NodeReadyScene(XScenario scenario) {
+        private ReadyScene(XScenario scenario) {
             super(scenario);
         }
         
@@ -70,7 +70,7 @@ public class PSDefaultScenario extends XScenario {
             PSApp app = (PSApp)this.mScenario.getApp();
             
             switch (code) {
-                case KeyEvent.VK_N:
+                case KeyEvent.VK_S:
                     XCmdToChangeScene.execute(app,
                         PSDrawNodeScenario.DrawNodeScene.getSingleton(), this);
 

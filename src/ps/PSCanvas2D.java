@@ -17,14 +17,16 @@ public class PSCanvas2D extends JPanel {
     private static final Color COLOR_PT_CURVE_DEFAULT = new Color(0, 0, 0, 192);
     private static final Color COLOR_SELECTED_PT_CURVE = Color.ORANGE;
 //    public static final Color COLOR_SELECTION_BOX = Color.RED;
+    public static final Color COLOR_CUR_NODE_ELLIPSE = new Color(0, 0, 0, 150);
     public static final Color COLOR_NODE_ELLIPSE = Color.BLACK;
     public static final Color COLOR_CROSSHAIR = new Color(255, 0, 0, 64);
     private static final Color COLOR_INFO = new Color(255, 0, 0, 128);
     
-    private static final Stroke STROKE_PT_CURVE_DEFAULT = new BasicStroke(5.0f,
+    private static final Stroke STROKE_PT_CURVE_DEFAULT = new BasicStroke(3.0f,
         BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 //    public static final Stroke STROKE_SELECTION_BOX = new BasicStroke(5.0f);
-    public static final Stroke STROKE_NODE_ELLIPSE = new BasicStroke(2.0f);
+    public static final Stroke STROKE_CUR_NODE_ELLIPSE = new BasicStroke(5.0f);
+    public static final Stroke STROKE_NODE_ELLIPSE = new BasicStroke(5.0f);
     public static final Stroke STROKE_CROSSHAIR = new BasicStroke(5.0f);
     private static final Font FONT_INFO = 
         new Font("Monospaced", Font.PLAIN, 24);
@@ -66,9 +68,10 @@ public class PSCanvas2D extends JPanel {
         
         // render common world objects.
         this.drawCurNode(g2);
+        this.drawNodes(g2);
 //        this.drawPtCurves(g2);
 //        this.drawSelectedPtCurves(g2);
-//        this.drawCurPtCurve(g2);
+        this.drawCurPtCurve(g2);
         
         // render the current scene's world objects.
         PSScene curScene = (PSScene) this.mApp.getScenarioMgr().getCurScene();
@@ -92,18 +95,33 @@ public class PSCanvas2D extends JPanel {
         }    
     }
     
+    private void drawNodes(Graphics2D g2) {
+        for (PSNode node : this.mApp.getNodeMgr().getNodes()) {
+            this.drawNode(g2, node, PSCanvas2D.COLOR_NODE_ELLIPSE,
+                PSCanvas2D.STROKE_NODE_ELLIPSE);
+        }    
+    }
+    
     private void drawCurNode(Graphics2D g2) {
         PSNode node = this.mApp.getNodeMgr().getCurNode();
-        if (node != null) {
-            this.drawNode(g2, node);
+        if (node != null) { 
+            // draw ellipse
+            this.drawNode(g2, node, PSCanvas2D.COLOR_CUR_NODE_ELLIPSE,
+                PSCanvas2D.STROKE_CUR_NODE_ELLIPSE);
         }
     }
     
-    private void drawNode(Graphics2D g2, PSNode node) {
+    private void drawNode(Graphics2D g2, PSNode node, Color c, Stroke s) {
 
-        g2.setColor(COLOR_NODE_ELLIPSE);
-        g2.setStroke(STROKE_NODE_ELLIPSE);
+        g2.setColor(c);
+        g2.setStroke(s);
         g2.draw(node);
+        // draw node name pt curves
+        for (PSPtCurve namePtCurve : node.getName()) {
+                this.drawPtCurve(g2, namePtCurve, 
+                    namePtCurve.getColor(),
+                    namePtCurve.getStroke());
+        }
     }
 
     private void drawCurPtCurve(Graphics2D g2) {

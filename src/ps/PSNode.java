@@ -12,8 +12,8 @@ import java.util.ArrayList;
 public class PSNode extends Ellipse2D.Double {
     
     // constants
-    public static final double MIN_RADIUS = 75;
-    public static final double MAX_RADIUS = 150;
+    public static final double MIN_RADIUS = 30;
+    public static final double MAX_RADIUS = 100;
 
     // field
     private Point.Double mCenter = null;
@@ -21,7 +21,7 @@ public class PSNode extends Ellipse2D.Double {
         return this.mCenter;
     }
     
-    private double mRadius = 75;
+    private double mRadius;
     public double getRadius() {
         return this.mRadius;
     }
@@ -38,8 +38,9 @@ public class PSNode extends Ellipse2D.Double {
     
     //constructor
     public PSNode (Point.Double pt) {
-        super(pt.x - 75, pt.y - 75, 150.0, 150.0);
-        this.mRadius = 75;
+        super(pt.x - PSNode.MIN_RADIUS, pt.y - PSNode.MIN_RADIUS,
+                PSNode.MIN_RADIUS * 2, PSNode.MIN_RADIUS * 2);
+        this.mRadius = PSNode.MIN_RADIUS;
         this.mCenter = new Point.Double(pt.x, pt.y);
         this.mName = new ArrayList<PSPtCurve>();
     }
@@ -56,5 +57,13 @@ public class PSNode extends Ellipse2D.Double {
         this.setFrame(mCenter.x - radius, mCenter.y - radius,
             radius * 2, radius * 2);
         this.mRadius = radius;
+    }
+    
+    public void addNamePtCurve(PSPtCurve pc) {
+        this.mName.add(pc);
+    }
+    
+    public void clearNamePtCurve() {
+        this.mName.clear();
     }
 }

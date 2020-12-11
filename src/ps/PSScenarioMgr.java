@@ -19,6 +19,6 @@ public class PSScenarioMgr extends XScenarioMgr {
 
     @Override
     protected void setInitCurScene() {
-        this.setCurScene(PSDefaultScenario.NodeReadyScene.getSingleton());
+        this.setCurScene(PSDefaultScenario.ReadyScene.getSingleton());
     }
 }

@@ -3,48 +3,43 @@ package ps.cmd;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import ps.PSApp;
-import ps.PSNode;
-import ps.PSXform;
-import ps.scenario.PSDrawNodeScenario;
+import ps.PSPtCurve;
 import x.XApp;
 import x.XLoggableCmd;
 
-public class PSCmdToUpdateNodeRadius extends XLoggableCmd {
-        //fields
+public class PSCmdToUpdateCurPtCurve extends XLoggableCmd {
+    // fields
     private Point mScreenPt = null;
-    private Point.Double mWorldPt = null;
-
+    private Point2D.Double mWorldPt = null;
+    
     //private constructor
-    private PSCmdToUpdateNodeRadius(XApp app, Point pt) {
+    private PSCmdToUpdateCurPtCurve(XApp app, Point pt) {
         super(app);
         this.mScreenPt = pt;
     }
     
     public static boolean execute(XApp app, Point pt) {
-        PSCmdToUpdateNodeRadius cmd = new PSCmdToUpdateNodeRadius(app, pt);
+        PSCmdToUpdateCurPtCurve cmd = new PSCmdToUpdateCurPtCurve(app, pt);
         return cmd.execute();
     }
     
     @Override
     protected boolean defineCmd() {
         PSApp app = (PSApp) this.mApp;
-        PSNode curNode = app.getNodeMgr().getCurNode();
-        Point2D.Double nodeCenter = curNode.getCenter();
-        Point CenterScreenPt = app.getXform().calcPtFromWorldToScreen(
-            nodeCenter);
+        PSPtCurve curPtCurve = app.getPtCurveMgr().getCurPtCurve();
+        int size = app.getPtCurveMgr().getCurPtCurve().getPts().size();
+        Point2D.Double lastWorldPt = 
+            app.getPtCurveMgr().getCurPtCurve().getPts().get(size - 1);
+        Point lastScreenPt = app.getXform().calcPtFromWorldToScreen(
+            lastWorldPt);
         
-        if (this.mScreenPt.distance(CenterScreenPt) < 
-            PSNode.MIN_RADIUS) {
-            return false;
-        }
-        if (this.mScreenPt.distance(CenterScreenPt) > 
-            PSNode.MAX_RADIUS) {
+        if (this.mScreenPt.distance(lastScreenPt) < 
+            PSPtCurve.MIN_DIS_BTW_PTS) {
             return false;
         }
 
         this.mWorldPt = app.getXform().calcPtFromScreenToWorld(this.mScreenPt);
-        curNode.updateEllipse(mWorldPt);
-        
+        curPtCurve.addPt(mWorldPt);
         return true;
     }
 
