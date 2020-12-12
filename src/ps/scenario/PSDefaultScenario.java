@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import ps.PSApp;
-import ps.PSCanvas2D;
 import ps.PSNode;
 import ps.PSScene;
 import x.XApp;
@@ -94,7 +93,6 @@ public class PSDefaultScenario extends XScenario {
                 case KeyEvent.VK_S:
                     XCmdToChangeScene.execute(app,
                         PSDrawNodeScenario.DrawNodeScene.getSingleton(), this);
-
                     break;
                 case KeyEvent.VK_CONTROL:
                     XCmdToChangeScene.execute(app, 

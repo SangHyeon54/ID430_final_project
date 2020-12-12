@@ -14,7 +14,7 @@ import ps.cmd.PSCmdToAddCurPtCurveToNodeName;
 import ps.cmd.PSCmdToChangeQuasi;
 import ps.cmd.PSCmdToClearCurNodeName;
 import ps.cmd.PSCmdToCreateCurPtCurve;
-import ps.cmd.PSCmdToCreateNode;
+import ps.cmd.PSCmdToCreateCurNode;
 import ps.cmd.PSCmdToUpdateCurPtCurve;
 import ps.cmd.PSCmdToUpdateNodeRadius;
 import x.XApp;
@@ -66,7 +66,7 @@ public class PSDrawNodeScenario extends XScenario {
         public void handleMousePress(MouseEvent e) {
             PSApp app = (PSApp) this.mScenario.getApp();
             Point pt = e.getPoint();
-            PSCmdToCreateNode.execute(app, pt);
+            PSCmdToCreateCurNode.execute(app, pt);
         }
 
         @Override
@@ -154,6 +154,12 @@ public class PSDrawNodeScenario extends XScenario {
                 PSCmdToCreateCurPtCurve.execute(app, pt);
                 XCmdToChangeScene.execute(app, 
                     PSDrawNodeScenario.EditNodeNameScene.getSingleton(), this);
+            } else {
+                PSCmdToAddCurNodeToNodes.execute(app);
+                app.getNodeMgr().setCurNode(null);
+                XCmdToChangeScene.execute(app, 
+                    PSDefaultScenario.ReadyScene.getSingleton(), 
+                    null);
             }
         }
 

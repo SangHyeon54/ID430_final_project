@@ -8,18 +8,18 @@ import ps.PSPtCurve;
 import x.XApp;
 import x.XLoggableCmd;
 
-public class PSCmdToCreateNode extends XLoggableCmd {
+public class PSCmdToCreateCurNode extends XLoggableCmd {
     private Point mScreenPt = null;
     private Point2D.Double mWorldPt = null;
     
     //private constructor
-    private PSCmdToCreateNode(XApp app, Point pt) {
+    private PSCmdToCreateCurNode(XApp app, Point pt) {
         super(app);
         this.mScreenPt = pt;
     }
     
     public static boolean execute(XApp app, Point pt) {
-        PSCmdToCreateNode cmd = new PSCmdToCreateNode(app, pt);
+        PSCmdToCreateCurNode cmd = new PSCmdToCreateCurNode(app, pt);
         return cmd.execute();
     }
     
