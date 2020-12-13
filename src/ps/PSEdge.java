@@ -80,7 +80,7 @@ public class PSEdge {
         
         this.calculateStartOfArrow();
         this.calculateInputPos();
-        this.mInput.setPos(mInputPos);
+        this.mInput.setCenter(mInputPos);
     }
     
     public void drawEdge(Graphics2D g2, Color c, Stroke s) {

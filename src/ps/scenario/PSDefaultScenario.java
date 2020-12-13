@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import ps.PSApp;
+import ps.PSEdge;
+import ps.PSEdgeInput;
 import ps.PSNode;
 import ps.PSScene;
 import x.XApp;
@@ -71,6 +73,25 @@ public class PSDefaultScenario extends XScenario {
             if (app.getNodeMgr().getCurNode() != null) {
                 XCmdToChangeScene.execute(app,
                     PSDrawNodeScenario.EditNodeReadyScene.getSingleton(),
+                    this);
+            }
+
+            ArrayList<PSEdge> edges = app.getEdgeMgr().getEdges();
+            for (int i = 0; i < edges.size(); i ++) {
+                PSEdge mEdge = edges.get(i);
+                PSEdgeInput mInput = mEdge.getInput();
+                // if the point is inside of node.
+                if (mInput.getCenter().distance(mWorldPt.x, mWorldPt.y) < 
+                    mInput.getRadius()) {
+                    app.getEdgeMgr().setCurEdge(mEdge);
+                    app.getEdgeMgr().removeEdge(i);
+                    break;
+                }
+            }
+            
+            if (app.getEdgeMgr().getCurEdge() != null) {
+                XCmdToChangeScene.execute(app,
+                    PSDrawEdgeScenario.EditEdgeReadyScene.getSingleton(),
                     this);
             }
             
