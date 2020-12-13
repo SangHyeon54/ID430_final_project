@@ -10,6 +10,7 @@ import ps.PSApp;
 import ps.PSCanvas2D;
 import ps.PSNode;
 import ps.PSEdge;
+import ps.PSEdgeCmd;
 import ps.PSEdgeInput;
 import ps.PSScene;
 import ps.cmd.PSCmdToAddCurEdgeToEdges;
@@ -17,6 +18,7 @@ import ps.cmd.PSCmdToAddCurPtCurveToEdgeCmd;
 import ps.cmd.PSCmdToAddCurPtCurveToEdgeInput;
 import ps.cmd.PSCmdToAddCurPtCurveToNodeName;
 import ps.cmd.PSCmdToChangeQuasi;
+import ps.cmd.PSCmdToClearCurEdgeCmd;
 import ps.cmd.PSCmdToClearCurEdgeInput;
 import ps.cmd.PSCmdToClearCurNodeName;
 import ps.cmd.PSCmdToCreateCurPtCurve;
@@ -233,7 +235,16 @@ public class PSDrawEdgeScenario extends XScenario {
 
         @Override
         public void handleKeyDown(KeyEvent e) {
+            int code = e.getKeyCode();
+            PSApp app = (PSApp)this.mScenario.getApp();
             
+            switch (code) {
+                case KeyEvent.VK_F:
+                    XCmdToChangeScene.execute(app, 
+                        PSDrawEdgeScenario.EditEdgeCmdScene.getSingleton(), 
+                        null);
+                    break;
+            }
         }
 
         @Override
@@ -373,6 +384,19 @@ public class PSDrawEdgeScenario extends XScenario {
         
         @Override
         public void handleMousePress(MouseEvent e) {
+            PSApp app = (PSApp) this.mScenario.getApp();
+            Point pt = e.getPoint();
+            Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
+            PSEdgeCmd edgeCmd = app.getEdgeMgr().getCurEdge().getCmd();
+            // if the mouse press inside of edge input, edit edge input
+            if (edgeCmd.contains(mWorldPt)) {
+                PSCmdToCreateCurPtCurve.execute(app, pt);
+            } else {
+                PSCmdToAddCurPtCurveToEdgeCmd.execute(app);
+                XCmdToChangeScene.execute(app, 
+                    PSDrawEdgeScenario.EditEdgeReadyScene.getSingleton(), 
+                    null);
+            }
         }
 
         @Override
@@ -398,6 +422,19 @@ public class PSDrawEdgeScenario extends XScenario {
 
         @Override
         public void handleKeyUp(KeyEvent e) {
+            int code = e.getKeyCode();
+            PSApp app = (PSApp)this.mScenario.getApp();
+            
+            switch (code) {
+                case KeyEvent.VK_F:
+                    XCmdToChangeScene.execute(app, 
+                        PSDrawEdgeScenario.EditEdgeReadyScene.getSingleton(), 
+                        null);
+                    break;
+                case KeyEvent.VK_C:
+                    PSCmdToClearCurEdgeCmd.execute(app);
+                    break;
+            }
         }
 
         @Override

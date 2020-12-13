@@ -175,7 +175,6 @@ public class PSDrawNodeScenario extends XScenario {
 
         @Override
         public void handleKeyDown(KeyEvent e) {
-            
         }
 
         @Override
