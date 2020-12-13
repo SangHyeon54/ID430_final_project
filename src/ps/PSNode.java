@@ -32,10 +32,10 @@ public class PSNode extends Ellipse2D.Double {
     }
     
     private boolean isQuasi = false;
-    public boolean getIsQusai() {
+    public boolean getIsQuasi() {
         return this.isQuasi;
     }
-    public void changeQusai() {
+    public void changeQuasi() {
         this.isQuasi = !isQuasi;
     }
     

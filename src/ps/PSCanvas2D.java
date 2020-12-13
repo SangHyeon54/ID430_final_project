@@ -40,6 +40,8 @@ public class PSCanvas2D extends JPanel {
         new Font("Monospaced", Font.PLAIN, 24);
     private static final Font FONT_MODE_INFO = 
         new Font("Monospaced", Font.PLAIN, 40);
+    private static final Font FONT_EDGE_RETURN_SCENE = 
+        new Font("Monospaced", Font.PLAIN, 10);
 
     public static final double CROSSHAIR_RADIUS = 30;
     public static final float STROKE_WIDTH_INCREASEMENT = 1.0f;
@@ -135,7 +137,7 @@ public class PSCanvas2D extends JPanel {
         int y_mode = (int) Math.round(node.getCenter().y + node.getRadius() 
             - 10);
         
-        if (node.getIsQusai()) {
+        if (node.getIsQuasi()) {
             g2.drawString("Q", x_mode, y_mode);
         } else {
             g2.drawString("M", x_mode, y_mode);
@@ -165,11 +167,8 @@ public class PSCanvas2D extends JPanel {
     }
     
     private void drawEdge (Graphics2D g2, PSEdge edge, Color c, Stroke s) {
-//        g2.setColor(c);
-//        g2.setStroke(s);
-//        edge.drawEdge(g2);
+        g2.setFont(PSCanvas2D.FONT_EDGE_RETURN_SCENE);
         edge.drawEdge(g2, c, s);
-//        g2.draw((Shape) edge);
     }
 
     private void drawCurPtCurve(Graphics2D g2) {

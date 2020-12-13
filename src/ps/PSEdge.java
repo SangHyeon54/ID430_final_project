@@ -62,6 +62,7 @@ public class PSEdge {
     public PSEdge (Point.Double pt, PSNode node) {
         this.mStartingPt = new Point.Double(pt.x, pt.y);
         this.mEndingPt = new Point.Double(pt.x, pt.y);
+        this.mCenter = new Point.Double(pt.x, pt.y);
         this.mEdgeInput = new ArrayList<PSPtCurve>();
         this.mEdgeCmd = new ArrayList<PSPtCurve>();
         this.mStartingNode = node;
@@ -73,6 +74,13 @@ public class PSEdge {
         g2.draw(new Line2D.Double(
             mStartingPt.x, mStartingPt.y, mEndingPt.x, mEndingPt.y));
         drawArrowHead(g2);
+        
+        if (mEndingNode != null) {
+            int posX = (int) Math.round(this.getCenter().x - 10);
+            int posY = (int) Math.round(this.getCenter().y + 10);
+
+            g2.drawString(this.getReturnScene(), posX, posY);
+        }
     }
     
     private void drawArrowHead(Graphics2D g2) {
@@ -96,7 +104,27 @@ public class PSEdge {
     
     //update with a new point
     public void updateArrow(Point.Double pt) {
+        double centerX = (mEndingPt.x + mStartingPt.x) / 2;
+        double centerY = (mEndingPt.y + mStartingPt.y) / 2;
+        
         this.mEndingPt = pt;
+        this.mCenter = new Point.Double(centerX, centerY);
+    }
+    
+    private String getReturnScene() {
+        String mString;
+        boolean startingNodeIsQuasi = this.mStartingNode.getIsQuasi();
+        boolean endingNodeIsQuasi = this.mEndingNode.getIsQuasi();
+        
+        if (startingNodeIsQuasi && endingNodeIsQuasi) {
+            mString = "R = this.R";
+        } else if (!startingNodeIsQuasi && endingNodeIsQuasi) {
+            mString = "R = this";
+        } else {
+            mString = "R = null";
+        }
+        
+        return mString;
     }
     
 //    public void addNamePtCurve(PSPtCurve pc) {

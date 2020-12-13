@@ -25,9 +25,9 @@ public class PSCmdToChangeQuasi extends XLoggableCmd {
     @Override
     protected boolean defineCmd() {
         PSApp app = (PSApp) this.mApp;
-        this.before_q = app.getNodeMgr().getCurNode().getIsQusai();
-        app.getNodeMgr().getCurNode().changeQusai();
-        this.after_q = app.getNodeMgr().getCurNode().getIsQusai();
+        this.before_q = app.getNodeMgr().getCurNode().getIsQuasi();
+        app.getNodeMgr().getCurNode().changeQuasi();
+        this.after_q = app.getNodeMgr().getCurNode().getIsQuasi();
         return true;
     }
 
