@@ -5,8 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
-import java.lang.Math;
 import java.util.ArrayList;
 
 public class PSEdgeInput extends Ellipse2D.Double {    
@@ -21,14 +19,6 @@ public class PSEdgeInput extends Ellipse2D.Double {
         return this.mCenter;
     }
     
-    private boolean isInvisible = false;
-    public void setVisible() {
-        this.isInvisible = false;
-    }
-    public void setInvisible() {
-        this.isInvisible = true;
-    }
-    
     private double mRadius;
     public double getRadius() {
         return this.mRadius;
@@ -37,14 +27,6 @@ public class PSEdgeInput extends Ellipse2D.Double {
     private ArrayList<PSPtCurve> mInputPtCurve = null;
     public ArrayList<PSPtCurve> getInputPtCurve() {
         return this.mInputPtCurve;
-    }
-    
-    private boolean isQuasi = false;
-    public boolean getIsQuasi() {
-        return this.isQuasi;
-    }
-    public void changeQuasi() {
-        this.isQuasi = !isQuasi;
     }
     
     //constructor

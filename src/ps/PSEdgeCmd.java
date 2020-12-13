@@ -4,10 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Stroke;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.lang.Math;
 import java.util.ArrayList;
 
 public class PSEdgeCmd extends Rectangle2D.Double {    
@@ -23,12 +20,12 @@ public class PSEdgeCmd extends Rectangle2D.Double {
         return this.mCorneredCenter;
     }
     
-    private boolean isInvisible = false;
+    private boolean isVisible = false;
     public void setVisible() {
-        this.isInvisible = false;
+        this.isVisible = true;
     }
     public void setInvisible() {
-        this.isInvisible = true;
+        this.isVisible = false;
     }
     
     private ArrayList<PSPtCurve> mCmdPtCurve = null;
@@ -41,16 +38,20 @@ public class PSEdgeCmd extends Rectangle2D.Double {
         super(pt.x, pt.y, WIDTH, HEIGHT);
         this.mCorneredCenter = pt;
         this.mCmdPtCurve = new ArrayList<PSPtCurve>();
+        this.isVisible = true;
     }
     
-    public void drawCmd(Graphics2D g2, Color c, Stroke s) {     
-        this.setFrame(mCorneredCenter.x, mCorneredCenter.y,
+    public void drawCmd(Graphics2D g2, Color c, Stroke s) {   
+        //draw only when it is visible
+        if (this.isVisible) {
+            this.setFrame(mCorneredCenter.x, mCorneredCenter.y,
             WIDTH, HEIGHT);   
-        g2.setPaint(PSCanvas2D.COLOR_NODE_ELLIPSE_BG);
-        g2.fill (this);
-        g2.setColor(c);
-        g2.setStroke(s);
-        g2.draw(this);
+            g2.setPaint(PSCanvas2D.COLOR_NODE_ELLIPSE_BG);
+            g2.fill (this);
+            g2.setColor(c);
+            g2.setStroke(s);
+            g2.draw(this);
+        }
     }
     
     public void updateEdgeCmd(Point.Double pt) {

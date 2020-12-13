@@ -79,10 +79,10 @@ public class PSCanvas2D extends JPanel {
         g2.transform(this.mApp.getXform().getCurXformFromWorldToScreen());
         
         // render common world objects.
-        this.drawCurEdge(g2);
-        this.drawEdges(g2);
         this.drawCurNode(g2);
         this.drawNodes(g2);
+        this.drawCurEdge(g2);
+        this.drawEdges(g2);
 //        this.drawPtCurves(g2);
 //        this.drawSelectedPtCurves(g2);
         this.drawCurPtCurve(g2);
@@ -126,11 +126,10 @@ public class PSCanvas2D extends JPanel {
     }
     
     private void drawNode(Graphics2D g2, PSNode node, Color c, Stroke s) {
-//        g2.setColor(c);
-//        g2.setStroke(s);
+        // draw basic shape of the node
         node.drawNode(g2, c, s);
         
-        // draw mode of node
+        // draw(write) mode of node
         g2.setFont(PSCanvas2D.FONT_MODE_INFO);
         
         int x_mode = (int) Math.round(node.getCenter().x - 10);
@@ -152,15 +151,19 @@ public class PSCanvas2D extends JPanel {
     }
     
     private void drawEdges (Graphics2D g2) {
+        // since edges are not selected, set the edgeCmd box invisible
         for (PSEdge edge : this.mApp.getEdgeMgr().getEdges()) {
+            edge.getCmd().setInvisible();
             this.drawEdge(g2, edge, PSCanvas2D.COLOR_EDGE_ARROW,
                 PSCanvas2D.STROKE_EDGE_ARROW);
         }    
     }
     
     private void drawCurEdge (Graphics2D g2) {
+        // since edge is currently selected, show the edgeCmd box.
         PSEdge edge = this.mApp.getEdgeMgr().getCurEdge();
         if (edge != null) { 
+            edge.getCmd().setVisible();
             this.drawEdge(g2, edge, PSCanvas2D.COLOR_CUR_EDGE_ARROW,
                 PSCanvas2D.STROKE_CUR_EDGE_ARROW);
         }
@@ -210,25 +213,6 @@ public class PSCanvas2D extends JPanel {
         g2.setStroke(s);
         g2.draw(path);
     }
-
-    private void drawSelectedPtCurves(Graphics2D g2) {
-        for (PSPtCurve selectedPtCurve : 
-            this.mApp.getPtCurveMgr().getSelectedPtCurves()) {
-            BasicStroke SPC = (BasicStroke) selectedPtCurve.getStroke();
-            BasicStroke BoundCurve = new BasicStroke(SPC.getLineWidth() + 
-                5.0f, SPC.getEndCap(),
-                SPC.getLineJoin());
-            this.drawPtCurve(g2, selectedPtCurve, 
-                PSCanvas2D.COLOR_SELECTED_PT_CURVE,
-                BoundCurve);
-        }
-        for (PSPtCurve selectedPtCurve : 
-            this.mApp.getPtCurveMgr().getSelectedPtCurves()) {
-                this.drawPtCurve(g2, selectedPtCurve, 
-                    selectedPtCurve.getColor(),
-                    selectedPtCurve.getStroke());
-        }
-    }
     
     //get information of the current scene and print out
     private void drawInfo(Graphics2D g2) {
@@ -249,24 +233,4 @@ public class PSCanvas2D extends JPanel {
         this.mCurStrokeForPtCurve = new BasicStroke(w, bs.getEndCap(), 
             bs.getLineJoin());
     }
-
-    private void drawPenTip(Graphics2D g2) {
-        BasicStroke bs = (BasicStroke) this.mCurStrokeForPtCurve;
-        Point2D.Double worldPt0 = new Point2D.Double(0, 0);
-        Point2D.Double worldPt1 = new Point2D.Double(bs.getLineWidth(), 0);
-        Point2D screenPt0 = this.mApp.getXform().
-            calcPtFromWorldToScreen(worldPt0);
-        Point2D screenPt1 = this.mApp.getXform().
-            calcPtFromWorldToScreen(worldPt1);
-        double d = screenPt0.distance(screenPt1);
-        double r = d/2.0;
-        
-        Point2D.Double ctr = new Point2D.Double(this.getWidth() - 20.0 - r,
-            20.0 - r);
-        Ellipse2D e = new Ellipse2D.Double(ctr.x, ctr.y, 2.0 * r, 2.0 * r);
-        
-        g2.setColor(this.mCurColorForPtCurve);
-        g2.setStroke(this.mCurStrokeForPtCurve);
-        g2.fill(e);
-    }    
 }

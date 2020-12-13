@@ -3,19 +3,12 @@ package ps;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Polygon;
-import java.awt.Shape;
 import java.awt.Stroke;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
-import java.awt.geom.Path2D;
-import java.awt.geom.Point2D;
-import java.lang.Math;
-import java.util.ArrayList;
 
 public class PSEdge {
     // constants
-    public static final double INPUT_AND_NODE_OVERLAPPING_DISTANCE = 3;
+    public static final double INPUT_AND_NODE_OVERLAPPING_DISTANCE = 20;
 
     // field
     private Point.Double mCenter = null;
@@ -62,23 +55,12 @@ public class PSEdge {
     public PSEdgeCmd getCmd() {
         return mCmd;
     }
-//    
-//    private ArrayList<PSPtCurve> mEdgeInput = null;
-//    public ArrayList<PSPtCurve> getEdgeInput() {
-//        return this.mEdgeInput;
-//    }
-    
-//    private ArrayList<PSPtCurve> mEdgeCmd = null;
-//    public ArrayList<PSPtCurve> getEdgeCmd() {
-//        return this.mEdgeCmd;
-//    }
     
     //constructor
     public PSEdge (Point.Double pt, PSNode node) {
         this.mStartingPt = new Point.Double(pt.x, pt.y);
         this.mEndingPt = new Point.Double(pt.x, pt.y);
         this.mCenter = new Point.Double(pt.x, pt.y);
-//        this.mEdgeInput = new ArrayList<PSPtCurve>();
         this.mInput = new PSEdgeInput(pt);
         this.mCmd = new PSEdgeCmd(pt);
         this.mStartingNode = node;
@@ -177,16 +159,4 @@ public class PSEdge {
         
         this.mInputPos = new Point.Double(posX, posY);
     }
-    
-//    // a helper function to calculate the position that is apart from
-//    // start of arrow by the input distance and return the position
-//    private Point.Double calcPtApartFromStartOfArrowBy(double distance) {
-//        double angle = Math.atan2(mEndingPt.y - mStartingPt.y, 
-//            mEndingPt.x - mStartingPt.x);
-//        
-//        double posX = mStartOfArrow.x + distance * Math.cos(angle);
-//        double posY = mStartOfArrow.y + distance * Math.sin(angle);      
-//        
-//        return new Point.Double(posX, posY);
-//    }
 }

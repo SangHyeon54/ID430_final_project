@@ -4,8 +4,6 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import ps.PSApp;
 import ps.PSNode;
-import ps.PSXform;
-import ps.scenario.PSDrawNodeScenario;
 import x.XApp;
 import x.XLoggableCmd;
 

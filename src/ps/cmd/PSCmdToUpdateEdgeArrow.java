@@ -1,12 +1,8 @@
 package ps.cmd;
 
 import java.awt.Point;
-import java.awt.geom.Point2D;
 import ps.PSApp;
 import ps.PSEdge;
-import ps.PSNode;
-import ps.PSXform;
-import ps.scenario.PSDrawNodeScenario;
 import x.XApp;
 import x.XLoggableCmd;
 
