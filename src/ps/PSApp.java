@@ -28,6 +28,11 @@ public class PSApp extends XApp {
         return this.mNodeMgr;
     }
     
+    private PSEdgeMgr mEdgeMgr = null;
+    public PSEdgeMgr getEdgeMgr() {
+        return this.mEdgeMgr;
+    }
+    
     private PSPenMarkMgr mPenMarkMgr = null;
     public PSPenMarkMgr getPenMarkMgr() {
         return this.mPenMarkMgr;
@@ -60,6 +65,7 @@ public class PSApp extends XApp {
         this.mXform = new PSXform();
         this.mEventListener = new PSEventListener(this);
         this.mNodeMgr = new PSNodeMgr();
+        this.mEdgeMgr = new PSEdgeMgr();
         this.mPenMarkMgr = new PSPenMarkMgr();
         this.mPtCurveMgr = new PSPtCurveMgr();
         this.mScenarioMgr = new PSScenarioMgr(this);

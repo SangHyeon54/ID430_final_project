@@ -5,8 +5,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ public class PSCanvas2D extends JPanel {
 //    public static final Color COLOR_SELECTION_BOX = Color.RED;
     public static final Color COLOR_CUR_NODE_ELLIPSE = new Color(51, 51, 255, 255);
     public static final Color COLOR_NODE_ELLIPSE = Color.BLACK;
+     public static final Color COLOR_CUR_EDGE_ARROW = new Color(51, 51, 255, 255);
+    public static final Color COLOR_EDGE_ARROW = Color.BLACK;
     public static final Color COLOR_CROSSHAIR = new Color(255, 0, 0, 64);
     private static final Color COLOR_INFO = new Color(255, 0, 0, 128);
     private static final Color COLOR_MODE_INFO = new Color(0, 0, 0, 192);
@@ -28,6 +32,8 @@ public class PSCanvas2D extends JPanel {
 //    public static final Stroke STROKE_SELECTION_BOX = new BasicStroke(5.0f);
     public static final Stroke STROKE_CUR_NODE_ELLIPSE = new BasicStroke(5.0f);
     public static final Stroke STROKE_NODE_ELLIPSE = new BasicStroke(5.0f);
+    public static final Stroke STROKE_CUR_EDGE_ARROW = new BasicStroke(2.0f);
+    public static final Stroke STROKE_EDGE_ARROW = new BasicStroke(2.0f);
     public static final Stroke STROKE_CROSSHAIR = new BasicStroke(5.0f);
     private static final Font FONT_INFO = 
         new Font("Monospaced", Font.PLAIN, 24);
@@ -72,6 +78,8 @@ public class PSCanvas2D extends JPanel {
         // render common world objects.
         this.drawCurNode(g2);
         this.drawNodes(g2);
+        this.drawCurEdge(g2);
+        this.drawEdges(g2);
 //        this.drawPtCurves(g2);
 //        this.drawSelectedPtCurves(g2);
         this.drawCurPtCurve(g2);
@@ -115,9 +123,9 @@ public class PSCanvas2D extends JPanel {
     }
     
     private void drawNode(Graphics2D g2, PSNode node, Color c, Stroke s) {
-        g2.setColor(c);
-        g2.setStroke(s);
-        g2.draw(node);
+//        g2.setColor(c);
+//        g2.setStroke(s);
+        node.drawNode(g2, c, s);
         
         // draw mode of node
         g2.setFont(PSCanvas2D.FONT_MODE_INFO);
@@ -140,6 +148,29 @@ public class PSCanvas2D extends JPanel {
         }
 
         
+    }
+    
+    private void drawEdges (Graphics2D g2) {
+        for (PSEdge edge : this.mApp.getEdgeMgr().getEdges()) {
+            this.drawEdge(g2, edge, PSCanvas2D.COLOR_EDGE_ARROW,
+                PSCanvas2D.STROKE_EDGE_ARROW);
+        }    
+    }
+    
+    private void drawCurEdge (Graphics2D g2) {
+        PSEdge edge = this.mApp.getEdgeMgr().getCurEdge();
+        if (edge != null) { 
+            this.drawEdge(g2, edge, PSCanvas2D.COLOR_CUR_EDGE_ARROW,
+                PSCanvas2D.STROKE_CUR_EDGE_ARROW);
+        }
+    }
+    
+    private void drawEdge (Graphics2D g2, PSEdge edge, Color c, Stroke s) {
+//        g2.setColor(c);
+//        g2.setStroke(s);
+//        edge.drawEdge(g2);
+        edge.drawEdge(g2, c, s);
+//        g2.draw((Shape) edge);
     }
 
     private void drawCurPtCurve(Graphics2D g2) {

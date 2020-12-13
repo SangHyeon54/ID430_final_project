@@ -1,7 +1,9 @@
 package ps;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.lang.Math;
@@ -46,9 +48,9 @@ public class PSNode extends Ellipse2D.Double {
         this.mName = new ArrayList<PSPtCurve>();
     }
     
-    public void drawNode(Graphics2D g2) {
-        g2.setColor(PSCanvas2D.COLOR_NODE_ELLIPSE);
-        g2.setStroke(PSCanvas2D.STROKE_NODE_ELLIPSE);
+    public void drawNode(Graphics2D g2, Color c, Stroke s) {
+        g2.setColor(c);
+        g2.setStroke(s);
         g2.draw(this);
     }
     

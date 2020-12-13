@@ -94,6 +94,10 @@ public class PSDefaultScenario extends XScenario {
                     XCmdToChangeScene.execute(app,
                         PSDrawNodeScenario.DrawNodeScene.getSingleton(), this);
                     break;
+                case KeyEvent.VK_D:
+                    XCmdToChangeScene.execute(app,
+                        PSDrawEdgeScenario.DrawEdgeScene.getSingleton(), this);
+                    break;
                 case KeyEvent.VK_CONTROL:
                     XCmdToChangeScene.execute(app, 
                         PSNavigateScenario.ZoomNRotateReadyScene.getSingleton(), 
