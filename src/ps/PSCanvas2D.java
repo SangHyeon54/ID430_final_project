@@ -28,11 +28,11 @@ public class PSCanvas2D extends JPanel {
     private static final Color COLOR_INFO = new Color(255, 0, 0, 128);
     private static final Color COLOR_MODE_INFO = new Color(0, 0, 0, 192);
     
-    private static final Stroke STROKE_PT_CURVE_DEFAULT = new BasicStroke(3.0f,
+    private static final Stroke STROKE_PT_CURVE_DEFAULT = new BasicStroke(2.0f,
         BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 //    public static final Stroke STROKE_SELECTION_BOX = new BasicStroke(5.0f);
-    public static final Stroke STROKE_CUR_NODE_ELLIPSE = new BasicStroke(5.0f);
-    public static final Stroke STROKE_NODE_ELLIPSE = new BasicStroke(5.0f);
+    public static final Stroke STROKE_CUR_NODE_ELLIPSE = new BasicStroke(3.0f);
+    public static final Stroke STROKE_NODE_ELLIPSE = new BasicStroke(3.0f);
     public static final Stroke STROKE_CUR_EDGE_ARROW = new BasicStroke(2.0f);
     public static final Stroke STROKE_EDGE_ARROW = new BasicStroke(2.0f);
     public static final Stroke STROKE_CROSSHAIR = new BasicStroke(5.0f);

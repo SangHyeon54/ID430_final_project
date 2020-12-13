@@ -15,8 +15,7 @@ import java.util.ArrayList;
 
 public class PSEdge {
     // constants
-//    public static final double MIN_LENGTH = 10;
-//    public static final double MAX_RADIUS = 100;
+    public static final double INPUT_AND_NODE_OVERLAPPING_DISTANCE = 3;
 
     // field
     private Point.Double mCenter = null;
@@ -24,13 +23,19 @@ public class PSEdge {
         return this.mCenter;
     }
     
+    //MousePosition
     private Point.Double mStartingPt = null;
     private Point.Double mEndingPt = null;
     
-//    private double mLength;
-//    public double getLength() {
-//        return this.mLength;
-//    }
+    private Point.Double mInputPos = null;
+    public Point.Double getInputPost() {
+        return this.mInputPos;
+    }
+    
+    private Point.Double mStartOfArrow = null;
+    public Point.Double getStartOfArrow() {
+        return this.mStartOfArrow;
+    }
     
     private PSNode mStartingNode;
     public PSNode getStartingNode() {
@@ -48,10 +53,12 @@ public class PSEdge {
         this.mEndingNode = node;
     }
     
-    private ArrayList<PSPtCurve> mEdgeInput = null;
-    public ArrayList<PSPtCurve> getEdgeInput() {
-        return this.mEdgeInput;
-    }
+    private PSEdgeInput mInput;
+//    
+//    private ArrayList<PSPtCurve> mEdgeInput = null;
+//    public ArrayList<PSPtCurve> getEdgeInput() {
+//        return this.mEdgeInput;
+//    }
     
     private ArrayList<PSPtCurve> mEdgeCmd = null;
     public ArrayList<PSPtCurve> getEdgeCmd() {
@@ -63,25 +70,32 @@ public class PSEdge {
         this.mStartingPt = new Point.Double(pt.x, pt.y);
         this.mEndingPt = new Point.Double(pt.x, pt.y);
         this.mCenter = new Point.Double(pt.x, pt.y);
-        this.mEdgeInput = new ArrayList<PSPtCurve>();
+//        this.mEdgeInput = new ArrayList<PSPtCurve>();
+        this.mInput = new PSEdgeInput(pt);
         this.mEdgeCmd = new ArrayList<PSPtCurve>();
         this.mStartingNode = node;
+        
+        this.calculateStartOfArrow();
+        this.calculateInputPos();
+        this.mInput.setPos(mInputPos);
     }
     
     public void drawEdge(Graphics2D g2, Color c, Stroke s) {
         g2.setColor(c);
         g2.setStroke(s);
         g2.draw(new Line2D.Double(
-            mStartingPt.x, mStartingPt.y, mEndingPt.x, mEndingPt.y));
+            mStartOfArrow.x, mStartOfArrow.y, mEndingPt.x, mEndingPt.y));
         drawArrowHead(g2);
         
-        //if there is ending scene, then draw the return scene info
+        // if there is ending scene, then it means the edge is drawn and saved.
+        // draw the return scene info and input
         if (mEndingNode != null) {
-            int posX = (int) Math.round(this.getCenter().x - 10);
+            int posX = (int) Math.round(this.getCenter().x);
             int posY = (int) Math.round(this.getCenter().y + 10);
 
             g2.drawString(this.getReturnScene(), posX, posY);
-        }
+            this.mInput.drawInput(g2, c, s);
+        }        
     }
     
     private void drawArrowHead(Graphics2D g2) {
@@ -105,8 +119,8 @@ public class PSEdge {
     
     //update with a new point
     public void updateArrow(Point.Double pt) {
-        double centerX = (mEndingPt.x + mStartingPt.x) / 2;
-        double centerY = (mEndingPt.y + mStartingPt.y) / 2;
+        double centerX = (mEndingPt.x + mStartOfArrow.x) / 2;
+        double centerY = (mEndingPt.y + mStartOfArrow.y) / 2;
         
         this.mEndingPt = pt;
         this.mCenter = new Point.Double(centerX, centerY);
@@ -128,11 +142,41 @@ public class PSEdge {
         return mString;
     }
     
-//    public void addNamePtCurve(PSPtCurve pc) {
-//        this.mName.add(pc);
-//    }
-//    
-//    public void clearNamePtCurve() {
-//        this.mName.clear();
+    private void calculateStartOfArrow() {
+        double cx = mStartingNode.getCenterX();
+        double cy = mStartingNode.getCenterY();
+        
+        double r = mStartingNode.getRadius();
+        double angle = Math.atan2(mStartingPt.y - cy, 
+            mStartingPt.x - cx);
+        
+        double posX = cx + r * Math.cos(angle);
+        double posY = cy + r * Math.sin(angle);      
+        
+        this.mStartOfArrow = new Point.Double(posX, posY);
+    }
+    
+    private void calculateInputPos() {
+        double distance = mInput.getRadius() 
+            - INPUT_AND_NODE_OVERLAPPING_DISTANCE;
+        double angle = Math.atan2(mStartOfArrow.y - mEndingPt.y, 
+            mStartOfArrow.x - mEndingPt.x);
+        
+        double posX = mStartOfArrow.x + distance * Math.cos(angle);
+        double posY = mStartOfArrow.y + distance * Math.sin(angle);      
+        
+        this.mInputPos = new Point.Double(posX, posY);
+    }
+    
+//    // a helper function to calculate the position that is apart from
+//    // start of arrow by the input distance and return the position
+//    private Point.Double calcPtApartFromStartOfArrowBy(double distance) {
+//        double angle = Math.atan2(mEndingPt.y - mStartingPt.y, 
+//            mEndingPt.x - mStartingPt.x);
+//        
+//        double posX = mStartOfArrow.x + distance * Math.cos(angle);
+//        double posY = mStartOfArrow.y + distance * Math.sin(angle);      
+//        
+//        return new Point.Double(posX, posY);
 //    }
 }
