@@ -56,11 +56,6 @@ public class PSEdge {
     public PSEdge (Point.Double pt) {
         this.mStartingPt = new Point.Double(pt.x, pt.y);
         this.mEndingPt = new Point.Double(pt.x, pt.y);
-//        
-//        super(pt.x - PSEdge.MIN_RADIUS, pt.y - PSEdge.MIN_RADIUS,
-//                PSEdge.MIN_RADIUS * 2, PSEdge.MIN_RADIUS * 2);
-//        this.mLength = PSEdge.MIN_LENGTH;
-//        this.mCenter = new Point.Double(pt.x, pt.y);
         this.mEdgeInput = new ArrayList<PSPtCurve>();
         this.mEdgeCmd = new ArrayList<PSPtCurve>();
     }
@@ -71,15 +66,13 @@ public class PSEdge {
         g2.draw(new Line2D.Double(
             mStartingPt.x, mStartingPt.y, mEndingPt.x, mEndingPt.y));
         drawArrowHead(g2);
-//        g2.dispose();
-//        g2.draw((Shape) this);
     }
     
     private void drawArrowHead(Graphics2D g2) {
         double dx = mEndingPt.x - mStartingPt.x;
         double dy = mEndingPt.y - mStartingPt.y;
-        
         double angleParallel = Math.atan2(dy, dx);
+        
         double angle1 = angleParallel - 0.5;
         double angle2 = angleParallel + 0.5;
         double length = 10;
@@ -97,10 +90,6 @@ public class PSEdge {
     //update with a new point
     public void updateArrow(Point.Double pt) {
         this.mEndingPt = pt;
-//        float radius = (float) pt.distance(this.mCenter.x, this.mCenter.y);
-//        this.setFrame(mCenter.x - radius, mCenter.y - radius,
-//            radius * 2, radius * 2);
-//        this.mRadius = radius;
     }
     
 //    public void addNamePtCurve(PSPtCurve pc) {

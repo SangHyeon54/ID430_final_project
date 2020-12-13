@@ -49,7 +49,10 @@ public class PSNode extends Ellipse2D.Double {
     }
     
     public void drawNode(Graphics2D g2, Color c, Stroke s) {
-        g2.setColor(c);
+
+        g2.setPaint(PSCanvas2D.COLOR_NODE_ELLIPSE_BG);
+        g2.fill (this);
+                g2.setColor(c);
         g2.setStroke(s);
         g2.draw(this);
     }
