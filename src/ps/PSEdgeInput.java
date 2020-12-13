@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class PSEdgeInput extends Ellipse2D.Double {    
     // constants
-    public static final double RADIUS = 15;
+    public static final double RADIUS = 20;
     
     private Point.Double mInputPos = null;
     public void setPos(Point.Double pt) {
@@ -31,10 +31,9 @@ public class PSEdgeInput extends Ellipse2D.Double {
         return this.mRadius;
     }
 
-    
-    private ArrayList<PSPtCurve> mInput = null;
-    public ArrayList<PSPtCurve> getInput() {
-        return this.mInput;
+    private ArrayList<PSPtCurve> mInputCurve = null;
+    public ArrayList<PSPtCurve> getInputCurve() {
+        return this.mInputCurve;
     }
     
     private boolean isQuasi = false;
@@ -51,14 +50,10 @@ public class PSEdgeInput extends Ellipse2D.Double {
                 PSEdgeInput.RADIUS * 2, PSEdgeInput.RADIUS * 2);
         this.mInputPos = pt;
         this.mRadius = PSEdgeInput.RADIUS;
-        this.mInput = new ArrayList<PSPtCurve>();
+        this.mInputCurve = new ArrayList<PSPtCurve>();
     }
     
     public void drawInput(Graphics2D g2, Color c, Stroke s) {     
-//        if (mInputPos != null) {
-//            this.setFrame(mInputPos.x - mRadius, mInputPos.y - mRadius,
-//                mRadius * 2, mRadius * 2);   
-//        }
         this.setFrame(mInputPos.x - mRadius, mInputPos.y - mRadius,
             mRadius * 2, mRadius * 2);   
         g2.setPaint(PSCanvas2D.COLOR_NODE_ELLIPSE_BG);
@@ -69,10 +64,10 @@ public class PSEdgeInput extends Ellipse2D.Double {
     }
     
     public void addInputPtCurve(PSPtCurve pc) {
-        this.mInput.add(pc);
+        this.mInputCurve.add(pc);
     }
     
     public void clearInputPtCurve() {
-        this.mInput.clear();
+        this.mInputCurve.clear();
     }
 }

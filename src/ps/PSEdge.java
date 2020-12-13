@@ -54,6 +54,9 @@ public class PSEdge {
     }
     
     private PSEdgeInput mInput;
+    public PSEdgeInput getInput() {
+        return mInput;
+    }
 //    
 //    private ArrayList<PSPtCurve> mEdgeInput = null;
 //    public ArrayList<PSPtCurve> getEdgeInput() {

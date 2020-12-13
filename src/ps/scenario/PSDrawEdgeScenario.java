@@ -10,10 +10,13 @@ import ps.PSApp;
 import ps.PSCanvas2D;
 import ps.PSNode;
 import ps.PSEdge;
+import ps.PSEdgeInput;
 import ps.PSScene;
 import ps.cmd.PSCmdToAddCurEdgeToEdges;
+import ps.cmd.PSCmdToAddCurPtCurveToEdgeInput;
 import ps.cmd.PSCmdToAddCurPtCurveToNodeName;
 import ps.cmd.PSCmdToChangeQuasi;
+import ps.cmd.PSCmdToClearCurEdgeInput;
 import ps.cmd.PSCmdToClearCurNodeName;
 import ps.cmd.PSCmdToCreateCurPtCurve;
 import ps.cmd.PSCmdToCreateCurEdge;
@@ -46,7 +49,7 @@ public class PSDrawEdgeScenario extends XScenario {
     protected void addScenes() {
         this.addScene(PSDrawEdgeScenario.DrawEdgeScene.createSingleton(this));
         this.addScene(PSDrawEdgeScenario.EditEdgeReadyScene.createSingleton(this));
-        this.addScene(PSDrawEdgeScenario.EditNodeNameScene.createSingleton(this));
+        this.addScene(PSDrawEdgeScenario.EditEdgeInputScene.createSingleton(this));
     }
     
     public static class DrawEdgeScene extends PSScene {
@@ -198,22 +201,22 @@ public class PSDrawEdgeScenario extends XScenario {
         
         @Override
         public void handleMousePress(MouseEvent e) {
-//            PSApp app = (PSApp) this.mScenario.getApp();
-//            Point pt = e.getPoint();
-//            Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
-//            PSEdge edge = app.getEdgeMgr().getCurEdge();
-//            // if the mouse press inside of ellipse, make node name
-//            if (node.contains(mWorldPt)) {
-//                PSCmdToCreateCurPtCurve.execute(app, pt);
-//                XCmdToChangeScene.execute(app, 
-//                    PSDrawEdgeScenario.EditNodeNameScene.getSingleton(), this);
-//            } else {
-//                PSCmdToAddCurNodeToNodes.execute(app);
-//                app.getNodeMgr().setCurNode(null);
-//                XCmdToChangeScene.execute(app, 
-//                    PSDefaultScenario.ReadyScene.getSingleton(), 
-//                    null);
-//            }
+            PSApp app = (PSApp) this.mScenario.getApp();
+            Point pt = e.getPoint();
+            Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
+            PSEdgeInput edgeInput = app.getEdgeMgr().getCurEdge().getInput();
+            // if the mouse press inside of ellipse, make node name
+            if (edgeInput.contains(mWorldPt)) {
+                PSCmdToCreateCurPtCurve.execute(app, pt);
+                XCmdToChangeScene.execute(app, 
+                    PSDrawEdgeScenario.EditEdgeInputScene.getSingleton(), this);
+            } else {
+                PSCmdToAddCurEdgeToEdges.execute(app);
+                app.getEdgeMgr().setCurEdge(null);
+                XCmdToChangeScene.execute(app, 
+                    PSDefaultScenario.ReadyScene.getSingleton(), 
+                    null);
+            }
         }
 
         @Override
@@ -238,7 +241,7 @@ public class PSDrawEdgeScenario extends XScenario {
             
             switch (code) {
                 case KeyEvent.VK_C:
-                    PSCmdToClearCurNodeName.execute(app);
+                    PSCmdToClearCurEdgeInput.execute(app);
                     break;
                 case KeyEvent.VK_DELETE:
                     app.getEdgeMgr().setCurEdge(null);
@@ -277,20 +280,20 @@ public class PSDrawEdgeScenario extends XScenario {
         }
     }
     
-    public static class EditNodeNameScene extends PSScene {
-        private static EditNodeNameScene mSingleton = null;
-        public static EditNodeNameScene getSingleton() {
-            assert(EditNodeNameScene.mSingleton != null);
-            return EditNodeNameScene.mSingleton;
+    public static class EditEdgeInputScene extends PSScene {
+        private static EditEdgeInputScene mSingleton = null;
+        public static EditEdgeInputScene getSingleton() {
+            assert(EditEdgeInputScene.mSingleton != null);
+            return EditEdgeInputScene.mSingleton;
         }
         
-        public static EditNodeNameScene createSingleton(XScenario scenario) {
-            assert(EditNodeNameScene.mSingleton == null);
-            EditNodeNameScene.mSingleton = new EditNodeNameScene(scenario);
-            return EditNodeNameScene.mSingleton;
+        public static EditEdgeInputScene createSingleton(XScenario scenario) {
+            assert(EditEdgeInputScene.mSingleton == null);
+            EditEdgeInputScene.mSingleton = new EditEdgeInputScene(scenario);
+            return EditEdgeInputScene.mSingleton;
         }
         
-        private EditNodeNameScene(XScenario scenario) {
+        private EditEdgeInputScene(XScenario scenario) {
             super(scenario);
         }
         
@@ -309,7 +312,7 @@ public class PSDrawEdgeScenario extends XScenario {
         public void handleMouseRelease(MouseEvent e) {
             PSApp app = (PSApp) this.mScenario.getApp();
             Point pt = e.getPoint();
-            PSCmdToAddCurPtCurveToNodeName.execute(app);
+            PSCmdToAddCurPtCurveToEdgeInput.execute(app);
             XCmdToChangeScene.execute(app, 
                 PSDrawEdgeScenario.EditEdgeReadyScene.getSingleton(), null);
         }
