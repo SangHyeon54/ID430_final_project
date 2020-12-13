@@ -11,7 +11,7 @@ import ps.PSCanvas2D;
 import ps.PSNode;
 import ps.PSEdge;
 import ps.PSScene;
-import ps.cmd.PSCmdToAddCurNodeToNodes;
+import ps.cmd.PSCmdToAddCurEdgeToEdges;
 import ps.cmd.PSCmdToAddCurPtCurveToNodeName;
 import ps.cmd.PSCmdToChangeQuasi;
 import ps.cmd.PSCmdToClearCurNodeName;
@@ -45,7 +45,7 @@ public class PSDrawEdgeScenario extends XScenario {
     @Override
     protected void addScenes() {
         this.addScene(PSDrawEdgeScenario.DrawEdgeScene.createSingleton(this));
-        this.addScene(PSDrawEdgeScenario.EditNodeReadyScene.createSingleton(this));
+        this.addScene(PSDrawEdgeScenario.EditEdgeReadyScene.createSingleton(this));
         this.addScene(PSDrawEdgeScenario.EditNodeNameScene.createSingleton(this));
     }
     
@@ -129,7 +129,7 @@ public class PSDrawEdgeScenario extends XScenario {
                 if (app.getEdgeMgr().getCurEdge() != null) {
                     PSCmdToSaveCurEdge.execute(app, pt, mNode);
                     XCmdToChangeScene.execute(app,
-                        PSDrawEdgeScenario.EditNodeReadyScene.getSingleton(), null);
+                        PSDrawEdgeScenario.EditEdgeReadyScene.getSingleton(), null);
                 }
             } else {
                 //Not in node, so invalid => set current edge null
@@ -179,41 +179,41 @@ public class PSDrawEdgeScenario extends XScenario {
         }
     }
     
-    public static class EditNodeReadyScene extends PSScene {
-        private static EditNodeReadyScene mSingleton = null;
-        public static EditNodeReadyScene getSingleton() {
-            assert(EditNodeReadyScene.mSingleton != null);
-            return EditNodeReadyScene.mSingleton;
+    public static class EditEdgeReadyScene extends PSScene {
+        private static EditEdgeReadyScene mSingleton = null;
+        public static EditEdgeReadyScene getSingleton() {
+            assert(EditEdgeReadyScene.mSingleton != null);
+            return EditEdgeReadyScene.mSingleton;
         }
         
-        public static EditNodeReadyScene createSingleton(XScenario scenario) {
-            assert(EditNodeReadyScene.mSingleton == null);
-            EditNodeReadyScene.mSingleton = new EditNodeReadyScene(scenario);
-            return EditNodeReadyScene.mSingleton;
+        public static EditEdgeReadyScene createSingleton(XScenario scenario) {
+            assert(EditEdgeReadyScene.mSingleton == null);
+            EditEdgeReadyScene.mSingleton = new EditEdgeReadyScene(scenario);
+            return EditEdgeReadyScene.mSingleton;
         }
         
-        private EditNodeReadyScene(XScenario scenario) {
+        private EditEdgeReadyScene(XScenario scenario) {
             super(scenario);
         }
         
         @Override
         public void handleMousePress(MouseEvent e) {
-            PSApp app = (PSApp) this.mScenario.getApp();
-            Point pt = e.getPoint();
-            Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
-            PSNode node = app.getNodeMgr().getCurNode();
-            // if the mouse press inside of ellipse, make node name
-            if (node.contains(mWorldPt)) {
-                PSCmdToCreateCurPtCurve.execute(app, pt);
-                XCmdToChangeScene.execute(app, 
-                    PSDrawEdgeScenario.EditNodeNameScene.getSingleton(), this);
-            } else {
-                PSCmdToAddCurNodeToNodes.execute(app);
-                app.getNodeMgr().setCurNode(null);
-                XCmdToChangeScene.execute(app, 
-                    PSDefaultScenario.ReadyScene.getSingleton(), 
-                    null);
-            }
+//            PSApp app = (PSApp) this.mScenario.getApp();
+//            Point pt = e.getPoint();
+//            Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
+//            PSEdge edge = app.getEdgeMgr().getCurEdge();
+//            // if the mouse press inside of ellipse, make node name
+//            if (node.contains(mWorldPt)) {
+//                PSCmdToCreateCurPtCurve.execute(app, pt);
+//                XCmdToChangeScene.execute(app, 
+//                    PSDrawEdgeScenario.EditNodeNameScene.getSingleton(), this);
+//            } else {
+//                PSCmdToAddCurNodeToNodes.execute(app);
+//                app.getNodeMgr().setCurNode(null);
+//                XCmdToChangeScene.execute(app, 
+//                    PSDefaultScenario.ReadyScene.getSingleton(), 
+//                    null);
+//            }
         }
 
         @Override
@@ -240,18 +240,15 @@ public class PSDrawEdgeScenario extends XScenario {
                 case KeyEvent.VK_C:
                     PSCmdToClearCurNodeName.execute(app);
                     break;
-                case KeyEvent.VK_M:
-                    PSCmdToChangeQuasi.execute(app);
-                    break;
                 case KeyEvent.VK_DELETE:
-                    app.getNodeMgr().setCurNode(null);
+                    app.getEdgeMgr().setCurEdge(null);
                     XCmdToChangeScene.execute(app, 
                         PSDefaultScenario.ReadyScene.getSingleton(), 
                         null);
                     break;
                 case KeyEvent.VK_ENTER:
-                    PSCmdToAddCurNodeToNodes.execute(app);
-                    app.getNodeMgr().setCurNode(null);
+                    PSCmdToAddCurEdgeToEdges.execute(app);
+                    app.getEdgeMgr().setCurEdge(null);
                     XCmdToChangeScene.execute(app, 
                         PSDefaultScenario.ReadyScene.getSingleton(), 
                         null);
@@ -314,7 +311,7 @@ public class PSDrawEdgeScenario extends XScenario {
             Point pt = e.getPoint();
             PSCmdToAddCurPtCurveToNodeName.execute(app);
             XCmdToChangeScene.execute(app, 
-                PSDrawEdgeScenario.EditNodeReadyScene.getSingleton(), null);
+                PSDrawEdgeScenario.EditEdgeReadyScene.getSingleton(), null);
         }
 
         @Override

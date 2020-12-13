@@ -75,6 +75,7 @@ public class PSEdge {
             mStartingPt.x, mStartingPt.y, mEndingPt.x, mEndingPt.y));
         drawArrowHead(g2);
         
+        //if there is ending scene, then draw the return scene info
         if (mEndingNode != null) {
             int posX = (int) Math.round(this.getCenter().x - 10);
             int posY = (int) Math.round(this.getCenter().y + 10);
