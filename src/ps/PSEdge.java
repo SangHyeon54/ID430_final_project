@@ -8,6 +8,7 @@ import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.lang.Math;
 import java.util.ArrayList;
@@ -75,21 +76,22 @@ public class PSEdge {
     }
     
     private void drawArrowHead(Graphics2D g2) {
-        Polygon arrowHead = new Polygon();
-        AffineTransform tx = new AffineTransform();
-
-        arrowHead.addPoint(0, 5);
-        arrowHead.addPoint(-5, -5);
-        arrowHead.addPoint(5, -5);
-
-        tx.setToIdentity();
-        double angle = Math.atan2(
-            mEndingPt.y - mStartingPt.y, mEndingPt.x - mStartingPt.x);
-        tx.translate(mEndingPt.x, mEndingPt.y);
-        tx.rotate(angle - Math.PI / 2d);
-
-        g2.setTransform(tx);
-        g2.fill(arrowHead);
+        double dx = mEndingPt.x - mStartingPt.x;
+        double dy = mEndingPt.y - mStartingPt.y;
+        
+        double angleParallel = Math.atan2(dy, dx);
+        double angle1 = angleParallel - 0.5;
+        double angle2 = angleParallel + 0.5;
+        double length = 10;
+        double pt1x = mEndingPt.x - length * Math.cos(angle1);
+        double pt1y = mEndingPt.y - length * Math.sin(angle1);
+        double pt2x = mEndingPt.x - length * Math.cos(angle2);
+        double pt2y = mEndingPt.y - length * Math.sin(angle2);
+        
+        g2.draw(new Line2D.Double(
+            pt1x, pt1y, mEndingPt.x, mEndingPt.y));      
+        g2.draw(new Line2D.Double(
+            mEndingPt.x, mEndingPt.y, pt2x, pt2y));
     }
     
     //update with a new point
