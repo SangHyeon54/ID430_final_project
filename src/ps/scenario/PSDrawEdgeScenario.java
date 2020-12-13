@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import ps.PSApp;
 import ps.PSCanvas2D;
 import ps.PSNode;
@@ -16,6 +17,7 @@ import ps.cmd.PSCmdToChangeQuasi;
 import ps.cmd.PSCmdToClearCurNodeName;
 import ps.cmd.PSCmdToCreateCurPtCurve;
 import ps.cmd.PSCmdToCreateCurEdge;
+import ps.cmd.PSCmdToSaveCurEdge;
 import ps.cmd.PSCmdToUpdateCurPtCurve;
 import ps.cmd.PSCmdToUpdateEdgeArrow;
 import ps.cmd.PSCmdToUpdateNodeRadius;
@@ -66,27 +68,76 @@ public class PSDrawEdgeScenario extends XScenario {
         
         @Override
         public void handleMousePress(MouseEvent e) {
+//            PSApp app = (PSApp) this.mScenario.getApp();
+//            Point pt = e.getPoint();
+//            PSCmdToCreateCurEdge.execute(app, pt);
+            
             PSApp app = (PSApp) this.mScenario.getApp();
             Point pt = e.getPoint();
-            PSCmdToCreateCurEdge.execute(app, pt);
+            Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
+            ArrayList<PSNode> mNodes = app.getNodeMgr().getNodes();
+            // if the mouse press inside the node, create the edge
+            for (PSNode node : mNodes) {
+                if (node.contains(mWorldPt)) {
+                    PSCmdToCreateCurEdge.execute(app, pt, node);
+                }
+            }
         }
 
         @Override
         public void handleMouseDrag(MouseEvent e) {
             PSApp app = (PSApp) this.mScenario.getApp();
             Point pt = e.getPoint();
-            if (app.getEdgeMgr().getCurEdge() != null) {
+            Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
+            ArrayList<PSNode> mNodes = app.getNodeMgr().getNodes();
+
+            boolean isInNode = false;
+            // check if the final position includes node or not
+            for (PSNode node : mNodes) {
+                if (node.contains(mWorldPt)) {
+                    isInNode = true;
+                }
+            }
+            if (!isInNode) {
                 PSCmdToUpdateEdgeArrow.execute(app, pt);
             }
         }
 
         @Override
         public void handleMouseRelease(MouseEvent e) {
+//            PSApp app = (PSApp) this.mScenario.getApp();
+//            if (app.getEdgeMgr().getCurEdge() != null) {
+//                XCmdToChangeScene.execute(app,
+//                    PSDrawEdgeScenario.EditNodeReadyScene.getSingleton(), null);
+//            }
+            
+            boolean isInNode = false;
+            PSNode mNode = null;
             PSApp app = (PSApp) this.mScenario.getApp();
-            if (app.getEdgeMgr().getCurEdge() != null) {
-                XCmdToChangeScene.execute(app,
-                    PSDrawEdgeScenario.EditNodeReadyScene.getSingleton(), null);
+            Point pt = e.getPoint();
+            Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
+            ArrayList<PSNode> mNodes = app.getNodeMgr().getNodes();
+            // check if the final position includes node or not
+            for (PSNode node : mNodes) {
+                if (node.contains(mWorldPt)) {
+                    isInNode = true;
+                    mNode = node;
+                }
             }
+            if (isInNode) {
+                System.out.println("INSIDE");
+                if (app.getEdgeMgr().getCurEdge() != null) {
+                    PSCmdToSaveCurEdge.execute(app, pt, mNode);
+                    XCmdToChangeScene.execute(app,
+                        PSDrawEdgeScenario.EditNodeReadyScene.getSingleton(), null);
+                }
+            } else {
+                //Not in node, so invalid => set current edge null
+                app.getEdgeMgr().setCurEdge(null);
+                XCmdToChangeScene.execute(app, 
+                    PSDefaultScenario.ReadyScene.getSingleton(), null);
+            }
+
         }
 
         @Override
@@ -312,7 +363,8 @@ public class PSDrawEdgeScenario extends XScenario {
     
     private void drawNode(Graphics2D g2) {
         if (mNode != null) {
-            mNode.drawNode(g2);
+            mNode.drawNode(g2, PSCanvas2D.COLOR_CUR_NODE_ELLIPSE,
+                PSCanvas2D.STROKE_CUR_NODE_ELLIPSE);
         }
     }
     
@@ -327,7 +379,8 @@ public class PSDrawEdgeScenario extends XScenario {
     
     private void drawEdge (Graphics2D g2) {
         if (mEdge != null) {
-            mEdge.drawEdge(g2);
+            mEdge.drawEdge(g2, PSCanvas2D.COLOR_CUR_EDGE_ARROW,
+                PSCanvas2D.STROKE_CUR_EDGE_ARROW);
         }
     }
     

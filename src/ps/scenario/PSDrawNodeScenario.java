@@ -310,7 +310,8 @@ public class PSDrawNodeScenario extends XScenario {
     
     private void drawNode(Graphics2D g2) {
         if (mNode != null) {
-            mNode.drawNode(g2);
+            mNode.drawNode(g2, PSCanvas2D.COLOR_CUR_NODE_ELLIPSE,
+                PSCanvas2D.STROKE_CUR_NODE_ELLIPSE);
         }
     }
     

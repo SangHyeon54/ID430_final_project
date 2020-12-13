@@ -36,10 +36,16 @@ public class PSEdge {
     public PSNode getStartingNode() {
         return this.mStartingNode;
     }
+    public void setStartingNode(PSNode node) {
+        this.mStartingNode = node;
+    }
     
     private PSNode mEndingNode;
     public PSNode getEndingNode() {
         return this.mEndingNode;
+    }
+    public void setEndingNode(PSNode node) {
+        this.mEndingNode = node;
     }
     
     private ArrayList<PSPtCurve> mEdgeInput = null;
@@ -53,11 +59,12 @@ public class PSEdge {
     }
     
     //constructor
-    public PSEdge (Point.Double pt) {
+    public PSEdge (Point.Double pt, PSNode node) {
         this.mStartingPt = new Point.Double(pt.x, pt.y);
         this.mEndingPt = new Point.Double(pt.x, pt.y);
         this.mEdgeInput = new ArrayList<PSPtCurve>();
         this.mEdgeCmd = new ArrayList<PSPtCurve>();
+        this.mStartingNode = node;
     }
     
     public void drawEdge(Graphics2D g2, Color c, Stroke s) {
