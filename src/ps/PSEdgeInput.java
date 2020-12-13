@@ -34,9 +34,9 @@ public class PSEdgeInput extends Ellipse2D.Double {
         return this.mRadius;
     }
     
-    private ArrayList<PSPtCurve> mInputCurve = null;
-    public ArrayList<PSPtCurve> getInputCurve() {
-        return this.mInputCurve;
+    private ArrayList<PSPtCurve> mInputPtCurve = null;
+    public ArrayList<PSPtCurve> getInputPtCurve() {
+        return this.mInputPtCurve;
     }
     
     private boolean isQuasi = false;
@@ -53,7 +53,7 @@ public class PSEdgeInput extends Ellipse2D.Double {
                 PSEdgeInput.RADIUS * 2, PSEdgeInput.RADIUS * 2);
         this.mCenter = pt;
         this.mRadius = PSEdgeInput.RADIUS;
-        this.mInputCurve = new ArrayList<PSPtCurve>();
+        this.mInputPtCurve = new ArrayList<PSPtCurve>();
     }
     
     public void drawInput(Graphics2D g2, Color c, Stroke s) {     
@@ -67,10 +67,10 @@ public class PSEdgeInput extends Ellipse2D.Double {
     }
     
     public void addInputPtCurve(PSPtCurve pc) {
-        this.mInputCurve.add(pc);
+        this.mInputPtCurve.add(pc);
     }
     
     public void clearInputPtCurve() {
-        this.mInputCurve.clear();
+        this.mInputPtCurve.clear();
     }
 }

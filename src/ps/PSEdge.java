@@ -57,16 +57,21 @@ public class PSEdge {
     public PSEdgeInput getInput() {
         return mInput;
     }
+    
+    private PSEdgeCmd mCmd;
+    public PSEdgeCmd getCmd() {
+        return mCmd;
+    }
 //    
 //    private ArrayList<PSPtCurve> mEdgeInput = null;
 //    public ArrayList<PSPtCurve> getEdgeInput() {
 //        return this.mEdgeInput;
 //    }
     
-    private ArrayList<PSPtCurve> mEdgeCmd = null;
-    public ArrayList<PSPtCurve> getEdgeCmd() {
-        return this.mEdgeCmd;
-    }
+//    private ArrayList<PSPtCurve> mEdgeCmd = null;
+//    public ArrayList<PSPtCurve> getEdgeCmd() {
+//        return this.mEdgeCmd;
+//    }
     
     //constructor
     public PSEdge (Point.Double pt, PSNode node) {
@@ -75,7 +80,7 @@ public class PSEdge {
         this.mCenter = new Point.Double(pt.x, pt.y);
 //        this.mEdgeInput = new ArrayList<PSPtCurve>();
         this.mInput = new PSEdgeInput(pt);
-        this.mEdgeCmd = new ArrayList<PSPtCurve>();
+        this.mCmd = new PSEdgeCmd(pt);
         this.mStartingNode = node;
         
         this.calculateStartOfArrow();
@@ -94,10 +99,12 @@ public class PSEdge {
         // draw the return scene info and input
         if (mEndingNode != null) {
             int posX = (int) Math.round(this.getCenter().x);
-            int posY = (int) Math.round(this.getCenter().y + 10);
+            int posY = (int) Math.round(this.getCenter().y);
 
-            g2.drawString(this.getReturnScene(), posX, posY);
+            g2.drawString(this.getReturnScene(), posX, posY + 10);
             this.mInput.drawInput(g2, c, s);
+            this.mCmd.updateEdgeCmd(new Point.Double(posX, posY - 10));
+            this.mCmd.drawCmd(g2, c, s);
         }        
     }
     

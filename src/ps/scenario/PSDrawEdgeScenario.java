@@ -13,6 +13,7 @@ import ps.PSEdge;
 import ps.PSEdgeInput;
 import ps.PSScene;
 import ps.cmd.PSCmdToAddCurEdgeToEdges;
+import ps.cmd.PSCmdToAddCurPtCurveToEdgeCmd;
 import ps.cmd.PSCmdToAddCurPtCurveToEdgeInput;
 import ps.cmd.PSCmdToAddCurPtCurveToNodeName;
 import ps.cmd.PSCmdToChangeQuasi;
@@ -50,6 +51,7 @@ public class PSDrawEdgeScenario extends XScenario {
         this.addScene(PSDrawEdgeScenario.DrawEdgeScene.createSingleton(this));
         this.addScene(PSDrawEdgeScenario.EditEdgeReadyScene.createSingleton(this));
         this.addScene(PSDrawEdgeScenario.EditEdgeInputScene.createSingleton(this));
+        this.addScene(PSDrawEdgeScenario.EditEdgeCmdScene.createSingleton(this));
     }
     
     public static class DrawEdgeScene extends PSScene {
@@ -205,7 +207,7 @@ public class PSDrawEdgeScenario extends XScenario {
             Point pt = e.getPoint();
             Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
             PSEdgeInput edgeInput = app.getEdgeMgr().getCurEdge().getInput();
-            // if the mouse press inside of ellipse, make node name
+            // if the mouse press inside of edge input, edit edge input
             if (edgeInput.contains(mWorldPt)) {
                 PSCmdToCreateCurPtCurve.execute(app, pt);
                 XCmdToChangeScene.execute(app, 
@@ -313,6 +315,78 @@ public class PSDrawEdgeScenario extends XScenario {
             PSApp app = (PSApp) this.mScenario.getApp();
             Point pt = e.getPoint();
             PSCmdToAddCurPtCurveToEdgeInput.execute(app);
+            XCmdToChangeScene.execute(app, 
+                PSDrawEdgeScenario.EditEdgeReadyScene.getSingleton(), null);
+        }
+
+        @Override
+        public void handleKeyDown(KeyEvent e) {
+            
+        }
+
+        @Override
+        public void handleKeyUp(KeyEvent e) {
+        }
+
+        @Override
+        public void updateSupportObjects() {
+        }
+
+        @Override
+        public void renderWorldOjbects(Graphics2D g2) {
+        }
+
+        @Override
+        public void renderScreenOjbects(Graphics2D g2) {
+            PSApp app = (PSApp) this.mScenario.getApp();
+            PSDrawEdgeScenario scenario = (PSDrawEdgeScenario) this.mScenario;
+            scenario.drawNode(g2);
+        }
+
+        @Override
+        public void getReady() {
+        }
+
+        @Override
+        public void wrapUp() {
+            PSApp app = (PSApp) this.mScenario.getApp();
+            app.getPtCurveMgr().setCurPtCurve(null);
+        }
+    }
+    
+    public static class EditEdgeCmdScene extends PSScene {
+        private static EditEdgeCmdScene mSingleton = null;
+        public static EditEdgeCmdScene getSingleton() {
+            assert(EditEdgeCmdScene.mSingleton != null);
+            return EditEdgeCmdScene.mSingleton;
+        }
+        
+        public static EditEdgeCmdScene createSingleton(XScenario scenario) {
+            assert(EditEdgeCmdScene.mSingleton == null);
+            EditEdgeCmdScene.mSingleton = new EditEdgeCmdScene(scenario);
+            return EditEdgeCmdScene.mSingleton;
+        }
+        
+        private EditEdgeCmdScene(XScenario scenario) {
+            super(scenario);
+        }
+        
+        @Override
+        public void handleMousePress(MouseEvent e) {
+        }
+
+        @Override
+        public void handleMouseDrag(MouseEvent e) {
+            PSApp app = (PSApp) this.mScenario.getApp();
+            Point pt = e.getPoint();
+            PSCmdToUpdateCurPtCurve.execute(app, pt);
+        }
+
+        @Override
+        public void handleMouseRelease(MouseEvent e) {
+            PSApp app = (PSApp) this.mScenario.getApp();
+            Point pt = e.getPoint();
+            PSCmdToAddCurPtCurveToEdgeCmd.execute(app);
             XCmdToChangeScene.execute(app, 
                 PSDrawEdgeScenario.EditEdgeReadyScene.getSingleton(), null);
         }

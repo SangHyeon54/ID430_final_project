@@ -170,10 +170,16 @@ public class PSCanvas2D extends JPanel {
         g2.setFont(PSCanvas2D.FONT_EDGE_RETURN_SCENE);
         edge.drawEdge(g2, c, s);
         
-        for (PSPtCurve edgeInputPtCurve : edge.getInput().getInputCurve()) {
+        for (PSPtCurve edgeInputPtCurve : edge.getInput().getInputPtCurve()) {
             this.drawPtCurve(g2, edgeInputPtCurve, 
                 edgeInputPtCurve.getColor(),
                 edgeInputPtCurve.getStroke());
+        }
+        
+        for (PSPtCurve edgeCmdPtCurve : edge.getCmd().getCmdPtCurve()) {
+            this.drawPtCurve(g2, edgeCmdPtCurve, 
+                edgeCmdPtCurve.getColor(),
+                edgeCmdPtCurve.getStroke());
         }
     }
 
