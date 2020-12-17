@@ -30,6 +30,9 @@ public class PSCmdToDeleteNodeEdge extends XLoggableCmd {
         for(PSEdge edge : this.mNode.getEdgeStart()) {
             edgeMgr.removeEdge(edge);
         }
+        for(PSEdge edge : this.mNode.getEdgeEnd()) {
+            edgeMgr.removeEdge(edge);
+        }
         return true;
     }
 
