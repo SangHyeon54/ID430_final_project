@@ -44,7 +44,7 @@ public class PSCmdToUpdateNodeRadius extends XLoggableCmd {
         }
 
         this.mWorldPt = app.getXform().calcPtFromScreenToWorld(this.mScreenPt);
-        curNode.updateEllipse(mWorldPt);
+        curNode.updateRadius(mWorldPt);
         
         return true;
     }

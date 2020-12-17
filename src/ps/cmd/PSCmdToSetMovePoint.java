@@ -3,35 +3,34 @@ package ps.cmd;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import ps.PSApp;
-import ps.PSEdge;
 import ps.PSNode;
 import x.XApp;
 import x.XLoggableCmd;
 
-public class PSCmdToCreateCurEdge extends XLoggableCmd {
+public class PSCmdToSetMovePoint extends XLoggableCmd{
+    
     private Point mScreenPt = null;
-    private Point2D.Double mWorldPt = null;
+    private Point.Double mWorldPt = null;
     private PSNode mNode = null;
-
+    
     //private constructor
-    private PSCmdToCreateCurEdge(XApp app, Point pt, PSNode node) {
+    private PSCmdToSetMovePoint(XApp app, Point pt, PSNode node) {
         super(app);
         this.mScreenPt = pt;
         this.mNode = node;
     }
     
     public static boolean execute(XApp app, Point pt, PSNode node) {
-        PSCmdToCreateCurEdge cmd = new PSCmdToCreateCurEdge(app, pt, node);
+        PSCmdToSetMovePoint cmd = 
+            new PSCmdToSetMovePoint(app, pt, node);
         return cmd.execute();
     }
     
     @Override
     protected boolean defineCmd() {
-        PSApp app = (PSApp) this.mApp;
+        PSApp app = (PSApp) this.mApp;        
         this.mWorldPt = app.getXform().calcPtFromScreenToWorld(this.mScreenPt);
-        PSEdge mPSEdge = new PSEdge(this.mWorldPt, mNode);
-        this.mNode.addEdgeStart(mPSEdge);
-        app.getEdgeMgr().setCurEdge(mPSEdge);
+        this.mNode.setMovePoint(mWorldPt);
         return true;
     }
 
@@ -39,8 +38,10 @@ public class PSCmdToCreateCurEdge extends XLoggableCmd {
     protected String createLog() {
         StringBuffer sb = new StringBuffer();
         sb.append(this.getClass().getSimpleName()).append("\t");
+        sb.append(this.mNode).append("\t");
         sb.append(this.mScreenPt).append("\t");
-        sb.append(this.mWorldPt);
+        sb.append(this.mWorldPt).append("\t");
         return sb.toString();
     }
+    
 }

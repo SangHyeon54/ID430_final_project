@@ -3,6 +3,7 @@ package ps;
 import ps.scenario.PSDefaultScenario;
 import ps.scenario.PSDrawEdgeScenario;
 import ps.scenario.PSDrawNodeScenario;
+import ps.scenario.PSMoveNodeScenario;
 import ps.scenario.PSNavigateScenario;
 
 import x.XScenarioMgr;
@@ -19,6 +20,7 @@ public class PSScenarioMgr extends XScenarioMgr {
         this.mScenarios.add(PSDrawNodeScenario.createSingleton(this.mApp));
         this.mScenarios.add(PSDrawEdgeScenario.createSingleton(this.mApp));
         this.mScenarios.add(PSNavigateScenario.createSingleton(this.mApp));
+        this.mScenarios.add(PSMoveNodeScenario.createSingleton(this.mApp));
     }
 
     @Override

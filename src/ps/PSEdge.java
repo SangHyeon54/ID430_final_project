@@ -15,6 +15,11 @@ public class PSEdge {
     public Point.Double getCenter() {
         return this.mCenter;
     }
+    public void updateCenter() {
+        double centerX = (mEndingPt.x + mStartOfArrow.x) / 2;
+        double centerY = (mEndingPt.y + mStartOfArrow.y) / 2;
+        this.mCenter = new Point.Double(centerX, centerY);
+    }
     
     //MousePosition
     private Point.Double mStartingPt = null;
@@ -29,6 +34,23 @@ public class PSEdge {
     public Point.Double getStartOfArrow() {
         return this.mStartOfArrow;
     }
+    
+    public void moveStartOfArrow(double dx, double dy) {
+        double newX = this.mStartOfArrow.x + dx;
+        double newY = this.mStartOfArrow.y + dy;
+        this.mStartOfArrow = new Point.Double(newX, newY);
+        this.updateCenter();
+        this.mInput.moveInput(dx, dy);
+        this.mCmd.moveCmd(dx, dy);
+    }
+    public void moveEndingPt(double dx, double dy) {
+        double newX = this.mEndingPt.x + dx;
+        double newY = this.mEndingPt.y + dy;
+        this.mEndingPt = new Point.Double(newX, newY);
+        this.updateCenter();
+        this.mCmd.moveCmd(dx, dy);
+    }
+    
     
     private PSNode mStartingNode;
     public PSNode getStartingNode() {

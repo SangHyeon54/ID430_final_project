@@ -15,6 +15,7 @@ import ps.cmd.PSCmdToChangeQuasi;
 import ps.cmd.PSCmdToClearCurNodeName;
 import ps.cmd.PSCmdToCreateCurPtCurve;
 import ps.cmd.PSCmdToCreateCurNode;
+import ps.cmd.PSCmdToDeleteNodeEdge;
 import ps.cmd.PSCmdToUpdateCurPtCurve;
 import ps.cmd.PSCmdToUpdateNodeRadius;
 import x.XApp;
@@ -190,7 +191,9 @@ public class PSDrawNodeScenario extends XScenario {
                     PSCmdToChangeQuasi.execute(app);
                     break;
                 case KeyEvent.VK_DELETE:
-                    app.getNodeMgr().setCurNode(null);
+                    PSCmdToDeleteNodeEdge.execute(app, 
+                        app.getNodeMgr().getCurNode());
+                    app.getNodeMgr().setCurNode(null);                    
                     XCmdToChangeScene.execute(app, 
                         PSDefaultScenario.ReadyScene.getSingleton(), 
                         null);

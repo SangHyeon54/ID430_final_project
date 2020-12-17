@@ -39,4 +39,8 @@ public class PSEdgeMgr {
         this.mEdges.remove(index);
     }
     
+    public void removeEdge(PSEdge edge) {
+        this.mEdges.remove(edge);
+    }
+    
 }
