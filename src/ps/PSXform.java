@@ -80,41 +80,11 @@ public class PSXform {
         return true;
     }
 
-    public boolean rotateTo(Point pt) {
-        if (this.mStartingScreenPt == null) {
-            return false;
-        }
-        
-        this.mCurXformFromWorldToScreen.setTransform(
-                this.mStartXformFromWorldToScreen);
-        double ang0 = Math.atan2(this.mStartingScreenPt.y - PSXform.PIVOT_PT.y, 
-                this.mStartingScreenPt.x - PSXform.PIVOT_PT.x);
-        double ang1 = Math.atan2(pt.y - PSXform.PIVOT_PT.y, 
-                pt.x - PSXform.PIVOT_PT.x);
-        
-        double ang = ang1 - ang0;
-        
-        Point2D.Double worldPivotPt = this.calcPtFromScreenToWorld(PSXform.PIVOT_PT);
-        
-        // translate the screen coordinate system by (-dx , -dy)
-        this.mCurXformFromWorldToScreen.translate(
-            worldPivotPt.x, worldPivotPt.y);
-        // rotate the screen coordinate system by -ang
-        this.mCurXformFromWorldToScreen.rotate(ang);
-        // translate the screen coordinate system by (dx, dy)
-        this.mCurXformFromWorldToScreen.translate(
-            -worldPivotPt.x, -worldPivotPt.y);
-        
-        this.updateCurXformFromScreenToWorld();
-        
-        return true;
-    }
-
     void setPivot(Point pt) {
         PIVOT_PT = new Point(pt.x, pt.y);;
     }
 
-    public boolean zoomNRotateTo(Point pt) {
+    public boolean zoomTo(Point pt) {
         if (this.mStartingScreenPt == null) {
             return false;
         }
@@ -129,20 +99,11 @@ public class PSXform {
         double d1 = PSXform.PIVOT_PT.distance(pt);
         double s = d1/d0;
         
-        double ang0 = Math.atan2(this.mStartingScreenPt.y - PSXform.PIVOT_PT.y, 
-            this.mStartingScreenPt.x - PSXform.PIVOT_PT.x);
-        double ang1 = Math.atan2(pt.y - PSXform.PIVOT_PT.y, 
-            pt.x - PSXform.PIVOT_PT.x);
-        
-        double ang = ang1 - ang0;
-        
         Point2D.Double worldPivotPt = this.calcPtFromScreenToWorld(PSXform.PIVOT_PT);
         
         // translate the screen coordinate system by (-dx , -dy)
         this.mCurXformFromWorldToScreen.translate(
             worldPivotPt.x, worldPivotPt.y);
-        // rotate the screen coordinate system by -ang
-        this.mCurXformFromWorldToScreen.rotate(ang);
         //scale the screen coordinate system by (1/s, 1/s);
         this.mCurXformFromWorldToScreen.scale(s, s);
         // translate the screen coordinate system by (dx, dy)

@@ -5,24 +5,24 @@ import ps.PSApp;
 import x.XApp;
 import x.XLoggableCmd;
 
-public class PSCmdToZoomNRotate extends XLoggableCmd{
+public class PSCmdToZoom extends XLoggableCmd{
     private Point mScreenPt = null;
     
     //private constructor
-    private PSCmdToZoomNRotate(XApp app, Point pt) {
+    private PSCmdToZoom(XApp app, Point pt) {
         super(app);
         this.mScreenPt = pt;
     }
     
     public static boolean execute(XApp app, Point pt) {
-        PSCmdToZoomNRotate cmd = new PSCmdToZoomNRotate(app, pt);
+        PSCmdToZoom cmd = new PSCmdToZoom(app, pt);
         return cmd.execute();
     }
     
     @Override
     protected boolean defineCmd() {
         PSApp app = (PSApp) this.mApp;
-        app.getXform().zoomNRotateTo(this.mScreenPt);
+        app.getXform().zoomTo(this.mScreenPt);
         return true;
     }
 

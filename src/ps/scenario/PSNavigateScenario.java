@@ -11,7 +11,7 @@ import ps.PSScene;
 import ps.PSXform;
 import ps.cmd.PSCmdToPan;
 import ps.cmd.PSCmdToSetStartingScreenPtForXform;
-import ps.cmd.PSCmdToZoomNRotate;
+import ps.cmd.PSCmdToZoom;
 import x.XApp;
 import x.XCmdToChangeScene;
 import x.XScenario;
@@ -35,31 +35,31 @@ public class PSNavigateScenario extends XScenario {
     
     @Override
     protected void addScenes() {
-        this.addScene(PSNavigateScenario.ZoomNRotateReadyScene.
+        this.addScene(PSNavigateScenario.ZoomReadyScene.
             createSingleton(this));
         this.addScene(PSNavigateScenario.ZoomNRotateScene.
             createSingleton(this));
-        this.addScene(PSNavigateScenario.PanReadyScene.createSingleton(this));
+//        this.addScene(PSNavigateScenario.PanReadyScene.createSingleton(this));
         this.addScene(PSNavigateScenario.PanScene.createSingleton(this));
     }
     
-    public static class ZoomNRotateReadyScene extends PSScene {
+    public static class ZoomReadyScene extends PSScene {
 
-        private static ZoomNRotateReadyScene mSingleton = null;
-        public static ZoomNRotateReadyScene getSingleton() {
-            assert(ZoomNRotateReadyScene.mSingleton != null);
-            return ZoomNRotateReadyScene.mSingleton;
+        private static ZoomReadyScene mSingleton = null;
+        public static ZoomReadyScene getSingleton() {
+            assert(ZoomReadyScene.mSingleton != null);
+            return ZoomReadyScene.mSingleton;
         }
         
-        public static ZoomNRotateReadyScene createSingleton(
+        public static ZoomReadyScene createSingleton(
             XScenario scenario) {
-            assert(ZoomNRotateReadyScene.mSingleton == null);
-            ZoomNRotateReadyScene.mSingleton = 
-                new ZoomNRotateReadyScene(scenario);
-            return ZoomNRotateReadyScene.mSingleton;
+            assert(ZoomReadyScene.mSingleton == null);
+            ZoomReadyScene.mSingleton = 
+                new ZoomReadyScene(scenario);
+            return ZoomReadyScene.mSingleton;
         }
         
-        private ZoomNRotateReadyScene(XScenario scenario) {
+        private ZoomReadyScene(XScenario scenario) {
             super(scenario);
         }
         
@@ -85,14 +85,6 @@ public class PSNavigateScenario extends XScenario {
         public void handleKeyDown(KeyEvent e) {
             int code = e.getKeyCode();
             PSApp app = (PSApp) this.mScenario.getApp();
-            
-            switch (code) {
-                case KeyEvent.VK_ALT:
-                    XCmdToChangeScene.execute(app, 
-                        PSNavigateScenario.PanReadyScene.getSingleton(), 
-                        this.getReturnScene());
-                    break;
-            }
         }
 
         @Override
@@ -158,14 +150,14 @@ public class PSNavigateScenario extends XScenario {
         public void handleMouseDrag(MouseEvent e) {
             PSApp app = (PSApp) this.mScenario.getApp();
             Point pt = e.getPoint();
-            PSCmdToZoomNRotate.execute(app,pt);
+            PSCmdToZoom.execute(app,pt);
         }
 
         @Override
         public void handleMouseRelease(MouseEvent e) {
             PSApp app = (PSApp) this.mScenario.getApp();            
             XCmdToChangeScene.execute(app, 
-                PSNavigateScenario.ZoomNRotateReadyScene.getSingleton(),
+                PSNavigateScenario.ZoomReadyScene.getSingleton(),
                 this.getReturnScene());
         }
 
@@ -225,85 +217,85 @@ public class PSNavigateScenario extends XScenario {
         }
     }
     
-    public static class PanReadyScene extends PSScene {
-        private static PanReadyScene mSingleton = null;
-        public static PanReadyScene getSingleton() {
-            assert(PanReadyScene.mSingleton != null);
-            return PanReadyScene.mSingleton;
-        }
-        
-        public static PanReadyScene createSingleton(XScenario scenario) {
-            assert(PanReadyScene.mSingleton == null);
-            PanReadyScene.mSingleton = new PanReadyScene(scenario);
-            return PanReadyScene.mSingleton;
-        }
-        
-        private PanReadyScene(XScenario scenario) {
-            super(scenario);
-        }
-        
-        @Override
-        public void handleMousePress(MouseEvent e) {
-            PSApp app = (PSApp) this.mScenario.getApp();
-            Point pt = e.getPoint();
-            PSCmdToSetStartingScreenPtForXform.execute(app, pt);
-            
-            XCmdToChangeScene.execute(app, 
-                PSNavigateScenario.PanScene.getSingleton(),
-                this.getReturnScene());
-        }
-
-        @Override
-        public void handleMouseDrag(MouseEvent e) {
-        }
-
-        @Override
-        public void handleMouseRelease(MouseEvent e) {
-        }
-
-        @Override
-        public void handleKeyDown(KeyEvent e) {
-        }
-
-        @Override
-        public void handleKeyUp(KeyEvent e) {
-            int code = e.getKeyCode();
-            PSApp app = (PSApp) this.mScenario.getApp();
-            
-            switch (code) {
-                case KeyEvent.VK_CONTROL:
-                    XCmdToChangeScene.execute(app, 
-                        this.getReturnScene(),null);
-                    break;
-                case KeyEvent.VK_ALT:
-                    XCmdToChangeScene.execute(app, 
-                        PSNavigateScenario.ZoomNRotateReadyScene.
-                        getSingleton(), this.getReturnScene());
-                    break;
-            }
-        }
-
-        @Override
-        public void updateSupportObjects() {
-        }
-
-        @Override
-        public void renderWorldOjbects(Graphics2D g2) {
-        }
-
-        @Override
-        public void renderScreenOjbects(Graphics2D g2) {
-        }
-
-        @Override
-        public void getReady() {
-        }
-
-        @Override
-        public void wrapUp() {
-        }
-        
-    }
+//    public static class PanReadyScene extends PSScene {
+//        private static PanReadyScene mSingleton = null;
+//        public static PanReadyScene getSingleton() {
+//            assert(PanReadyScene.mSingleton != null);
+//            return PanReadyScene.mSingleton;
+//        }
+//        
+//        public static PanReadyScene createSingleton(XScenario scenario) {
+//            assert(PanReadyScene.mSingleton == null);
+//            PanReadyScene.mSingleton = new PanReadyScene(scenario);
+//            return PanReadyScene.mSingleton;
+//        }
+//        
+//        private PanReadyScene(XScenario scenario) {
+//            super(scenario);
+//        }
+//        
+//        @Override
+//        public void handleMousePress(MouseEvent e) {
+//            PSApp app = (PSApp) this.mScenario.getApp();
+//            Point pt = e.getPoint();
+//            PSCmdToSetStartingScreenPtForXform.execute(app, pt);
+//            
+//            XCmdToChangeScene.execute(app, 
+//                PSNavigateScenario.PanScene.getSingleton(),
+//                this.getReturnScene());
+//        }
+//
+//        @Override
+//        public void handleMouseDrag(MouseEvent e) {
+//        }
+//
+//        @Override
+//        public void handleMouseRelease(MouseEvent e) {
+//        }
+//
+//        @Override
+//        public void handleKeyDown(KeyEvent e) {
+//        }
+//
+//        @Override
+//        public void handleKeyUp(KeyEvent e) {
+//            int code = e.getKeyCode();
+//            PSApp app = (PSApp) this.mScenario.getApp();
+//            
+//            switch (code) {
+//                case KeyEvent.VK_CONTROL:
+//                    XCmdToChangeScene.execute(app, 
+//                        this.getReturnScene(),null);
+//                    break;
+//                case KeyEvent.VK_ALT:
+//                    XCmdToChangeScene.execute(app, 
+//                        PSNavigateScenario.ZoomReadyScene.
+//                        getSingleton(), this.getReturnScene());
+//                    break;
+//            }
+//        }
+//
+//        @Override
+//        public void updateSupportObjects() {
+//        }
+//
+//        @Override
+//        public void renderWorldOjbects(Graphics2D g2) {
+//        }
+//
+//        @Override
+//        public void renderScreenOjbects(Graphics2D g2) {
+//        }
+//
+//        @Override
+//        public void getReady() {
+//        }
+//
+//        @Override
+//        public void wrapUp() {
+//        }
+//        
+//    }
     
     public static class PanScene extends PSScene {
         private Point mPoint = null;
@@ -340,8 +332,8 @@ public class PSNavigateScenario extends XScenario {
         public void handleMouseRelease(MouseEvent e) {
             PSApp app = (PSApp) this.mScenario.getApp();            
             XCmdToChangeScene.execute(app, 
-                PSNavigateScenario.PanReadyScene.getSingleton(),
-                this.getReturnScene());
+                PSDefaultScenario.ReadyScene.getSingleton(), 
+                null);
         }
 
         @Override

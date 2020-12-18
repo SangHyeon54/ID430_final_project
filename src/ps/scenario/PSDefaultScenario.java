@@ -11,6 +11,7 @@ import ps.PSEdgeCmd;
 import ps.PSEdgeInput;
 import ps.PSNode;
 import ps.PSScene;
+import ps.cmd.PSCmdToSetStartingScreenPtForXform;
 import x.XApp;
 import x.XCmdToChangeScene;
 import x.XScenario;
@@ -100,6 +101,14 @@ public class PSDefaultScenario extends XScenario {
                     this);
             }
             
+            if (app.getNodeMgr().getCurNode() == null &&
+                app.getEdgeMgr().getCurEdge() == null) {
+                PSCmdToSetStartingScreenPtForXform.execute(app, pt);
+                XCmdToChangeScene.execute(app, 
+                    PSNavigateScenario.PanScene.getSingleton(), 
+                    this.getReturnScene());
+            }
+            
         }
 
         @Override
@@ -126,7 +135,7 @@ public class PSDefaultScenario extends XScenario {
                     break;
                 case KeyEvent.VK_CONTROL:
                     XCmdToChangeScene.execute(app, 
-                        PSNavigateScenario.ZoomNRotateReadyScene.getSingleton(), 
+                        PSNavigateScenario.ZoomReadyScene.getSingleton(), 
                         this);
                     break;
                 case KeyEvent.VK_M:
