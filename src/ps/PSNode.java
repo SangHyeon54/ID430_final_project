@@ -111,16 +111,17 @@ public class PSNode extends Ellipse2D.Double {
     }
     
     public void moveEdgePoints(double dx, double dy) {
-        for(PSEdge edge : this.mEdgeStart) {
+        for (PSEdge edge : this.mEdgeStart) {
             edge.moveStartOfArrow(dx, dy);
+            edge.moveStartingPt(dx, dy);
         }
-        for(PSEdge edge : this.mEdgeEnd) {
+        for (PSEdge edge : this.mEdgeEnd) {
             edge.moveEndingPt(dx, dy);
         }
     }
     
     public void moveNamePtCurves(double dx, double dy) {
-        for(PSPtCurve pc : this.mName) {
+        for (PSPtCurve pc : this.mName) {
             pc.movePtCurve(dx, dy);
         }
     }

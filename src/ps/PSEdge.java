@@ -61,6 +61,11 @@ public class PSEdge {
         this.updateCenter();
         this.mCmd.moveCmd(dx, dy);
     }
+    public void moveStartingPt(double dx, double dy) {
+        double newX = this.mStartingPt.x + dx;
+        double newY = this.mStartingPt.y + dy;
+        this.mStartingPt = new Point.Double(newX, newY);
+    }
     
     
     private PSNode mStartingNode;
