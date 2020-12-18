@@ -60,7 +60,7 @@ public class PSApp extends XApp {
         // step 1: create components
         // 1) frame, 2) canvas, 3) other components,
         // 4) eventlistener 5) manager
-        this.mFrame = new JFrame("JustSketchIt");
+        this.mFrame = new JFrame("Program Scenarist");
         this.mCanvas2D = new PSCanvas2D(this);
         this.mXform = new PSXform();
         this.mEventListener = new PSEventListener(this);

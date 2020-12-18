@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class PSEdgeCmd extends Rectangle2D.Double {    
     // constants
-    public static final double WIDTH = 100;
-    public static final double HEIGHT = 30;
+    public static final double WIDTH = 150;
+    public static final double HEIGHT = 50;
     
     private Point.Double mCorneredCenter = null;
     public void setCorneredCenter(Point.Double pt) {

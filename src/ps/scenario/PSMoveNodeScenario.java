@@ -105,7 +105,7 @@ public class PSMoveNodeScenario extends XScenario {
             PSApp app = (PSApp)this.mScenario.getApp();
             
             switch (code) {
-                case KeyEvent.VK_M:
+                case KeyEvent.VK_SHIFT:
                     XCmdToChangeScene.execute(app, this.mReturnScene, null);
                     break;
             }
@@ -182,7 +182,7 @@ public class PSMoveNodeScenario extends XScenario {
             PSApp app = (PSApp)this.mScenario.getApp();
             
             switch (code) {
-                case KeyEvent.VK_M:
+                case KeyEvent.VK_SHIFT:
                     XCmdToChangeScene.execute(app, this.mReturnScene, null);
                     break;
             }
