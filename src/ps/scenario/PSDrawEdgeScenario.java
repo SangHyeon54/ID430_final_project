@@ -161,7 +161,7 @@ public class PSDrawEdgeScenario extends XScenario {
             
             switch (code) {
                 case KeyEvent.VK_A:
-                    app.getNodeMgr().setCurNode(null);
+                    app.getEdgeMgr().setCurEdge(null);
                     XCmdToChangeScene.execute(app, this.mReturnScene, null);
                     break;
             }
