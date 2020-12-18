@@ -60,24 +60,6 @@ public class PSDefaultScenario extends XScenario {
             PSApp app = (PSApp) this.mScenario.getApp();
             Point pt = e.getPoint();
             Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
-            ArrayList<PSNode> nodes = app.getNodeMgr().getNodes();
-            for (int i = 0; i < nodes.size(); i ++) {
-                PSNode node = nodes.get(i);
-                // if the point is inside of node.
-                if (node.getCenter().distance(mWorldPt.x, mWorldPt.y) < 
-                    node.getRadius()) {
-                    app.getNodeMgr().setCurNode(node);
-                    app.getNodeMgr().removeNode(i);
-                    break;
-                }
-            }
-            
-            if (app.getNodeMgr().getCurNode() != null) {
-                XCmdToChangeScene.execute(app,
-                    PSDrawNodeScenario.EditNodeReadyScene.getSingleton(),
-                    this);
-                return;
-            }
             
             // if you click any of edge input
             ArrayList<PSEdge> edges = app.getEdgeMgr().getEdges();
@@ -99,8 +81,31 @@ public class PSDefaultScenario extends XScenario {
                 XCmdToChangeScene.execute(app,
                     PSDrawEdgeScenario.EditEdgeReadyScene.getSingleton(),
                     this);
+            } else {
+                //if you click any of nodes
+                ArrayList<PSNode> nodes = app.getNodeMgr().getNodes();
+                for (int i = 0; i < nodes.size(); i ++) {
+                    PSNode node = nodes.get(i);
+                    // if the point is inside of node.
+                    if (node.getCenter().distance(mWorldPt.x, mWorldPt.y) < 
+                        node.getRadius()) {
+                        app.getNodeMgr().setCurNode(node);
+                        app.getNodeMgr().removeNode(i);
+                        break;
+                    }
+                }
+
+                if (app.getNodeMgr().getCurNode() != null) {
+                    XCmdToChangeScene.execute(app,
+                        PSDrawNodeScenario.EditNodeReadyScene.getSingleton(),
+                        this);
+                    return;
+                }
             }
             
+            
+            
+            //if none of node and edges are selected
             if (app.getNodeMgr().getCurNode() == null &&
                 app.getEdgeMgr().getCurEdge() == null) {
                 PSCmdToSetStartingScreenPtForXform.execute(app, pt);

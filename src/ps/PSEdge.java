@@ -133,13 +133,13 @@ public class PSEdge {
             int posX = (int) Math.round(this.getCenter().x);
             int posY = (int) Math.round(this.getCenter().y);
 
-            g2.drawString(this.getReturnScene(), posX, posY + 10);
             this.mInput.drawInput(g2, c, s);
                //lets refactor this part lator its so messy
             if (isSelfLoop) {
                 this.mCmd.updateEdgeCmd(new Point.Double(posX, posY));
             } else {
                 this.mCmd.updateEdgeCmd(new Point.Double(posX, posY - 10));
+                g2.drawString(this.getReturnScene(), posX, posY + 10);
             }
             this.mCmd.drawCmd(g2, c, s);
         }        
