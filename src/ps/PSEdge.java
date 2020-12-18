@@ -11,7 +11,9 @@ public class PSEdge {
     public static final double INPUT_AND_NODE_OVERLAPPING_DISTANCE = 20;
     public static final int SELF_LOOP_DIAMETER = 50;
     public static final int GAP_BETW_SELF_LOOP_AND_NODE = 40;
-//    public static final int ARROW_HEAD_LENGTH = 10;
+    public static final int DIST_BETW_ARROW_AND_CMD = 10;
+    public static final int ARROW_HEAD_LENGTH = 10;
+    public static final double ARROW_HEAD_ANGLE = 0.5;
 
     // field
     private Point.Double mCenter = null;
@@ -138,8 +140,10 @@ public class PSEdge {
             if (isSelfLoop) {
                 this.mCmd.updateEdgeCmd(new Point.Double(posX, posY));
             } else {
-                this.mCmd.updateEdgeCmd(new Point.Double(posX, posY - 10));
-                g2.drawString(this.getReturnScene(), posX, posY + 10);
+                this.mCmd.updateEdgeCmd(new Point.Double(
+                    posX, posY - DIST_BETW_ARROW_AND_CMD));
+                g2.drawString(this.getReturnScene(), 
+                    posX, posY + DIST_BETW_ARROW_AND_CMD);
             }
             this.mCmd.drawCmd(g2, c, s);
         }        
@@ -150,13 +154,12 @@ public class PSEdge {
         double dy = mEndingPt.y - mStartingPt.y;
         double angleParallel = Math.atan2(dy, dx);
         
-        double angle1 = angleParallel - 0.5;
-        double angle2 = angleParallel + 0.5;
-        double length = 10;
-        double pt1x = mEndingPt.x - length * Math.cos(angle1);
-        double pt1y = mEndingPt.y - length * Math.sin(angle1);
-        double pt2x = mEndingPt.x - length * Math.cos(angle2);
-        double pt2y = mEndingPt.y - length * Math.sin(angle2);
+        double angle1 = angleParallel - ARROW_HEAD_ANGLE;
+        double angle2 = angleParallel + ARROW_HEAD_ANGLE;
+        double pt1x = mEndingPt.x - ARROW_HEAD_LENGTH * Math.cos(angle1);
+        double pt1y = mEndingPt.y - ARROW_HEAD_LENGTH * Math.sin(angle1);
+        double pt2x = mEndingPt.x - ARROW_HEAD_LENGTH * Math.cos(angle2);
+        double pt2y = mEndingPt.y - ARROW_HEAD_LENGTH * Math.sin(angle2);
         
         g2.draw(new Line2D.Double(
             pt1x, pt1y, mEndingPt.x, mEndingPt.y));      
@@ -238,8 +241,6 @@ public class PSEdge {
             + GAP_BETW_SELF_LOOP_AND_NODE * Math.cos(angle);
         double posY = mStartOfArrow.y - SELF_LOOP_DIAMETER / 2
             + GAP_BETW_SELF_LOOP_AND_NODE * Math.sin(angle);
-//        double posX = mStartOfArrow.x - r;
-//        double posY = mStartOfArrow.y - r;
 
         this.mSelfLoopPos = new Point.Double(posX, posY);
     }
@@ -252,14 +253,13 @@ public class PSEdge {
         
         double angle1 = angleParallel - 0.5;
         double angle2 = angleParallel + 0.5;
-        double length = 10;
         double pt0x = mStartOfArrow.x - 29 * Math.cos(anglePt0);
         double pt0y = mStartOfArrow.y - 29 * Math.sin(anglePt0);
         
-        double pt1x = pt0x - length * Math.cos(angle1);
-        double pt1y = pt0y - length * Math.sin(angle1);
-        double pt2x = pt0x - length * Math.cos(angle2);
-        double pt2y = pt0y - length * Math.sin(angle2);
+        double pt1x = pt0x - ARROW_HEAD_LENGTH * Math.cos(angle1);
+        double pt1y = pt0y - ARROW_HEAD_LENGTH * Math.sin(angle1);
+        double pt2x = pt0x - ARROW_HEAD_LENGTH * Math.cos(angle2);
+        double pt2y = pt0y - ARROW_HEAD_LENGTH * Math.sin(angle2);
         
         g2.draw(new Line2D.Double(
             pt1x, pt1y, pt0x, pt0y));      
@@ -277,8 +277,6 @@ public class PSEdge {
             + d * Math.cos(angle);
         double posY = mStartOfArrow.y
             + d * Math.sin(angle);
-//        double posX = mStartOfArrow.x - r;
-//        double posY = mStartOfArrow.y - r;
 
         this.mCenter = new Point.Double(posX, posY);
     }
