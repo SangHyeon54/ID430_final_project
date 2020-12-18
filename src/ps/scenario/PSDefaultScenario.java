@@ -75,6 +75,7 @@ public class PSDefaultScenario extends XScenario {
                 XCmdToChangeScene.execute(app,
                     PSDrawNodeScenario.EditNodeReadyScene.getSingleton(),
                     this);
+                return;
             }
             
             // if you click any of edge input
@@ -126,6 +127,11 @@ public class PSDefaultScenario extends XScenario {
                 case KeyEvent.VK_CONTROL:
                     XCmdToChangeScene.execute(app, 
                         PSNavigateScenario.ZoomNRotateReadyScene.getSingleton(), 
+                        this);
+                    break;
+                case KeyEvent.VK_M:
+                    XCmdToChangeScene.execute(app, 
+                        PSMoveNodeScenario.MoveNodeReadyScene.getSingleton(), 
                         this);
                     break;
             }

@@ -20,6 +20,7 @@ import ps.cmd.PSCmdToClearCurEdgeCmd;
 import ps.cmd.PSCmdToClearCurEdgeInput;
 import ps.cmd.PSCmdToCreateCurPtCurve;
 import ps.cmd.PSCmdToCreateCurEdge;
+import ps.cmd.PSCmdToDeleteEdgeInfo;
 import ps.cmd.PSCmdToSaveCurEdge;
 import ps.cmd.PSCmdToUpdateCurPtCurve;
 import ps.cmd.PSCmdToUpdateEdgeArrow;
@@ -253,6 +254,10 @@ public class PSDrawEdgeScenario extends XScenario {
                     PSCmdToClearCurEdgeInput.execute(app);
                     break;
                 case KeyEvent.VK_DELETE:
+                    PSCmdToDeleteEdgeInfo.execute(app, 
+                        app.getEdgeMgr().getCurEdge(), 
+                        app.getEdgeMgr().getCurEdge().getStartingNode(),
+                        app.getEdgeMgr().getCurEdge().getEndingNode());
                     app.getEdgeMgr().setCurEdge(null);
                     XCmdToChangeScene.execute(app, 
                         PSDefaultScenario.ReadyScene.getSingleton(), 

@@ -58,4 +58,13 @@ public class PSPtCurve {
     public void addPt(Point2D.Double pt) {
         this.mPts.add(pt);
     }
+    
+    public void movePtCurve(double dx, double dy) {
+        for (int i = 0; i < this.mPts.size(); i++) {
+            Point2D.Double prevPt = mPts.get(i);
+            Point2D.Double newPt = new Point2D.Double(prevPt.x + dx, 
+                prevPt.y + dy);
+            this.mPts.set(i, newPt);
+        }
+    }
 }

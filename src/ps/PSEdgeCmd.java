@@ -69,4 +69,10 @@ public class PSEdgeCmd extends Rectangle2D.Double {
     public void clearCmdPtCurve() {
         this.mCmdPtCurve.clear();
     }
+    
+    public void moveCmd(double dx, double dy) {
+        for(PSPtCurve pc : this.mCmdPtCurve) {
+            pc.movePtCurve(dx/2, dy/2);
+        }
+    }
 }
