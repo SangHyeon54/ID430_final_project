@@ -10,15 +10,17 @@ public class PSCmdToUpdateEdgeArrow extends XLoggableCmd {
         //fields
     private Point mScreenPt = null;
     private Point.Double mWorldPt = null;
+    private boolean isSelfLoopCondition = false;
 
     //private constructor
-    private PSCmdToUpdateEdgeArrow(XApp app, Point pt) {
+    private PSCmdToUpdateEdgeArrow(XApp app, Point pt, boolean cond) {
         super(app);
         this.mScreenPt = pt;
+        this.isSelfLoopCondition = cond;
     }
     
-    public static boolean execute(XApp app, Point pt) {
-        PSCmdToUpdateEdgeArrow cmd = new PSCmdToUpdateEdgeArrow(app, pt);
+    public static boolean execute(XApp app, Point pt, boolean cond) {
+        PSCmdToUpdateEdgeArrow cmd = new PSCmdToUpdateEdgeArrow(app, pt, cond);
         return cmd.execute();
     }
     
@@ -26,24 +28,8 @@ public class PSCmdToUpdateEdgeArrow extends XLoggableCmd {
     protected boolean defineCmd() {
         PSApp app = (PSApp) this.mApp;
         PSEdge curEdge = app.getEdgeMgr().getCurEdge();
-//        Point2D.Double nodeCenter = curNode.getCenter();
-        
-//        this.mWorldPt = app.getXform().calcPtFromScreenToWorld(this.mScreenPt);
-//        
-//        Point CenterScreenPt = app.getXform().calcPtFromWorldToScreen(
-//            nodeCenter);
-//        
-//        if (this.mWorldPt.distance(nodeCenter) < 
-//            PSNode.MIN_RADIUS) {
-//            return false;
-//        }
-//        if (this.mWorldPt.distance(nodeCenter) > 
-//            PSNode.MAX_RADIUS) {
-//            return false;
-//        }
-//
         mWorldPt = app.getXform().calcPtFromScreenToWorld(this.mScreenPt);
-        curEdge.updateArrow(mWorldPt);
+        curEdge.updateArrow(mWorldPt, isSelfLoopCondition);
         
         return true;
     }

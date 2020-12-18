@@ -94,16 +94,21 @@ public class PSDrawEdgeScenario extends XScenario {
             Point pt = e.getPoint();
             Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
             ArrayList<PSNode> mNodes = app.getNodeMgr().getNodes();
+            PSNode curNode = app.getEdgeMgr().getCurEdge().getStartingNode();
 
             boolean isInNode = false;
+            boolean isSelfLoopCondition = false;
             // check if the final position includes node or not
             for (PSNode node : mNodes) {
                 if (node.contains(mWorldPt)) {
                     isInNode = true;
+                    if (node == curNode) {
+                        isSelfLoopCondition = true;
+                    }
                 }
             }
-            if (!isInNode) {
-                PSCmdToUpdateEdgeArrow.execute(app, pt);
+            if (!isInNode || isSelfLoopCondition) {
+                PSCmdToUpdateEdgeArrow.execute(app, pt, isSelfLoopCondition);
             }
         }
 
