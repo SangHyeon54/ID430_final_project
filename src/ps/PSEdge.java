@@ -199,10 +199,11 @@ public class PSEdge {
 
     //update with a new point
     public void updateArrow(Point.Double pt, boolean cond) {
+        this.mEndingPt = pt;
+        this.isSelfLoop = cond;
+  
         double centerX = (mEndingPt.x + mStartOfArrow.x) / 2;
         double centerY = (mEndingPt.y + mStartOfArrow.y) / 2;
-
-        this.mEndingPt = pt;
         this.mCenter = new Point.Double(centerX, centerY);
     }
     

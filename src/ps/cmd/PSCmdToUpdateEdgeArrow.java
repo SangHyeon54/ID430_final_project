@@ -7,7 +7,7 @@ import x.XApp;
 import x.XLoggableCmd;
 
 public class PSCmdToUpdateEdgeArrow extends XLoggableCmd {
-        //fields
+    //fields
     private Point mScreenPt = null;
     private Point.Double mWorldPt = null;
     private boolean isSelfLoopCondition = false;
