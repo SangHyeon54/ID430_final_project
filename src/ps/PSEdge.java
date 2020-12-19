@@ -8,8 +8,7 @@ import java.awt.geom.Line2D;
 
 public class PSEdge {
     // constants
-    // even though they are all private,
-    // put them here for easier modification
+    // even though they are all private, put them here for easier modification
     private static final double INPUT_AND_NODE_OVERLAPPING_DISTANCE = 20;
     private static final int SELF_LOOP_DIAMETER = 50;
     private static final int GAP_BETW_SELF_LOOP_AND_NODE = 40;
@@ -17,9 +16,6 @@ public class PSEdge {
     private static final int ARROW_HEAD_LENGTH = 10;
     private static final double ARROW_HEAD_ANGLE = 0.5;
 
-    // field
-    
-    
     // mouse position
     private Point.Double mStartingPt = null;
     private Point.Double mEndingPt = null; // same es end of arrow
