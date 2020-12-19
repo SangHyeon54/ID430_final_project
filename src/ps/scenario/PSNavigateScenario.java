@@ -184,9 +184,7 @@ public class PSNavigateScenario extends XScenario {
             
             switch (code) {
                 case KeyEvent.VK_CONTROL:
-                    XCmdToChangeScene.execute(app, 
-                        this.getReturnScene(), 
-                        null);
+                    XCmdToChangeScene.execute(app, this.getReturnScene(), null);
                     break;
             }
         }

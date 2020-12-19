@@ -161,8 +161,7 @@ public class PSDrawNodeScenario extends XScenario {
                 PSCmdToAddCurNodeToNodes.execute(app);
                 app.getNodeMgr().setCurNode(null);
                 XCmdToChangeScene.execute(app, 
-                    PSDefaultScenario.ReadyScene.getSingleton(), 
-                    null);
+                    PSDefaultScenario.ReadyScene.getSingleton(), null);
             }
         }
 
@@ -189,15 +188,13 @@ public class PSDrawNodeScenario extends XScenario {
                     break;
                 case KeyEvent.VK_CONTROL:
                     XCmdToChangeScene.execute(app, 
-                        PSNavigateScenario.ZoomReadyScene.getSingleton(), 
-                        this);
+                        PSNavigateScenario.ZoomReadyScene.getSingleton(), this);
                     break;
                 case KeyEvent.VK_A:
                     PSCmdToAddCurNodeToNodes.execute(app);
                     app.getNodeMgr().setCurNode(null);
                     XCmdToChangeScene.execute(app, 
-                        PSDrawEdgeScenario.DrawEdgeScene.getSingleton(), 
-                        this);
+                        PSDrawEdgeScenario.DrawEdgeScene.getSingleton(), this);
                     break;
             }
         }
@@ -219,15 +216,13 @@ public class PSDrawNodeScenario extends XScenario {
                         app.getNodeMgr().getCurNode());
                     app.getNodeMgr().setCurNode(null);                    
                     XCmdToChangeScene.execute(app, 
-                        PSDefaultScenario.ReadyScene.getSingleton(), 
-                        null);
+                        PSDefaultScenario.ReadyScene.getSingleton(), null);
                     break;
                 case KeyEvent.VK_ENTER:
                     PSCmdToAddCurNodeToNodes.execute(app);
                     app.getNodeMgr().setCurNode(null);
                     XCmdToChangeScene.execute(app, 
-                        PSDefaultScenario.ReadyScene.getSingleton(), 
-                        null);
+                        PSDefaultScenario.ReadyScene.getSingleton(), null);
                     break;
             }
         }

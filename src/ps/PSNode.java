@@ -74,7 +74,7 @@ public class PSNode extends Ellipse2D.Double {
     //constructor
     public PSNode (Point.Double pt) {
         super(pt.x - PSNode.MIN_RADIUS, pt.y - PSNode.MIN_RADIUS,
-                PSNode.MIN_RADIUS * 2, PSNode.MIN_RADIUS * 2);
+            PSNode.MIN_RADIUS * 2, PSNode.MIN_RADIUS * 2);
         this.mRadius = PSNode.MIN_RADIUS;
         this.mCenter = new Point.Double(pt.x, pt.y);
         this.mName = new ArrayList<PSPtCurve>();
@@ -84,7 +84,7 @@ public class PSNode extends Ellipse2D.Double {
     
     public void drawNode(Graphics2D g2, Color c, Stroke s) {
         g2.setPaint(PSCanvas2D.COLOR_NODE_ELLIPSE_BG);
-        g2.fill (this);
+        g2.fill(this);
         g2.setColor(c);
         g2.setStroke(s);
         g2.draw(this);
@@ -101,7 +101,7 @@ public class PSNode extends Ellipse2D.Double {
     public void moveNode(Point.Double pt) {
         this.prevCenter = this.mCenter;
         this.setFrame(pt.x - this.mMovePointX, pt.y - this.mMovePointY,
-                this.mRadius * 2, this.mRadius * 2);
+            this.mRadius * 2, this.mRadius * 2);
         this.mCenter = new Point.Double(pt.x - this.mMovePointX + this.mRadius, 
             pt.y - this.mMovePointY + this.mRadius);
         double dx = this.mCenter.x - this.prevCenter.x;
