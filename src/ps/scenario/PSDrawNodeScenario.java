@@ -185,6 +185,18 @@ public class PSDrawNodeScenario extends XScenario {
                         PSMoveNodeScenario.MoveNodeReadyScene.getSingleton(), 
                         this);
                     break;
+                case KeyEvent.VK_CONTROL:
+                    XCmdToChangeScene.execute(app, 
+                        PSNavigateScenario.ZoomReadyScene.getSingleton(), 
+                        this);
+                    break;
+                case KeyEvent.VK_A:
+                    PSCmdToAddCurNodeToNodes.execute(app);
+                    app.getNodeMgr().setCurNode(null);
+                    XCmdToChangeScene.execute(app, 
+                        PSDrawEdgeScenario.DrawEdgeScene.getSingleton(), 
+                        this);
+                    break;
             }
         }
 
