@@ -63,12 +63,28 @@ public class PSMoveNodeScenario extends XScenario {
             PSApp app = (PSApp)this.mScenario.getApp();
             Point pt = e.getPoint();
             Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
+            
+            // if three is already curNode, it is from Edit Node Scene
+            // so, just move the curNode
+            if (app.getNodeMgr().getCurNode() != null) {
+                // the point is in node
+                if(app.getNodeMgr().getCurNode().contains(mWorldPt))
+                {
+                    PSCmdToSetMovePoint.execute(app, pt,
+                        app.getNodeMgr().getCurNode());
+                    XCmdToChangeScene.execute(app,
+                        PSMoveNodeScenario.MoveNodeScene.getSingleton(),
+                        this.mReturnScene);
+                    
+                }
+                return;
+            }
+            
             ArrayList<PSNode> nodes = app.getNodeMgr().getNodes();
             for (int i = 0; i < nodes.size(); i ++) {
                 PSNode node = nodes.get(i);
-                // if the point is inside of node.
-                if (node.getCenter().distance(mWorldPt.x, mWorldPt.y) < 
-                    node.getRadius()) {
+                // if the point is in node.
+                if (node.contains(mWorldPt)) {
                     app.getNodeMgr().setCurNode(node);
                     app.getNodeMgr().removeNode(i);
                     break;
@@ -207,8 +223,10 @@ public class PSMoveNodeScenario extends XScenario {
         @Override
         public void wrapUp() {
             PSApp app = (PSApp)this.mScenario.getApp();
-            PSCmdToAddCurNodeToNodes.execute(app);
-            app.getNodeMgr().setCurNode(null);
+            if(this.mReturnScene == PSDefaultScenario.ReadyScene.getSingleton()) {
+                PSCmdToAddCurNodeToNodes.execute(app);
+                app.getNodeMgr().setCurNode(null);
+            }
         }
     }
 }

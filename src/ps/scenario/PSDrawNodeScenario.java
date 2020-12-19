@@ -176,6 +176,16 @@ public class PSDrawNodeScenario extends XScenario {
 
         @Override
         public void handleKeyDown(KeyEvent e) {
+            int code = e.getKeyCode();
+            PSApp app = (PSApp)this.mScenario.getApp();
+            
+            switch (code) {
+                case KeyEvent.VK_SHIFT:
+                    XCmdToChangeScene.execute(app, 
+                        PSMoveNodeScenario.MoveNodeReadyScene.getSingleton(), 
+                        this);
+                    break;
+            }
         }
 
         @Override

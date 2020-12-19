@@ -25,18 +25,44 @@ public class PSNodeMgr {
         return this.mNodes;
     }
     
-    private ArrayList<PSNode> mSelectedNodes = null;
-    public ArrayList<PSNode> getSelectedNodes() {
-        return this.mSelectedNodes;
+//    private ArrayList<PSNode> mSelectedNodes = null;
+//    public ArrayList<PSNode> getSelectedNodes() {
+//        return this.mSelectedNodes;
+//    }
+    
+    private PSReturnNode mCurReturnNode = null;
+    public PSReturnNode getCurReturnNode() {
+        return this.mCurReturnNode;
+    }
+    public void setCurReturnNode(PSReturnNode rNode) {
+        this.mCurReturnNode = rNode;
+    }
+    
+    private ArrayList<PSReturnNode> mReturnNodes = null;
+    public ArrayList<PSReturnNode> getReturnNodes() {
+        return this.mReturnNodes;
     }
     
     public PSNodeMgr() {
         this.mNodes = new ArrayList<PSNode>();
-        this.mSelectedNodes = new ArrayList<PSNode>();
+        this.mReturnNodes = new ArrayList<PSReturnNode>();
+//        this.mSelectedNodes = new ArrayList<PSNode>();
+    }
+    
+    public void addNode(PSNode node) {
+        this.mNodes.add(node);
     }
     
     public void removeNode(int index) {
         this.mNodes.remove(index);
+    }
+    
+    public void addReturnNode(PSReturnNode rNode) {
+        this.mReturnNodes.add(rNode);
+    }
+    
+    public void removeReturnNode(int index) {
+        this.mReturnNodes.remove(index);
     }
     
 }

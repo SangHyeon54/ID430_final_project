@@ -37,7 +37,7 @@ public class PSNavigateScenario extends XScenario {
     protected void addScenes() {
         this.addScene(PSNavigateScenario.ZoomReadyScene.
             createSingleton(this));
-        this.addScene(PSNavigateScenario.ZoomNRotateScene.
+        this.addScene(PSNavigateScenario.ZoomScene.
             createSingleton(this));
 //        this.addScene(PSNavigateScenario.PanReadyScene.createSingleton(this));
         this.addScene(PSNavigateScenario.PanScene.createSingleton(this));
@@ -69,7 +69,7 @@ public class PSNavigateScenario extends XScenario {
             Point pt = e.getPoint();
             PSCmdToSetStartingScreenPtForXform.execute(app, pt);
             XCmdToChangeScene.execute(app, 
-                PSNavigateScenario.ZoomNRotateScene.getSingleton(),
+                PSNavigateScenario.ZoomScene.getSingleton(),
                 this.getReturnScene());
         }
 
@@ -125,20 +125,20 @@ public class PSNavigateScenario extends XScenario {
         
     }
     
-    public static class ZoomNRotateScene extends PSScene {
-        private static ZoomNRotateScene mSingleton = null;
-        public static ZoomNRotateScene getSingleton() {
-            assert(ZoomNRotateScene.mSingleton != null);
-            return ZoomNRotateScene.mSingleton;
+    public static class ZoomScene extends PSScene {
+        private static ZoomScene mSingleton = null;
+        public static ZoomScene getSingleton() {
+            assert(ZoomScene.mSingleton != null);
+            return ZoomScene.mSingleton;
         }
         
-        public static ZoomNRotateScene createSingleton(XScenario scenario) {
-            assert(ZoomNRotateScene.mSingleton == null);
-            ZoomNRotateScene.mSingleton = new ZoomNRotateScene(scenario);
-            return ZoomNRotateScene.mSingleton;
+        public static ZoomScene createSingleton(XScenario scenario) {
+            assert(ZoomScene.mSingleton == null);
+            ZoomScene.mSingleton = new ZoomScene(scenario);
+            return ZoomScene.mSingleton;
         }
         
-        private ZoomNRotateScene(XScenario scenario) {
+        private ZoomScene(XScenario scenario) {
             super(scenario);
         }
         
@@ -356,7 +356,7 @@ public class PSNavigateScenario extends XScenario {
                         getLastPt();
                     PSCmdToSetStartingScreenPtForXform.execute(app, penPt);
                     XCmdToChangeScene.execute(app, 
-                        PSNavigateScenario.ZoomNRotateScene.getSingleton(), 
+                        PSNavigateScenario.ZoomScene.getSingleton(), 
                         this.getReturnScene());
                     break;
             }

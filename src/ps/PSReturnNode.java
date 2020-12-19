@@ -9,11 +9,10 @@ import java.awt.geom.Point2D;
 import java.lang.Math;
 import java.util.ArrayList;
 
-public class PSNode extends Ellipse2D.Double {
+public class PSReturnNode extends Ellipse2D.Double {
     
     // constants
-    public static final double MIN_RADIUS = 30;
-    public static final double MAX_RADIUS = 100;
+    public static final double RADIUS = 30;
 
     // field
     private Point.Double mCenter = null;
@@ -24,30 +23,6 @@ public class PSNode extends Ellipse2D.Double {
     private double mRadius;
     public double getRadius() {
         return this.mRadius;
-    }
-    
-    private ArrayList<PSPtCurve> mName = null;
-    public ArrayList<PSPtCurve> getName() {
-        return this.mName;
-    }
-    
-    private boolean isQuasi = false;
-    public boolean getIsQuasi() {
-        return this.isQuasi;
-    }
-    public void changeQuasi() {
-        this.isQuasi = !isQuasi;
-    }
-    
-    private ArrayList<PSEdge> mEdgeStart;
-    public  ArrayList<PSEdge> getEdgeStart() {
-        return this.mEdgeStart;
-    }
-    public void addEdgeStart(PSEdge edge) {
-        this.mEdgeStart.add(edge);
-    }
-    public void removeEdgeStart(PSEdge edge) {
-        this.mEdgeStart.remove(edge);
     }
     
     private ArrayList<PSEdge> mEdgeEnd;
@@ -72,33 +47,22 @@ public class PSNode extends Ellipse2D.Double {
     private Point.Double prevCenter = null;
     
     //constructor
-    public PSNode (Point.Double pt) {
-        super(pt.x - PSNode.MIN_RADIUS, pt.y - PSNode.MIN_RADIUS,
-                PSNode.MIN_RADIUS * 2, PSNode.MIN_RADIUS * 2);
-        this.mRadius = PSNode.MIN_RADIUS;
+    public PSReturnNode (Point.Double pt) {
+        super(pt.x - PSReturnNode.RADIUS, pt.y - PSReturnNode.RADIUS,
+                PSReturnNode.RADIUS * 2, PSReturnNode.RADIUS * 2);
+        this.mRadius = PSReturnNode.RADIUS;
         this.mCenter = new Point.Double(pt.x, pt.y);
-        this.mName = new ArrayList<PSPtCurve>();
-        this.mEdgeStart = new ArrayList<PSEdge>();
         this.mEdgeEnd = new ArrayList<PSEdge>();
     }
     
-    public void drawNode(Graphics2D g2, Color c, Stroke s) {
+    public void drawReturnNode(Graphics2D g2, Color c, Stroke s) {
         g2.setPaint(PSCanvas2D.COLOR_NODE_ELLIPSE_BG);
-        g2.fill (this);
         g2.setColor(c);
         g2.setStroke(s);
         g2.draw(this);
     }
     
-    //update with a new point
-    public void updateRadius(Point.Double pt) {
-        float radius = (float) pt.distance(this.mCenter.x, this.mCenter.y);
-        this.setFrame(mCenter.x - radius, mCenter.y - radius,
-            radius * 2, radius * 2);
-        this.mRadius = radius;
-    }
-    
-    public void moveNode(Point.Double pt) {
+    public void moveReturnNode(Point.Double pt) {
         this.prevCenter = this.mCenter;
         this.setFrame(pt.x - this.mMovePointX, pt.y - this.mMovePointY,
                 this.mRadius * 2, this.mRadius * 2);
@@ -107,30 +71,11 @@ public class PSNode extends Ellipse2D.Double {
         double dx = this.mCenter.x - this.prevCenter.x;
         double dy = this.mCenter.y - this.prevCenter.y;
         moveEdgePoints(dx, dy);
-        moveNamePtCurves(dx, dy);
     }
     
     public void moveEdgePoints(double dx, double dy) {
-        for (PSEdge edge : this.mEdgeStart) {
-            edge.moveStartOfArrow(dx, dy);
-            edge.moveStartingPt(dx, dy);
-        }
         for (PSEdge edge : this.mEdgeEnd) {
             edge.moveEndingPt(dx, dy);
         }
-    }
-    
-    public void moveNamePtCurves(double dx, double dy) {
-        for (PSPtCurve pc : this.mName) {
-            pc.movePtCurve(dx, dy);
-        }
-    }
-    
-    public void addNamePtCurve(PSPtCurve pc) {
-        this.mName.add(pc);
-    }
-    
-    public void clearNamePtCurve() {
-        this.mName.clear();
     }
 }
