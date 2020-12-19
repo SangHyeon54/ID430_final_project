@@ -42,8 +42,10 @@ public class PSDrawNodeScenario extends XScenario {
     @Override
     protected void addScenes() {
         this.addScene(PSDrawNodeScenario.DrawNodeScene.createSingleton(this));
-        this.addScene(PSDrawNodeScenario.EditNodeReadyScene.createSingleton(this));
-        this.addScene(PSDrawNodeScenario.EditNodeNameScene.createSingleton(this));
+        this.addScene(PSDrawNodeScenario.EditNodeReadyScene.
+            createSingleton(this));
+        this.addScene(PSDrawNodeScenario.EditNodeNameScene.
+            createSingleton(this));
     }
     
     public static class DrawNodeScene extends PSScene {

@@ -37,7 +37,8 @@ public class PSMoveNodeScenario extends XScenario {
     
     @Override
     protected void addScenes() {
-        this.addScene(PSMoveNodeScenario.MoveNodeReadyScene.createSingleton(this));
+        this.addScene(PSMoveNodeScenario.MoveNodeReadyScene.
+            createSingleton(this));
         this.addScene(PSMoveNodeScenario.MoveNodeScene.createSingleton(this));
     }
     
@@ -223,7 +224,8 @@ public class PSMoveNodeScenario extends XScenario {
         @Override
         public void wrapUp() {
             PSApp app = (PSApp)this.mScenario.getApp();
-            if(this.mReturnScene == PSDefaultScenario.ReadyScene.getSingleton()) {
+            if(this.mReturnScene == PSDefaultScenario.ReadyScene.
+                getSingleton()) {
                 PSCmdToAddCurNodeToNodes.execute(app);
                 app.getNodeMgr().setCurNode(null);
             }

@@ -46,11 +46,16 @@ public class PSDrawEdgeScenario extends XScenario {
     
     @Override
     protected void addScenes() {
-        this.addScene(PSDrawEdgeScenario.DrawEdgeScene.createSingleton(this));
-        this.addScene(PSDrawEdgeScenario.EditEdgeReadyScene.createSingleton(this));
-        this.addScene(PSDrawEdgeScenario.EditEdgeInputScene.createSingleton(this));
-        this.addScene(PSDrawEdgeScenario.EditEdgeCmdScene.createSingleton(this));
-        this.addScene(PSDrawEdgeScenario.ClearEdgeInputOrCmdScene.createSingleton(this));
+        this.addScene(PSDrawEdgeScenario.DrawEdgeScene.
+            createSingleton(this));
+        this.addScene(PSDrawEdgeScenario.EditEdgeReadyScene.
+            createSingleton(this));
+        this.addScene(PSDrawEdgeScenario.EditEdgeInputScene.
+            createSingleton(this));
+        this.addScene(PSDrawEdgeScenario.EditEdgeCmdScene.
+            createSingleton(this));
+        this.addScene(PSDrawEdgeScenario.ClearEdgeInputOrCmdScene.
+            createSingleton(this));
     }
     
     public static class DrawEdgeScene extends PSScene {
