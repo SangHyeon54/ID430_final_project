@@ -8,27 +8,63 @@ import java.awt.geom.Line2D;
 
 public class PSEdge {
     // constants
-    public static final double INPUT_AND_NODE_OVERLAPPING_DISTANCE = 20;
-    public static final int SELF_LOOP_DIAMETER = 50;
-    public static final int GAP_BETW_SELF_LOOP_AND_NODE = 40;
-    public static final int DIST_BETW_ARROW_AND_CMD = 10;
-    public static final int ARROW_HEAD_LENGTH = 10;
-    public static final double ARROW_HEAD_ANGLE = 0.5;
+    // even though they are all private,
+    // put them here for easier modification
+    private static final double INPUT_AND_NODE_OVERLAPPING_DISTANCE = 20;
+    private static final int SELF_LOOP_DIAMETER = 50;
+    private static final int GAP_BETW_SELF_LOOP_AND_NODE = 40;
+    private static final int DIST_BETW_ARROW_AND_CMD = 10;
+    private static final int ARROW_HEAD_LENGTH = 10;
+    private static final double ARROW_HEAD_ANGLE = 0.5;
 
     // field
+    
+    
+    // mouse position
+    private Point.Double mStartingPt = null;
+    private Point.Double mEndingPt = null; // same es end of arrow
+    
+    // actual location of where the arrow begins
+    private Point.Double mStartOfArrow = null;
+    public Point.Double getStartOfArrow() {
+        return this.mStartOfArrow;
+    }
+    
     private Point.Double mCenter = null;
     public Point.Double getCenter() {
         return this.mCenter;
     }
-    public void updateCenter() {
-        double centerX = (mEndingPt.x + mStartOfArrow.x) / 2;
-        double centerY = (mEndingPt.y + mStartOfArrow.y) / 2;
-        this.mCenter = new Point.Double(centerX, centerY);
+    
+    private PSEdgeInput mInput;
+    public PSEdgeInput getInput() {
+        return mInput;
     }
     
-    //MousePosition
-    private Point.Double mStartingPt = null;
-    private Point.Double mEndingPt = null;
+    private Point.Double mInputPos = null;
+    public Point.Double getInputPos() {
+        return this.mInputPos;
+    }
+    
+    private PSEdgeCmd mCmd;
+    public PSEdgeCmd getCmd() {
+        return mCmd;
+    }
+    
+    private PSNode mStartingNode;
+    public PSNode getStartingNode() {
+        return this.mStartingNode;
+    }
+    public void setStartingNode(PSNode node) {
+        this.mStartingNode = node;
+    }
+    
+    private PSNode mEndingNode;
+    public PSNode getEndingNode() {
+        return this.mEndingNode;
+    }
+    public void setEndingNode(PSNode node) {
+        this.mEndingNode = node;
+    }
     
     //self loop
     private boolean isSelfLoop = false;
@@ -38,16 +74,12 @@ public class PSEdge {
     private Point.Double mSelfLoopPos = null;
     private double mSelfLoopStartAngle = 0;
     
-    private Point.Double mInputPos = null;
-    public Point.Double getInputPost() {
-        return this.mInputPos;
+    // minor helping functions to calculate position
+    public void updateCenter() {
+        double centerX = (mEndingPt.x + mStartOfArrow.x) / 2;
+        double centerY = (mEndingPt.y + mStartOfArrow.y) / 2;
+        this.mCenter = new Point.Double(centerX, centerY);
     }
-    
-    private Point.Double mStartOfArrow = null;
-    public Point.Double getStartOfArrow() {
-        return this.mStartOfArrow;
-    }
-    
     public void moveStartOfArrow(double dx, double dy) {
         double newX = this.mStartOfArrow.x + dx;
         double newY = this.mStartOfArrow.y + dy;
@@ -69,33 +101,6 @@ public class PSEdge {
         this.mStartingPt = new Point.Double(newX, newY);
     }
     
-    
-    private PSNode mStartingNode;
-    public PSNode getStartingNode() {
-        return this.mStartingNode;
-    }
-    public void setStartingNode(PSNode node) {
-        this.mStartingNode = node;
-    }
-    
-    private PSNode mEndingNode;
-    public PSNode getEndingNode() {
-        return this.mEndingNode;
-    }
-    public void setEndingNode(PSNode node) {
-        this.mEndingNode = node;
-    }
-    
-    private PSEdgeInput mInput;
-    public PSEdgeInput getInput() {
-        return mInput;
-    }
-    
-    private PSEdgeCmd mCmd;
-    public PSEdgeCmd getCmd() {
-        return mCmd;
-    }
-    
     //constructor
     public PSEdge (Point.Double pt, PSNode node) {
         this.mStartingPt = new Point.Double(pt.x, pt.y);
@@ -112,34 +117,39 @@ public class PSEdge {
     }
     
     public void drawEdge(Graphics2D g2, Color c, Stroke s) {
+        int selfLoopArrowAngle = 270;
+        
         g2.setColor(c);
         g2.setStroke(s);
         
-        if (!isSelfLoop) {
+        if (!isSelfLoop) { // normal arrow
             g2.draw(new Line2D.Double(
                 mStartOfArrow.x, mStartOfArrow.y, mEndingPt.x, mEndingPt.y));
             drawArrowHead(g2);            
-        } else {
+        } else { // self loop arrow
             calculateSelfLoopStartAngle();
             calculateSelfLoopPos();
+            calculateCmdPosForSelfLoop();
             g2.drawArc((int)mSelfLoopPos.x, (int)mSelfLoopPos.y, 
                 SELF_LOOP_DIAMETER, SELF_LOOP_DIAMETER,
-                (int)mSelfLoopStartAngle, 270);
+                (int)mSelfLoopStartAngle, selfLoopArrowAngle);
             drawArrowHeadForSelfLoop(g2);
-            calculateCmdPosForSelfLoop();
         }
         
-        // if there is ending scene, then it means the edge is drawn and saved.
-        // draw the return scene info and input
+        // when the edge is drawn and saved (when there is ending node),
+        // draw the return scene info, input and cmd
         if (mEndingNode != null) {
             int posX = (int) Math.round(this.getCenter().x);
             int posY = (int) Math.round(this.getCenter().y);
-
+            
+            // input
             this.mInput.drawInput(g2, c, s);
-               //lets refactor this part lator its so messy
+            
+            // cmd and return scene info
+            // depending on self loop or not, draw cmd in different position
             if (isSelfLoop) {
                 this.mCmd.updateEdgeCmd(new Point.Double(posX, posY));
-            } else {
+            } else { // cmd on top of arrow and return scene on bottom
                 this.mCmd.updateEdgeCmd(new Point.Double(
                     posX, posY - DIST_BETW_ARROW_AND_CMD));
                 g2.drawString(this.getReturnScene(), 
@@ -167,20 +177,37 @@ public class PSEdge {
             mEndingPt.x, mEndingPt.y, pt2x, pt2y));
     }
     
+    private void drawArrowHeadForSelfLoop(Graphics2D g2) {                
+        double tangentAngle = Math.atan2(
+            mStartOfArrow.y - mStartingNode.getCenterY(), 
+            mStartOfArrow.x - mStartingNode.getCenterX()) - 4 * Math.PI / 5;
+        double anglePt0 = Math.atan2(mStartOfArrow.y 
+            - mStartingNode.getCenterY(), 
+            mStartOfArrow.x - mStartingNode.getCenterX()) - 63 * Math.PI / 80;
+        
+        double angle1 = tangentAngle - ARROW_HEAD_ANGLE;
+        double angle2 = tangentAngle + ARROW_HEAD_ANGLE;
+        
+        double pt0x = mStartOfArrow.x - 29 * Math.cos(anglePt0);
+        double pt0y = mStartOfArrow.y - 29 * Math.sin(anglePt0);
+        double pt1x = pt0x - ARROW_HEAD_LENGTH * Math.cos(angle1);
+        double pt1y = pt0y - ARROW_HEAD_LENGTH * Math.sin(angle1);
+        double pt2x = pt0x - ARROW_HEAD_LENGTH * Math.cos(angle2);
+        double pt2y = pt0y - ARROW_HEAD_LENGTH * Math.sin(angle2);
+        
+        g2.draw(new Line2D.Double(
+            pt1x, pt1y, pt0x, pt0y));      
+        g2.draw(new Line2D.Double(
+            pt0x, pt0y, pt2x, pt2y));
+    }
+
     //update with a new point
     public void updateArrow(Point.Double pt, boolean cond) {
-        this.isSelfLoop = cond;
-
         double centerX = (mEndingPt.x + mStartOfArrow.x) / 2;
         double centerY = (mEndingPt.y + mStartOfArrow.y) / 2;
 
         this.mEndingPt = pt;
         this.mCenter = new Point.Double(centerX, centerY);
-        
-        if (isSelfLoop) {
-            System.out.println(mStartingNode.getCenter());
-            System.out.println(mStartingNode.getCenterX());
-        }
     }
     
     private String getReturnScene() {
@@ -188,6 +215,7 @@ public class PSEdge {
         boolean startingNodeIsQuasi = this.mStartingNode.getIsQuasi();
         boolean endingNodeIsQuasi = this.mEndingNode.getIsQuasi();
         
+        // the return scene depends on mode of starting and ending node
         if (startingNodeIsQuasi && endingNodeIsQuasi) {
             mString = "R = this.R";
         } else if (!startingNodeIsQuasi && endingNodeIsQuasi) {
@@ -225,13 +253,6 @@ public class PSEdge {
         this.mInputPos = new Point.Double(posX, posY);
     }
     
-    private void calculateSelfLoopStartAngle() {
-        double angle = Math.atan2(mStartOfArrow.y - mStartingNode.getCenterY(), 
-            mStartOfArrow.x - mStartingNode.getCenterX());
-        
-        this.mSelfLoopStartAngle = 225 - Math.toDegrees(angle) ;
-    }
-
     private void calculateSelfLoopPos() {
         double angle = Math.atan2(mStartOfArrow.y - mStartingNode.getCenterY(), 
             mStartOfArrow.x - mStartingNode.getCenterX());
@@ -245,26 +266,13 @@ public class PSEdge {
         this.mSelfLoopPos = new Point.Double(posX, posY);
     }
     
-    private void drawArrowHeadForSelfLoop(Graphics2D g2) {
-        double angleParallel = Math.atan2(mStartOfArrow.y - mStartingNode.getCenterY(), 
-            mStartOfArrow.x - mStartingNode.getCenterX()) - 4 * Math.PI / 5;
-        double anglePt0 = Math.atan2(mStartOfArrow.y - mStartingNode.getCenterY(), 
-            mStartOfArrow.x - mStartingNode.getCenterX()) - 315 * Math.PI / 400;
+    private void calculateSelfLoopStartAngle() {
+        // depending on where the start of arrow is,
+        // the input angle to create arc for self loop is different
+        double angle = Math.atan2(mStartOfArrow.y - mStartingNode.getCenterY(), 
+            mStartOfArrow.x - mStartingNode.getCenterX());
         
-        double angle1 = angleParallel - 0.5;
-        double angle2 = angleParallel + 0.5;
-        double pt0x = mStartOfArrow.x - 29 * Math.cos(anglePt0);
-        double pt0y = mStartOfArrow.y - 29 * Math.sin(anglePt0);
-        
-        double pt1x = pt0x - ARROW_HEAD_LENGTH * Math.cos(angle1);
-        double pt1y = pt0y - ARROW_HEAD_LENGTH * Math.sin(angle1);
-        double pt2x = pt0x - ARROW_HEAD_LENGTH * Math.cos(angle2);
-        double pt2y = pt0y - ARROW_HEAD_LENGTH * Math.sin(angle2);
-        
-        g2.draw(new Line2D.Double(
-            pt1x, pt1y, pt0x, pt0y));      
-        g2.draw(new Line2D.Double(
-            pt0x, pt0y, pt2x, pt2y));
+        this.mSelfLoopStartAngle = 225 - Math.toDegrees(angle) ;
     }
     
     private void calculateCmdPosForSelfLoop() {
