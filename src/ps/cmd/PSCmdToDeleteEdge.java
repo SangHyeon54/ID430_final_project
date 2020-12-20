@@ -9,13 +9,13 @@ import ps.PSNode;
 import x.XApp;
 import x.XLoggableCmd;
 
-public class PSCmdToDeleteEdgeInfo extends XLoggableCmd {
+public class PSCmdToDeleteEdge extends XLoggableCmd {
     private PSEdge mEdge = null;
     private PSNode mStartNode = null;
     private PSNode mEndNode = null;
     
     //private constructor
-    private PSCmdToDeleteEdgeInfo(XApp app, PSEdge edge, PSNode startNode, 
+    private PSCmdToDeleteEdge(XApp app, PSEdge edge, PSNode startNode, 
         PSNode endNode) {
         super(app);
         this.mEdge = edge;
@@ -25,7 +25,7 @@ public class PSCmdToDeleteEdgeInfo extends XLoggableCmd {
     
     public static boolean execute(XApp app, PSEdge edge, PSNode startNode, 
         PSNode endNode) {
-        PSCmdToDeleteEdgeInfo cmd = new PSCmdToDeleteEdgeInfo(app, edge, 
+        PSCmdToDeleteEdge cmd = new PSCmdToDeleteEdge(app, edge, 
             startNode, endNode);
         return cmd.execute();
     }
@@ -33,6 +33,7 @@ public class PSCmdToDeleteEdgeInfo extends XLoggableCmd {
     @Override
     protected boolean defineCmd() {
         PSApp app = (PSApp) this.mApp;
+        // delete the edge info in the related nodes.
         this.mStartNode.removeEdgeStart(this.mEdge);
         this.mEndNode.removeEdgeEnd(this.mEdge);
         return true;

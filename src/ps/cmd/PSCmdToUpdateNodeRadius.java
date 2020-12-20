@@ -34,6 +34,7 @@ public class PSCmdToUpdateNodeRadius extends XLoggableCmd {
         Point CenterScreenPt = app.getXform().calcPtFromWorldToScreen(
             nodeCenter);
         
+        // if the pt is bigger than max, or smaller than min, ignore.
         if (this.mWorldPt.distance(nodeCenter) < 
             PSNode.MIN_RADIUS) {
             return false;

@@ -54,6 +54,7 @@ public class PSEdgeCmd extends Rectangle2D.Double {
         }
     }
     
+    // update the Cmd Position in center between start and end pt
     public void updateEdgeCmd(Point.Double pt) {
         this.mCorneredCenter.x = pt.x - WIDTH / 2;
         this.mCorneredCenter.y = pt.y - HEIGHT;
@@ -70,6 +71,8 @@ public class PSEdgeCmd extends Rectangle2D.Double {
         this.mCmdPtCurve.clear();
     }
     
+    // move Cmd Position half of point's distance.
+    // because one of points is moved at once.
     public void moveCmd(double dx, double dy) {
         for(PSPtCurve pc : this.mCmdPtCurve) {
             pc.movePtCurve(dx/2, dy/2);
