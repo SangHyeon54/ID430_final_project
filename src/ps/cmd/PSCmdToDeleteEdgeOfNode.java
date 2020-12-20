@@ -9,17 +9,17 @@ import ps.PSNode;
 import x.XApp;
 import x.XLoggableCmd;
 
-public class PSCmdToDeleteNodeEdge extends XLoggableCmd {
+public class PSCmdToDeleteEdgeOfNode extends XLoggableCmd {
     private PSNode mNode = null;
     
     //private constructor
-    private PSCmdToDeleteNodeEdge(XApp app, PSNode node) {
+    private PSCmdToDeleteEdgeOfNode(XApp app, PSNode node) {
         super(app);
         this.mNode = node;
     }
     
     public static boolean execute(XApp app, PSNode node) {
-        PSCmdToDeleteNodeEdge cmd = new PSCmdToDeleteNodeEdge(app, node);
+        PSCmdToDeleteEdgeOfNode cmd = new PSCmdToDeleteEdgeOfNode(app, node);
         return cmd.execute();
     }
     

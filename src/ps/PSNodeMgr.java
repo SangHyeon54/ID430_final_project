@@ -12,6 +12,9 @@ import java.util.ArrayList;
  * @author Sanghyeon
  */
 public class PSNodeMgr {
+    
+    // fields
+    // CurNode is for edit, move
     private PSNode mCurNode = null;
     public PSNode getCurNode() {
         return this.mCurNode;
@@ -25,6 +28,7 @@ public class PSNodeMgr {
         return this.mNodes;
     }
     
+    // constructor
     public PSNodeMgr() {
         this.mNodes = new ArrayList<PSNode>();
     }

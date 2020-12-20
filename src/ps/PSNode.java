@@ -90,7 +90,7 @@ public class PSNode extends Ellipse2D.Double {
         g2.draw(this);
     }
     
-    //update with a new point
+    // update ellipse radius with a new point
     public void updateRadius(Point.Double pt) {
         float radius = (float) pt.distance(this.mCenter.x, this.mCenter.y);
         this.setFrame(mCenter.x - radius, mCenter.y - radius,
@@ -98,6 +98,7 @@ public class PSNode extends Ellipse2D.Double {
         this.mRadius = radius;
     }
     
+    // move the node to pt and fix with mMovePointX,Y
     public void moveNode(Point.Double pt) {
         this.prevCenter = this.mCenter;
         this.setFrame(pt.x - this.mMovePointX, pt.y - this.mMovePointY,
@@ -106,10 +107,12 @@ public class PSNode extends Ellipse2D.Double {
             pt.y - this.mMovePointY + this.mRadius);
         double dx = this.mCenter.x - this.prevCenter.x;
         double dy = this.mCenter.y - this.prevCenter.y;
+        // move node contents in same distance
         moveEdgePoints(dx, dy);
         moveNamePtCurves(dx, dy);
     }
     
+    // move related edge
     public void moveEdgePoints(double dx, double dy) {
         for (PSEdge edge : this.mEdgeStart) {
             edge.moveStartOfArrow(dx, dy);
@@ -120,6 +123,7 @@ public class PSNode extends Ellipse2D.Double {
         }
     }
     
+    // move name drawing in node
     public void moveNamePtCurves(double dx, double dy) {
         for (PSPtCurve pc : this.mName) {
             pc.movePtCurve(dx, dy);

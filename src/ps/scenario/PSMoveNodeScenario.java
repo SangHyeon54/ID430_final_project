@@ -76,11 +76,11 @@ public class PSMoveNodeScenario extends XScenario {
                     XCmdToChangeScene.execute(app,
                         PSMoveNodeScenario.MoveNodeScene.getSingleton(),
                         this.mReturnScene);
-                    
                 }
                 return;
             }
             
+            // if there is not curNode, find the Node contain Pt
             ArrayList<PSNode> nodes = app.getNodeMgr().getNodes();
             for (int i = 0; i < nodes.size(); i ++) {
                 PSNode node = nodes.get(i);
@@ -92,6 +92,8 @@ public class PSMoveNodeScenario extends XScenario {
                 }
             }
             
+            // if Pt is out of node, do not anything
+            // else, move the node.
             if (app.getNodeMgr().getCurNode() != null) {
                 PSCmdToSetMovePoint.execute(app, pt,
                     app.getNodeMgr().getCurNode());
@@ -181,9 +183,6 @@ public class PSMoveNodeScenario extends XScenario {
         @Override
         public void handleMouseRelease(MouseEvent e) {
             PSApp app = (PSApp)this.mScenario.getApp();
-            
-            // save current node
-            
             XCmdToChangeScene.execute(app,
                 PSMoveNodeScenario.MoveNodeReadyScene.getSingleton(),
                 this.mReturnScene);
@@ -224,6 +223,8 @@ public class PSMoveNodeScenario extends XScenario {
         @Override
         public void wrapUp() {
             PSApp app = (PSApp)this.mScenario.getApp();
+            // if the return Scene is ready scene, setCurNode(null)
+            // else, the Node is selected in EditNodeScene, so do not set null
             if(this.mReturnScene == PSDefaultScenario.ReadyScene.
                 getSingleton()) {
                 PSCmdToAddCurNodeToNodes.execute(app);

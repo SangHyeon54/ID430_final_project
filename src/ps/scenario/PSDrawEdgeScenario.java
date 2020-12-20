@@ -19,7 +19,7 @@ import ps.cmd.PSCmdToClearCurEdgeCmd;
 import ps.cmd.PSCmdToClearCurEdgeInput;
 import ps.cmd.PSCmdToCreateCurPtCurve;
 import ps.cmd.PSCmdToCreateCurEdge;
-import ps.cmd.PSCmdToDeleteEdgeInfo;
+import ps.cmd.PSCmdToDeleteEdge;
 import ps.cmd.PSCmdToSaveCurEdge;
 import ps.cmd.PSCmdToUpdateCurPtCurve;
 import ps.cmd.PSCmdToUpdateEdgeArrow;
@@ -269,7 +269,7 @@ public class PSDrawEdgeScenario extends XScenario {
             switch (code) {
                 case KeyEvent.VK_DELETE:
                     // delete the edge info from both starting and ending nodes
-                    PSCmdToDeleteEdgeInfo.execute(app, 
+                    PSCmdToDeleteEdge.execute(app, 
                         app.getEdgeMgr().getCurEdge(), 
                         app.getEdgeMgr().getCurEdge().getStartingNode(),
                         app.getEdgeMgr().getCurEdge().getEndingNode());

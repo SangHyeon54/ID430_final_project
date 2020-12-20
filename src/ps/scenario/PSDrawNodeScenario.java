@@ -15,7 +15,7 @@ import ps.cmd.PSCmdToChangeQuasi;
 import ps.cmd.PSCmdToClearCurNodeName;
 import ps.cmd.PSCmdToCreateCurPtCurve;
 import ps.cmd.PSCmdToCreateCurNode;
-import ps.cmd.PSCmdToDeleteNodeEdge;
+import ps.cmd.PSCmdToDeleteEdgeOfNode;
 import ps.cmd.PSCmdToUpdateCurPtCurve;
 import ps.cmd.PSCmdToUpdateNodeRadius;
 import x.XApp;
@@ -101,6 +101,7 @@ public class PSDrawNodeScenario extends XScenario {
             PSApp app = (PSApp)this.mScenario.getApp();
             
             switch (code) {
+                // if S key release before mouse release, destroy the node.
                 case KeyEvent.VK_S:
                     app.getNodeMgr().setCurNode(null);
                     XCmdToChangeScene.execute(app, this.mReturnScene, null);
@@ -157,7 +158,7 @@ public class PSDrawNodeScenario extends XScenario {
                 PSCmdToCreateCurPtCurve.execute(app, pt);
                 XCmdToChangeScene.execute(app, 
                     PSDrawNodeScenario.EditNodeNameScene.getSingleton(), this);
-            } else {
+            } else { // else, save the content, and escape.
                 PSCmdToAddCurNodeToNodes.execute(app);
                 app.getNodeMgr().setCurNode(null);
                 XCmdToChangeScene.execute(app, 
@@ -167,8 +168,6 @@ public class PSDrawNodeScenario extends XScenario {
 
         @Override
         public void handleMouseDrag(MouseEvent e) {
-            PSApp app = (PSApp) this.mScenario.getApp();
-            Point pt = e.getPoint();
         }
 
         @Override
@@ -212,7 +211,7 @@ public class PSDrawNodeScenario extends XScenario {
                     PSCmdToChangeQuasi.execute(app);
                     break;
                 case KeyEvent.VK_DELETE:
-                    PSCmdToDeleteNodeEdge.execute(app, 
+                    PSCmdToDeleteEdgeOfNode.execute(app, 
                         app.getNodeMgr().getCurNode());
                     app.getNodeMgr().setCurNode(null);                    
                     XCmdToChangeScene.execute(app, 

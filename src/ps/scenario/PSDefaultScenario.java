@@ -67,7 +67,7 @@ public class PSDefaultScenario extends XScenario {
                 PSEdge mEdge = edges.get(i);
                 PSEdgeInput mInput = mEdge.getInput();
                 PSEdgeCmd mCmd = mEdge.getCmd();
-                // if the point is inside of node.
+                // if the point is inside of edge.
                 if (mInput.getCenter().distance(mWorldPt.x, mWorldPt.y) < 
                     mInput.getRadius() ||
                     mCmd.contains(mWorldPt)) {
@@ -82,7 +82,7 @@ public class PSDefaultScenario extends XScenario {
                     PSDrawEdgeScenario.EditEdgeReadyScene.getSingleton(),
                     this);
             } else {
-                //if you click any of nodes
+                // if you click any of nodes
                 ArrayList<PSNode> nodes = app.getNodeMgr().getNodes();
                 for (int i = 0; i < nodes.size(); i ++) {
                     PSNode node = nodes.get(i);
@@ -94,7 +94,7 @@ public class PSDefaultScenario extends XScenario {
                         break;
                     }
                 }
-
+                // if CurNode is not null, node is clicked
                 if (app.getNodeMgr().getCurNode() != null) {
                     XCmdToChangeScene.execute(app,
                         PSDrawNodeScenario.EditNodeReadyScene.getSingleton(),
@@ -102,9 +102,7 @@ public class PSDefaultScenario extends XScenario {
                     return;
                 }
             }
-            
-            
-            
+                
             //if none of node and edges are selected
             if (app.getNodeMgr().getCurNode() == null &&
                 app.getEdgeMgr().getCurEdge() == null) {
@@ -113,7 +111,6 @@ public class PSDefaultScenario extends XScenario {
                     PSNavigateScenario.PanScene.getSingleton(), 
                     this.getReturnScene());
             }
-            
         }
 
         @Override
