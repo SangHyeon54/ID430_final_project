@@ -15,7 +15,7 @@ import ps.cmd.PSCmdToChangeQuasi;
 import ps.cmd.PSCmdToClearCurNodeName;
 import ps.cmd.PSCmdToCreateCurPtCurve;
 import ps.cmd.PSCmdToCreateCurNode;
-import ps.cmd.PSCmdToDeleteNodeEdge;
+import ps.cmd.PSCmdToDeleteEdgeOfNode;
 import ps.cmd.PSCmdToUpdateCurPtCurve;
 import ps.cmd.PSCmdToUpdateNodeRadius;
 import x.XApp;
@@ -42,8 +42,10 @@ public class PSDrawNodeScenario extends XScenario {
     @Override
     protected void addScenes() {
         this.addScene(PSDrawNodeScenario.DrawNodeScene.createSingleton(this));
-        this.addScene(PSDrawNodeScenario.EditNodeReadyScene.createSingleton(this));
-        this.addScene(PSDrawNodeScenario.EditNodeNameScene.createSingleton(this));
+        this.addScene(PSDrawNodeScenario.EditNodeReadyScene.
+            createSingleton(this));
+        this.addScene(PSDrawNodeScenario.EditNodeNameScene.
+            createSingleton(this));
     }
     
     public static class DrawNodeScene extends PSScene {
@@ -99,6 +101,7 @@ public class PSDrawNodeScenario extends XScenario {
             PSApp app = (PSApp)this.mScenario.getApp();
             
             switch (code) {
+                // if S key release before mouse release, destroy the node.
                 case KeyEvent.VK_S:
                     app.getNodeMgr().setCurNode(null);
                     XCmdToChangeScene.execute(app, this.mReturnScene, null);
@@ -155,19 +158,16 @@ public class PSDrawNodeScenario extends XScenario {
                 PSCmdToCreateCurPtCurve.execute(app, pt);
                 XCmdToChangeScene.execute(app, 
                     PSDrawNodeScenario.EditNodeNameScene.getSingleton(), this);
-            } else {
+            } else { // else, save the content, and escape.
                 PSCmdToAddCurNodeToNodes.execute(app);
                 app.getNodeMgr().setCurNode(null);
                 XCmdToChangeScene.execute(app, 
-                    PSDefaultScenario.ReadyScene.getSingleton(), 
-                    null);
+                    PSDefaultScenario.ReadyScene.getSingleton(), null);
             }
         }
 
         @Override
         public void handleMouseDrag(MouseEvent e) {
-            PSApp app = (PSApp) this.mScenario.getApp();
-            Point pt = e.getPoint();
         }
 
         @Override
@@ -185,6 +185,16 @@ public class PSDrawNodeScenario extends XScenario {
                         PSMoveNodeScenario.MoveNodeReadyScene.getSingleton(), 
                         this);
                     break;
+                case KeyEvent.VK_CONTROL:
+                    XCmdToChangeScene.execute(app, 
+                        PSNavigateScenario.ZoomReadyScene.getSingleton(), this);
+                    break;
+                case KeyEvent.VK_A:
+                    PSCmdToAddCurNodeToNodes.execute(app);
+                    app.getNodeMgr().setCurNode(null);
+                    XCmdToChangeScene.execute(app, 
+                        PSDrawEdgeScenario.DrawEdgeScene.getSingleton(), this);
+                    break;
             }
         }
 
@@ -201,19 +211,17 @@ public class PSDrawNodeScenario extends XScenario {
                     PSCmdToChangeQuasi.execute(app);
                     break;
                 case KeyEvent.VK_DELETE:
-                    PSCmdToDeleteNodeEdge.execute(app, 
+                    PSCmdToDeleteEdgeOfNode.execute(app, 
                         app.getNodeMgr().getCurNode());
                     app.getNodeMgr().setCurNode(null);                    
                     XCmdToChangeScene.execute(app, 
-                        PSDefaultScenario.ReadyScene.getSingleton(), 
-                        null);
+                        PSDefaultScenario.ReadyScene.getSingleton(), null);
                     break;
                 case KeyEvent.VK_ENTER:
                     PSCmdToAddCurNodeToNodes.execute(app);
                     app.getNodeMgr().setCurNode(null);
                     XCmdToChangeScene.execute(app, 
-                        PSDefaultScenario.ReadyScene.getSingleton(), 
-                        null);
+                        PSDefaultScenario.ReadyScene.getSingleton(), null);
                     break;
             }
         }

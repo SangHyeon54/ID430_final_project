@@ -30,7 +30,6 @@ public class PSCmdToUpdateEdgeArrow extends XLoggableCmd {
         PSEdge curEdge = app.getEdgeMgr().getCurEdge();
         mWorldPt = app.getXform().calcPtFromScreenToWorld(this.mScreenPt);
         curEdge.updateArrow(mWorldPt, isSelfLoopCondition);
-        
         return true;
     }
 
