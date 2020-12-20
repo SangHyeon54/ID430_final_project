@@ -162,19 +162,6 @@ public class PSNavigateScenario extends XScenario {
 
         @Override
         public void handleKeyDown(KeyEvent e) {
-            int code = e.getKeyCode();
-            PSApp app = (PSApp) this.mScenario.getApp();
-            
-            switch (code) {
-                case KeyEvent.VK_ALT:
-                    Point penPt = app.getPenMarkMgr().
-                        getLastPenMark().getLastPt();
-                    PSCmdToSetStartingScreenPtForXform.execute(app, penPt);
-                    XCmdToChangeScene.execute(app, 
-                        PSNavigateScenario.PanScene.getSingleton(),
-                        this.getReturnScene());
-                    break;
-            }
         }
 
         @Override
@@ -257,24 +244,6 @@ public class PSNavigateScenario extends XScenario {
 
         @Override
         public void handleKeyUp(KeyEvent e) {
-            
-            int code = e.getKeyCode();
-            PSApp app = (PSApp) this.mScenario.getApp();
-            switch (code) {
-                case KeyEvent.VK_CONTROL:
-                    XCmdToChangeScene.execute(app, 
-                        this.getReturnScene(), 
-                        null);
-                    break;
-                case KeyEvent.VK_ALT:
-                    Point penPt = app.getPenMarkMgr().getLastPenMark().
-                        getLastPt();
-                    PSCmdToSetStartingScreenPtForXform.execute(app, penPt);
-                    XCmdToChangeScene.execute(app, 
-                        PSNavigateScenario.ZoomScene.getSingleton(), 
-                        this.getReturnScene());
-                    break;
-            }
         }
 
         @Override

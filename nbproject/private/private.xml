@@ -10,7 +10,6 @@
             <file>file:/C:/Users/Sanghyeon/Desktop/전공/ID430/ProgramScenarist/src/ps/cmd/PSCmdToSetMovePoint.java</file>
             <file>file:/C:/Users/Sanghyeon/Desktop/전공/ID430/ProgramScenarist/src/ps/cmd/PSCmdToAddCurPtCurveToEdgeCmd.java</file>
             <file>file:/C:/Users/Sanghyeon/Desktop/전공/ID430/ProgramScenarist/src/ps/PSApp.java</file>
-            <file>file:/C:/Users/Sanghyeon/Desktop/전공/ID430/ProgramScenarist/src/ps/cmd/PSCmdToDeleteEdgeInfo.java</file>
             <file>file:/C:/Users/Sanghyeon/Desktop/전공/ID430/ProgramScenarist/src/ps/scenario/PSNavigateScenario.java</file>
             <file>file:/C:/Users/Sanghyeon/Desktop/전공/ID430/ProgramScenarist/src/ps/cmd/PSCmdToClearCurEdgeInput.java</file>
             <file>file:/C:/Users/Sanghyeon/Desktop/전공/ID430/ProgramScenarist/src/ps/cmd/PSCmdToUpdateCurPtCurve.java</file>
@@ -37,7 +36,6 @@
             <file>file:/C:/Users/Sanghyeon/Desktop/전공/ID430/ProgramScenarist/src/ps/cmd/PSCmdToAddCurPtCurveToEdgeInput.java</file>
             <file>file:/C:/Users/Sanghyeon/Desktop/전공/ID430/ProgramScenarist/src/ps/PSPtCurveMgr.java</file>
             <file>file:/C:/Users/Sanghyeon/Desktop/전공/ID430/ProgramScenarist/src/ps/PSEdgeMgr.java</file>
-            <file>file:/C:/Users/Sanghyeon/Desktop/전공/ID430/ProgramScenarist/src/ps/cmd/PSCmdToDeleteNodeEdge.java</file>
             <file>file:/C:/Users/Sanghyeon/Desktop/전공/ID430/ProgramScenarist/src/ps/cmd/PSCmdToZoom.java</file>
             <file>file:/C:/Users/Sanghyeon/Desktop/전공/ID430/ProgramScenarist/src/ps/PSEdgeInput.java</file>
             <file>file:/C:/Users/Sanghyeon/Desktop/전공/ID430/ProgramScenarist/src/ps/cmd/PSCmdToUpdateEdgeArrow.java</file>
