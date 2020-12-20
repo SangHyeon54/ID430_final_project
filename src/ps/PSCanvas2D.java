@@ -77,8 +77,12 @@ public class PSCanvas2D extends JPanel {
         // render common world objects.
         this.drawNodes(g2);
         this.drawCurNode(g2);
+        this.drawCurReturnNode(g2);
+        this.drawReturnNodes(g2);
         this.drawEdges(g2);
         this.drawCurEdge(g2);
+//        this.drawPtCurves(g2);
+//        this.drawSelectedPtCurves(g2);
         this.drawCurPtCurve(g2);
         
         // render the current scene's world objects.
@@ -90,6 +94,7 @@ public class PSCanvas2D extends JPanel {
         
         // render common screen objects.
         this.drawInfo(g2);
+        //this.drawPenTip(g2);
         
         // render curscene objects
         curScene.renderScreenOjbects(g2);
@@ -141,6 +146,35 @@ public class PSCanvas2D extends JPanel {
                     namePtCurve.getColor(),
                     namePtCurve.getStroke());
         }
+    }
+    
+    private void drawReturnNodes(Graphics2D g2) {
+        for (PSReturnNode rNode : this.mApp.getNodeMgr().getReturnNodes()) {
+            this.drawReturnNode(g2, rNode, PSCanvas2D.COLOR_NODE_ELLIPSE,
+                PSCanvas2D.STROKE_NODE_ELLIPSE);
+        }    
+    }
+    
+    private void drawCurReturnNode(Graphics2D g2) {
+        PSReturnNode rNode = this.mApp.getNodeMgr().getCurReturnNode();
+        if (rNode != null) { 
+            // draw ellipse
+            this.drawReturnNode(g2, rNode, PSCanvas2D.COLOR_CUR_NODE_ELLIPSE,
+                PSCanvas2D.STROKE_CUR_NODE_ELLIPSE);
+        }
+    }
+    
+    private void drawReturnNode(Graphics2D g2, PSReturnNode rNode, Color c, 
+        Stroke s) {
+        // draw basic shape of the node
+        rNode.drawReturnNode(g2, c, s);
+        
+        // draw(write) mode of node
+        g2.setFont(PSCanvas2D.FONT_MODE_INFO);
+        
+        int x_r = (int) Math.round(rNode.getCenter().x);
+        int y_r = (int) Math.round(rNode.getCenter().y);
+        g2.drawString("R", x_r, y_r);
     }
     
     private void drawEdges (Graphics2D g2) {
@@ -214,5 +248,16 @@ public class PSCanvas2D extends JPanel {
         g2.setColor(PSCanvas2D.COLOR_INFO);
         g2.setFont(PSCanvas2D.FONT_INFO);
         g2.drawString(str, 20, 30);
+    }
+
+    public void increaseStrokeWidthForCurPtCurve(float f) {
+        BasicStroke bs = (BasicStroke)this.mCurStrokeForPtCurve;
+        float w = bs.getLineWidth();
+        w += f;
+        if (w < 1.0f) {
+            w = 1.0f;
+        }
+        this.mCurStrokeForPtCurve = new BasicStroke(w, bs.getEndCap(), 
+            bs.getLineJoin());
     }
 }

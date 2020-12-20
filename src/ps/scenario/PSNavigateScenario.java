@@ -39,6 +39,7 @@ public class PSNavigateScenario extends XScenario {
             createSingleton(this));
         this.addScene(PSNavigateScenario.ZoomScene.
             createSingleton(this));
+//        this.addScene(PSNavigateScenario.PanReadyScene.createSingleton(this));
         this.addScene(PSNavigateScenario.PanScene.createSingleton(this));
     }
     
@@ -162,6 +163,19 @@ public class PSNavigateScenario extends XScenario {
 
         @Override
         public void handleKeyDown(KeyEvent e) {
+            int code = e.getKeyCode();
+            PSApp app = (PSApp) this.mScenario.getApp();
+            
+            switch (code) {
+                case KeyEvent.VK_ALT:
+                    Point penPt = app.getPenMarkMgr().
+                        getLastPenMark().getLastPt();
+                    PSCmdToSetStartingScreenPtForXform.execute(app, penPt);
+                    XCmdToChangeScene.execute(app, 
+                        PSNavigateScenario.PanScene.getSingleton(),
+                        this.getReturnScene());
+                    break;
+            }
         }
 
         @Override
@@ -171,7 +185,9 @@ public class PSNavigateScenario extends XScenario {
             
             switch (code) {
                 case KeyEvent.VK_CONTROL:
-                    XCmdToChangeScene.execute(app, this.getReturnScene(), null);
+                    XCmdToChangeScene.execute(app, 
+                        this.getReturnScene(), 
+                        null);
                     break;
             }
         }
@@ -196,9 +212,91 @@ public class PSNavigateScenario extends XScenario {
 
         @Override
         public void wrapUp() {
+            //PSApp app = (PSApp) this.mScenario.getApp();
+            //app.getXform().setStartingScreenPt(null);
         }
     }
-
+    
+//    public static class PanReadyScene extends PSScene {
+//        private static PanReadyScene mSingleton = null;
+//        public static PanReadyScene getSingleton() {
+//            assert(PanReadyScene.mSingleton != null);
+//            return PanReadyScene.mSingleton;
+//        }
+//        
+//        public static PanReadyScene createSingleton(XScenario scenario) {
+//            assert(PanReadyScene.mSingleton == null);
+//            PanReadyScene.mSingleton = new PanReadyScene(scenario);
+//            return PanReadyScene.mSingleton;
+//        }
+//        
+//        private PanReadyScene(XScenario scenario) {
+//            super(scenario);
+//        }
+//        
+//        @Override
+//        public void handleMousePress(MouseEvent e) {
+//            PSApp app = (PSApp) this.mScenario.getApp();
+//            Point pt = e.getPoint();
+//            PSCmdToSetStartingScreenPtForXform.execute(app, pt);
+//            
+//            XCmdToChangeScene.execute(app, 
+//                PSNavigateScenario.PanScene.getSingleton(),
+//                this.getReturnScene());
+//        }
+//
+//        @Override
+//        public void handleMouseDrag(MouseEvent e) {
+//        }
+//
+//        @Override
+//        public void handleMouseRelease(MouseEvent e) {
+//        }
+//
+//        @Override
+//        public void handleKeyDown(KeyEvent e) {
+//        }
+//
+//        @Override
+//        public void handleKeyUp(KeyEvent e) {
+//            int code = e.getKeyCode();
+//            PSApp app = (PSApp) this.mScenario.getApp();
+//            
+//            switch (code) {
+//                case KeyEvent.VK_CONTROL:
+//                    XCmdToChangeScene.execute(app, 
+//                        this.getReturnScene(),null);
+//                    break;
+//                case KeyEvent.VK_ALT:
+//                    XCmdToChangeScene.execute(app, 
+//                        PSNavigateScenario.ZoomReadyScene.
+//                        getSingleton(), this.getReturnScene());
+//                    break;
+//            }
+//        }
+//
+//        @Override
+//        public void updateSupportObjects() {
+//        }
+//
+//        @Override
+//        public void renderWorldOjbects(Graphics2D g2) {
+//        }
+//
+//        @Override
+//        public void renderScreenOjbects(Graphics2D g2) {
+//        }
+//
+//        @Override
+//        public void getReady() {
+//        }
+//
+//        @Override
+//        public void wrapUp() {
+//        }
+//        
+//    }
+    
     public static class PanScene extends PSScene {
         private Point mPoint = null;
         
@@ -244,6 +342,24 @@ public class PSNavigateScenario extends XScenario {
 
         @Override
         public void handleKeyUp(KeyEvent e) {
+            
+            int code = e.getKeyCode();
+            PSApp app = (PSApp) this.mScenario.getApp();
+            switch (code) {
+                case KeyEvent.VK_CONTROL:
+                    XCmdToChangeScene.execute(app, 
+                        this.getReturnScene(), 
+                        null);
+                    break;
+                case KeyEvent.VK_ALT:
+                    Point penPt = app.getPenMarkMgr().getLastPenMark().
+                        getLastPt();
+                    PSCmdToSetStartingScreenPtForXform.execute(app, penPt);
+                    XCmdToChangeScene.execute(app, 
+                        PSNavigateScenario.ZoomScene.getSingleton(), 
+                        this.getReturnScene());
+                    break;
+            }
         }
 
         @Override
@@ -266,6 +382,8 @@ public class PSNavigateScenario extends XScenario {
 
         @Override
         public void wrapUp() {
+            //PSApp app = (PSApp) this.mScenario.getApp();
+            //app.getXform().setStartingScreenPt(null);
         }
         
     }

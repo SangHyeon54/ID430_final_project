@@ -19,7 +19,7 @@ import ps.cmd.PSCmdToClearCurEdgeCmd;
 import ps.cmd.PSCmdToClearCurEdgeInput;
 import ps.cmd.PSCmdToCreateCurPtCurve;
 import ps.cmd.PSCmdToCreateCurEdge;
-import ps.cmd.PSCmdToDeleteEdge;
+import ps.cmd.PSCmdToDeleteEdgeInfo;
 import ps.cmd.PSCmdToSaveCurEdge;
 import ps.cmd.PSCmdToUpdateCurPtCurve;
 import ps.cmd.PSCmdToUpdateEdgeArrow;
@@ -46,16 +46,11 @@ public class PSDrawEdgeScenario extends XScenario {
     
     @Override
     protected void addScenes() {
-        this.addScene(PSDrawEdgeScenario.DrawEdgeScene.
-            createSingleton(this));
-        this.addScene(PSDrawEdgeScenario.EditEdgeReadyScene.
-            createSingleton(this));
-        this.addScene(PSDrawEdgeScenario.EditEdgeInputScene.
-            createSingleton(this));
-        this.addScene(PSDrawEdgeScenario.EditEdgeCmdScene.
-            createSingleton(this));
-        this.addScene(PSDrawEdgeScenario.ClearEdgeInputOrCmdScene.
-            createSingleton(this));
+        this.addScene(PSDrawEdgeScenario.DrawEdgeScene.createSingleton(this));
+        this.addScene(PSDrawEdgeScenario.EditEdgeReadyScene.createSingleton(this));
+        this.addScene(PSDrawEdgeScenario.EditEdgeInputScene.createSingleton(this));
+        this.addScene(PSDrawEdgeScenario.EditEdgeCmdScene.createSingleton(this));
+        this.addScene(PSDrawEdgeScenario.ClearEdgeInputOrCmdScene.createSingleton(this));
     }
     
     public static class DrawEdgeScene extends PSScene {
@@ -168,8 +163,7 @@ public class PSDrawEdgeScenario extends XScenario {
             switch (code) {
                 case KeyEvent.VK_A:
                     app.getEdgeMgr().setCurEdge(null);
-                    XCmdToChangeScene.execute(app,
-                        PSDefaultScenario.ReadyScene.getSingleton(), null);
+                    XCmdToChangeScene.execute(app, this.mReturnScene, null);
                     break;
             }
         }
@@ -236,7 +230,8 @@ public class PSDrawEdgeScenario extends XScenario {
                 PSCmdToAddCurEdgeToEdges.execute(app);
                 app.getEdgeMgr().setCurEdge(null);
                 XCmdToChangeScene.execute(app, 
-                    PSDefaultScenario.ReadyScene.getSingleton(), null);
+                    PSDefaultScenario.ReadyScene.getSingleton(), 
+                    null);
             }
         }
 
@@ -269,13 +264,14 @@ public class PSDrawEdgeScenario extends XScenario {
             switch (code) {
                 case KeyEvent.VK_DELETE:
                     // delete the edge info from both starting and ending nodes
-                    PSCmdToDeleteEdge.execute(app, 
+                    PSCmdToDeleteEdgeInfo.execute(app, 
                         app.getEdgeMgr().getCurEdge(), 
                         app.getEdgeMgr().getCurEdge().getStartingNode(),
                         app.getEdgeMgr().getCurEdge().getEndingNode());
                     app.getEdgeMgr().setCurEdge(null);
                     XCmdToChangeScene.execute(app, 
-                        PSDefaultScenario.ReadyScene.getSingleton(), null);
+                        PSDefaultScenario.ReadyScene.getSingleton(), 
+                        null);
                     break;
                 case KeyEvent.VK_ENTER:
                     PSCmdToAddCurEdgeToEdges.execute(app);
@@ -507,8 +503,7 @@ public class PSDrawEdgeScenario extends XScenario {
             switch (code) {
                 case KeyEvent.VK_C:
                     XCmdToChangeScene.execute(app, 
-                        PSDrawEdgeScenario.EditEdgeReadyScene.getSingleton(),
-                        null);
+                    PSDrawEdgeScenario.EditEdgeReadyScene.getSingleton(), null);
                     break;
             }
         }

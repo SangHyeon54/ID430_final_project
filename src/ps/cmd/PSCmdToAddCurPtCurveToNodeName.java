@@ -22,7 +22,7 @@ public class PSCmdToAddCurPtCurveToNodeName extends XLoggableCmd {
         PSApp app = (PSApp) this.mApp;
         if (app.getPtCurveMgr().getCurPtCurve() != null) {
             app.getNodeMgr().getCurNode().addNamePtCurve(
-                app.getPtCurveMgr().getCurPtCurve());
+                    app.getPtCurveMgr().getCurPtCurve());
             return true; 
         }
         return false;

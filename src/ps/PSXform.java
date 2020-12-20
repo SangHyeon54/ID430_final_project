@@ -99,8 +99,7 @@ public class PSXform {
         double d1 = PSXform.PIVOT_PT.distance(pt);
         double s = d1/d0;
         
-        Point2D.Double worldPivotPt = this.calcPtFromScreenToWorld(
-            PSXform.PIVOT_PT);
+        Point2D.Double worldPivotPt = this.calcPtFromScreenToWorld(PSXform.PIVOT_PT);
         
         // translate the screen coordinate system by (-dx , -dy)
         this.mCurXformFromWorldToScreen.translate(
