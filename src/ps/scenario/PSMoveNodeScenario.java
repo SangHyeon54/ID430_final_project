@@ -9,7 +9,7 @@ import ps.PSApp;
 import ps.PSEdge;
 import ps.PSEdgeCmd;
 import ps.PSEdgeInput;
-import ps.PSNode;
+import ps.PSGeneralNode;
 import ps.PSScene;
 import ps.cmd.PSCmdToAddCurNodeToNodes;
 import ps.cmd.PSCmdToMoveNode;
@@ -69,7 +69,7 @@ public class PSMoveNodeScenario extends XScenario {
             // so, just move the curNode
             if (app.getNodeMgr().getCurNode() != null) {
                 // the point is in node
-                if(app.getNodeMgr().getCurNode().contains(mWorldPt))
+                if(app.getNodeMgr().getCurNode().getBound().contains(mWorldPt))
                 {
                     PSCmdToSetMovePoint.execute(app, pt,
                         app.getNodeMgr().getCurNode());
@@ -81,11 +81,11 @@ public class PSMoveNodeScenario extends XScenario {
             }
             
             // if there is not curNode, find the Node contain Pt
-            ArrayList<PSNode> nodes = app.getNodeMgr().getNodes();
+            ArrayList<PSGeneralNode> nodes = app.getNodeMgr().getGeneralNodes();
             for (int i = 0; i < nodes.size(); i ++) {
-                PSNode node = nodes.get(i);
+                PSGeneralNode node = nodes.get(i);
                 // if the point is in node.
-                if (node.contains(mWorldPt)) {
+                if (node.getBound().contains(mWorldPt)) {
                     app.getNodeMgr().setCurNode(node);
                     app.getNodeMgr().removeNode(i);
                     break;

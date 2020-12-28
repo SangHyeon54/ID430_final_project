@@ -26,8 +26,8 @@ public class PSCmdToAddCurNodeToNodes extends XLoggableCmd {
         PSApp app = (PSApp) this.mApp;
         if (app.getNodeMgr().getCurNode() != null) {
             this.mNumOfNodesBef = 
-                app.getPtCurveMgr().getPtCurves().size();
-            app.getNodeMgr().getNodes().add(
+                app.getNodeMgr().getGeneralNodes().size();
+            app.getNodeMgr().getGeneralNodes().add(
                 app.getNodeMgr().getCurNode());
             this.mNumOfNodesAft = 
                 app.getPtCurveMgr().getPtCurves().size();

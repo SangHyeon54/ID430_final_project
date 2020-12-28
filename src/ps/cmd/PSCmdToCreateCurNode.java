@@ -3,7 +3,7 @@ package ps.cmd;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import ps.PSApp;
-import ps.PSNode;
+import ps.PSGeneralNode;
 import x.XApp;
 import x.XLoggableCmd;
 
@@ -26,7 +26,7 @@ public class PSCmdToCreateCurNode extends XLoggableCmd {
     protected boolean defineCmd() {
         PSApp app = (PSApp) this.mApp;
         this.mWorldPt = app.getXform().calcPtFromScreenToWorld(this.mScreenPt);
-        PSNode mPSNode = new PSNode(this.mWorldPt);
+        PSGeneralNode mPSNode = new PSGeneralNode(this.mWorldPt);
         app.getNodeMgr().setCurNode(mPSNode);
         return true;
     }

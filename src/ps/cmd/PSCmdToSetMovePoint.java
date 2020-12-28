@@ -3,7 +3,7 @@ package ps.cmd;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import ps.PSApp;
-import ps.PSNode;
+import ps.PSGeneralNode;
 import x.XApp;
 import x.XLoggableCmd;
 
@@ -11,16 +11,16 @@ public class PSCmdToSetMovePoint extends XLoggableCmd{
     
     private Point mScreenPt = null;
     private Point.Double mWorldPt = null;
-    private PSNode mNode = null;
+    private PSGeneralNode mNode = null;
     
     //private constructor
-    private PSCmdToSetMovePoint(XApp app, Point pt, PSNode node) {
+    private PSCmdToSetMovePoint(XApp app, Point pt, PSGeneralNode node) {
         super(app);
         this.mScreenPt = pt;
         this.mNode = node;
     }
     
-    public static boolean execute(XApp app, Point pt, PSNode node) {
+    public static boolean execute(XApp app, Point pt, PSGeneralNode node) {
         PSCmdToSetMovePoint cmd = 
             new PSCmdToSetMovePoint(app, pt, node);
         return cmd.execute();

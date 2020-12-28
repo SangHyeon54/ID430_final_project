@@ -5,20 +5,20 @@ import java.awt.geom.Point2D;
 import ps.PSApp;
 import ps.PSEdge;
 import ps.PSEdgeMgr;
-import ps.PSNode;
+import ps.PSGeneralNode;
 import x.XApp;
 import x.XLoggableCmd;
 
 public class PSCmdToDeleteEdgeOfNode extends XLoggableCmd {
-    private PSNode mNode = null;
+    private PSGeneralNode mNode = null;
     
     //private constructor
-    private PSCmdToDeleteEdgeOfNode(XApp app, PSNode node) {
+    private PSCmdToDeleteEdgeOfNode(XApp app, PSGeneralNode node) {
         super(app);
         this.mNode = node;
     }
     
-    public static boolean execute(XApp app, PSNode node) {
+    public static boolean execute(XApp app, PSGeneralNode node) {
         PSCmdToDeleteEdgeOfNode cmd = new PSCmdToDeleteEdgeOfNode(app, node);
         return cmd.execute();
     }

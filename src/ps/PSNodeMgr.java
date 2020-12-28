@@ -15,29 +15,30 @@ public class PSNodeMgr {
     
     // fields
     // CurNode is for edit, move
-    private PSNode mCurNode = null;
-    public PSNode getCurNode() {
+    private PSGeneralNode mCurNode = null;
+    public PSGeneralNode getCurNode() {
         return this.mCurNode;
     }
-    public void setCurNode(PSNode ptCurve) {
+    
+    public void setCurNode(PSGeneralNode ptCurve) {
         this.mCurNode = ptCurve;
     }
     
-    private ArrayList<PSNode> mNodes = null;
-    public ArrayList<PSNode> getNodes() {
-        return this.mNodes;
+    private ArrayList<PSGeneralNode> mGeneralNodes = null;
+    public ArrayList<PSGeneralNode> getGeneralNodes() {
+        return this.mGeneralNodes;
     }
     
     // constructor
     public PSNodeMgr() {
-        this.mNodes = new ArrayList<PSNode>();
+        this.mGeneralNodes = new ArrayList<PSGeneralNode>();
     }
     
-    public void addNode(PSNode node) {
-        this.mNodes.add(node);
+    public void addNode(PSGeneralNode node) {
+        this.mGeneralNodes.add(node);
     }
     
     public void removeNode(int index) {
-        this.mNodes.remove(index);
+        this.mGeneralNodes.remove(index);
     }
 }

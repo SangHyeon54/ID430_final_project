@@ -3,7 +3,7 @@ package ps.cmd;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import ps.PSApp;
-import ps.PSNode;
+import ps.PSGeneralNode;
 import x.XApp;
 import x.XLoggableCmd;
 
@@ -26,7 +26,7 @@ public class PSCmdToUpdateNodeRadius extends XLoggableCmd {
     @Override
     protected boolean defineCmd() {
         PSApp app = (PSApp) this.mApp;
-        PSNode curNode = app.getNodeMgr().getCurNode();
+        PSGeneralNode curNode = app.getNodeMgr().getCurNode();
         Point2D.Double nodeCenter = curNode.getCenter();
         
         this.mWorldPt = app.getXform().calcPtFromScreenToWorld(this.mScreenPt);
@@ -36,11 +36,11 @@ public class PSCmdToUpdateNodeRadius extends XLoggableCmd {
         
         // if the pt is bigger than max, or smaller than min, ignore.
         if (this.mWorldPt.distance(nodeCenter) < 
-            PSNode.MIN_RADIUS) {
+            PSGeneralNode.MIN_RADIUS) {
             return false;
         }
         if (this.mWorldPt.distance(nodeCenter) > 
-            PSNode.MAX_RADIUS) {
+            PSGeneralNode.MAX_RADIUS) {
             return false;
         }
 

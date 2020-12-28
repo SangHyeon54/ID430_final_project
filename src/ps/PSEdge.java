@@ -175,11 +175,11 @@ public class PSEdge {
     
     private void drawArrowHeadForSelfLoop(Graphics2D g2) {                
         double tangentAngle = Math.atan2(
-            mStartOfArrow.y - mStartingNode.getCenterY(), 
-            mStartOfArrow.x - mStartingNode.getCenterX()) - 4 * Math.PI / 5;
+            mStartOfArrow.y - mStartingNode.getCenter().y, 
+            mStartOfArrow.x - mStartingNode.getCenter().x) - 4 * Math.PI / 5;
         double anglePt0 = Math.atan2(mStartOfArrow.y 
-            - mStartingNode.getCenterY(), 
-            mStartOfArrow.x - mStartingNode.getCenterX()) - 63 * Math.PI / 80;
+            - mStartingNode.getCenter().y, 
+            mStartOfArrow.x - mStartingNode.getCenter().x) - 63 * Math.PI / 80;
         
         double angle1 = tangentAngle - ARROW_HEAD_ANGLE;
         double angle2 = tangentAngle + ARROW_HEAD_ANGLE;
@@ -225,8 +225,8 @@ public class PSEdge {
     }
     
     private void calculateStartOfArrow() {
-        double cx = mStartingNode.getCenterX();
-        double cy = mStartingNode.getCenterY();
+        double cx = mStartingNode.getCenter().x;
+        double cy = mStartingNode.getCenter().y;
         
         double r = mStartingNode.getRadius();
         double angle = Math.atan2(mStartingPt.y - cy, 
@@ -251,8 +251,8 @@ public class PSEdge {
     }
     
     private void calculateSelfLoopPos() {
-        double angle = Math.atan2(mStartOfArrow.y - mStartingNode.getCenterY(), 
-            mStartOfArrow.x - mStartingNode.getCenterX());
+        double angle = Math.atan2(mStartOfArrow.y - mStartingNode.getCenter().y, 
+            mStartOfArrow.x - mStartingNode.getCenter().x);
 
         //corner position of the self loop
         double posX = mStartOfArrow.x - SELF_LOOP_DIAMETER / 2
@@ -266,15 +266,15 @@ public class PSEdge {
     private void calculateSelfLoopStartAngle() {
         // depending on where the start of arrow is,
         // the input angle to create arc for self loop is different
-        double angle = Math.atan2(mStartOfArrow.y - mStartingNode.getCenterY(), 
-            mStartOfArrow.x - mStartingNode.getCenterX());
+        double angle = Math.atan2(mStartOfArrow.y - mStartingNode.getCenter().y, 
+            mStartOfArrow.x - mStartingNode.getCenter().x);
         
         this.mSelfLoopStartAngle = 225 - Math.toDegrees(angle) ;
     }
     
     private void calculateCmdPosForSelfLoop() {
-        double angle = Math.atan2(mStartOfArrow.y - mStartingNode.getCenterY(), 
-            mStartOfArrow.x - mStartingNode.getCenterX());
+        double angle = Math.atan2(mStartOfArrow.y - mStartingNode.getCenter().y, 
+            mStartOfArrow.x - mStartingNode.getCenter().x);
         double d = SELF_LOOP_DIAMETER + GAP_BETW_SELF_LOOP_AND_NODE;
 
         //corner position of the self loop

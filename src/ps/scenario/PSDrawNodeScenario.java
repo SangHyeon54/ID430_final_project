@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import ps.PSApp;
 import ps.PSCanvas2D;
-import ps.PSNode;
+import ps.PSGeneralNode;
 import ps.PSScene;
 import ps.cmd.PSCmdToAddCurNodeToNodes;
 import ps.cmd.PSCmdToAddCurPtCurveToNodeName;
@@ -152,9 +152,9 @@ public class PSDrawNodeScenario extends XScenario {
             PSApp app = (PSApp) this.mScenario.getApp();
             Point pt = e.getPoint();
             Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
-            PSNode node = app.getNodeMgr().getCurNode();
+            PSGeneralNode node = app.getNodeMgr().getCurNode();
             // if the mouse press inside of ellipse, make node name
-            if (node.contains(mWorldPt)) {
+            if (node.getBound().contains(mWorldPt)) {
                 PSCmdToCreateCurPtCurve.execute(app, pt);
                 XCmdToChangeScene.execute(app, 
                     PSDrawNodeScenario.EditNodeNameScene.getSingleton(), this);
@@ -320,11 +320,11 @@ public class PSDrawNodeScenario extends XScenario {
     }
     
     Point2D.Double mm = new Point2D.Double(50, 50);
-    private PSNode mNode = null;
-    public PSNode getNode() {
+    private PSGeneralNode mNode = null;
+    public PSGeneralNode getNode() {
         return mNode;
     }
-    public void setNode(PSNode node) {
+    public void setNode(PSGeneralNode node) {
         this.mNode = node;
     }
     

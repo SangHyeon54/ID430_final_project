@@ -89,29 +89,4 @@ public class PSApp extends XApp {
         // Create a new PS object
         new PSApp();
     }
-    
-    public void increaseStrokeWidthForSelected(float f) {
-        //from the point curve manager, get number of the selected point curves
-        int size_s = this.mPtCurveMgr.getSelectedPtCurves().size();
-        for (int i = 0; i < size_s; i++) {
-            BasicStroke bs = (BasicStroke)this.mPtCurveMgr.
-                getSelectedPtCurves().get(i).getStroke();
-            float w = bs.getLineWidth();
-            w += f;
-            if (w < 1.0f) {
-                w = 1.0f;
-            }
-            
-            //reset the stroke with new width
-            this.mPtCurveMgr.getSelectedPtCurves().get(i).
-                setStroke(new BasicStroke(w, bs.getEndCap(), bs.getLineJoin()));
-        }
-    }
-    
-    public void setColorForSelectedPtCurve(Color c) {
-        int size_s = this.mPtCurveMgr.getSelectedPtCurves().size();
-        for (int i = 0; i < size_s; i++) {
-            this.mPtCurveMgr.getSelectedPtCurves().get(i).setColor(c);
-        }
-    }
 }

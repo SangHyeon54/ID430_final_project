@@ -9,7 +9,7 @@ import ps.PSApp;
 import ps.PSEdge;
 import ps.PSEdgeCmd;
 import ps.PSEdgeInput;
-import ps.PSNode;
+import ps.PSGeneralNode;
 import ps.PSScene;
 import ps.cmd.PSCmdToSetStartingScreenPtForXform;
 import x.XApp;
@@ -83,9 +83,9 @@ public class PSDefaultScenario extends XScenario {
                     this);
             } else {
                 // if you click any of nodes
-                ArrayList<PSNode> nodes = app.getNodeMgr().getNodes();
+                ArrayList<PSGeneralNode> nodes = app.getNodeMgr().getGeneralNodes();
                 for (int i = 0; i < nodes.size(); i ++) {
-                    PSNode node = nodes.get(i);
+                    PSGeneralNode node = nodes.get(i);
                     // if the point is inside of node.
                     if (node.getCenter().distance(mWorldPt.x, mWorldPt.y) < 
                         node.getRadius()) {
