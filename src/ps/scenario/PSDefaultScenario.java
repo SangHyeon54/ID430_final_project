@@ -90,7 +90,7 @@ public class PSDefaultScenario extends XScenario {
                     if (node.getCenter().distance(mWorldPt.x, mWorldPt.y) < 
                         node.getRadius()) {
                         app.getNodeMgr().setCurNode(node);
-                        app.getNodeMgr().removeNode(i);
+                        app.getNodeMgr().removeGeneralNode(i);
                         break;
                     }
                 }

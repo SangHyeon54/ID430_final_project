@@ -46,7 +46,7 @@ public class PSEdgeCmd extends Rectangle2D.Double {
         if (this.isVisible) {
             this.setFrame(mCorneredCenter.x, mCorneredCenter.y,
             WIDTH, HEIGHT);   
-            g2.setPaint(PSCanvas2D.COLOR_NODE_ELLIPSE_BG);
+            g2.setPaint(PSCanvas2D.COLOR_CUR_EDGE_BG);
             g2.fill (this);
             g2.setColor(c);
             g2.setStroke(s);

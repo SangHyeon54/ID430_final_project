@@ -20,7 +20,8 @@ public class PSCanvas2D extends JPanel {
     public static final Color COLOR_CUR_NODE_ELLIPSE = new Color(51, 51, 255, 255);
     public static final Color COLOR_NODE_ELLIPSE = Color.BLACK;
     public static final Color COLOR_NODE_ELLIPSE_BG = Color.WHITE;
-     public static final Color COLOR_CUR_EDGE_ARROW = new Color(51, 51, 255, 255);
+    public static final Color COLOR_CUR_EDGE_BG = new Color(255, 255, 255, 150);
+    public static final Color COLOR_CUR_EDGE_ARROW = new Color(51, 51, 255, 255);
     public static final Color COLOR_EDGE_ARROW = Color.BLACK;
     public static final Color COLOR_CROSSHAIR = new Color(255, 0, 0, 64);
     private static final Color COLOR_INFO = new Color(255, 0, 0, 128);

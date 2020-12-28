@@ -19,7 +19,6 @@ public class PSNodeMgr {
     public PSGeneralNode getCurNode() {
         return this.mCurNode;
     }
-    
     public void setCurNode(PSGeneralNode ptCurve) {
         this.mCurNode = ptCurve;
     }
@@ -29,16 +28,30 @@ public class PSNodeMgr {
         return this.mGeneralNodes;
     }
     
+    private ArrayList<PSReturnNode> mReturnNodes = null;
+    public ArrayList<PSReturnNode> getReturnNodes() {
+        return this.mReturnNodes;
+    }
+    
     // constructor
     public PSNodeMgr() {
         this.mGeneralNodes = new ArrayList<PSGeneralNode>();
+        this.mReturnNodes = new ArrayList<PSReturnNode>();
     }
     
-    public void addNode(PSGeneralNode node) {
+    public void addGeneralNode(PSGeneralNode node) {
         this.mGeneralNodes.add(node);
     }
     
-    public void removeNode(int index) {
+    public void removeGeneralNode(int index) {
         this.mGeneralNodes.remove(index);
+    }
+    
+    public void addReturnNode(PSReturnNode node) {
+        this.mReturnNodes.add(node);
+    }
+    
+    public void removeReturnNode(int index) {
+        this.mReturnNodes.remove(index);
     }
 }

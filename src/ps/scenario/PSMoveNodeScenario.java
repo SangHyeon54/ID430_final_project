@@ -87,7 +87,7 @@ public class PSMoveNodeScenario extends XScenario {
                 // if the point is in node.
                 if (node.getBound().contains(mWorldPt)) {
                     app.getNodeMgr().setCurNode(node);
-                    app.getNodeMgr().removeNode(i);
+                    app.getNodeMgr().removeGeneralNode(i);
                     break;
                 }
             }
