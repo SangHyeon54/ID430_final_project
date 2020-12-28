@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import ps.PSApp;
 import ps.PSGeneralNode;
+import ps.PSNode;
 import x.XApp;
 import x.XLoggableCmd;
 
@@ -11,16 +12,16 @@ public class PSCmdToMoveNode extends XLoggableCmd{
     
     private Point mScreenPt = null;
     private Point.Double mWorldPt = null;
-    private PSGeneralNode mNode = null;
+    private PSNode mNode = null;
     
     //private constructor
-    private PSCmdToMoveNode(XApp app, Point pt, PSGeneralNode node) {
+    private PSCmdToMoveNode(XApp app, Point pt, PSNode node) {
         super(app);
         this.mScreenPt = pt;
         this.mNode = node;
     }
     
-    public static boolean execute(XApp app, Point pt, PSGeneralNode node) {
+    public static boolean execute(XApp app, Point pt, PSNode node) {
         PSCmdToMoveNode cmd = 
             new PSCmdToMoveNode(app, pt, node);
         return cmd.execute();

@@ -26,7 +26,7 @@ public class PSCmdToUpdateNodeRadius extends XLoggableCmd {
     @Override
     protected boolean defineCmd() {
         PSApp app = (PSApp) this.mApp;
-        PSGeneralNode curNode = app.getNodeMgr().getCurNode();
+        PSGeneralNode curNode = (PSGeneralNode) app.getNodeMgr().getCurNode();
         Point2D.Double nodeCenter = curNode.getCenter();
         
         this.mWorldPt = app.getXform().calcPtFromScreenToWorld(this.mScreenPt);

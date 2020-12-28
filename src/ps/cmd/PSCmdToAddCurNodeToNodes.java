@@ -1,6 +1,8 @@
 package ps.cmd;
 
 import ps.PSApp;
+import ps.PSGeneralNode;
+import ps.PSReturnNode;
 import x.XApp;
 import x.XLoggableCmd;
 
@@ -27,8 +29,14 @@ public class PSCmdToAddCurNodeToNodes extends XLoggableCmd {
         if (app.getNodeMgr().getCurNode() != null) {
             this.mNumOfNodesBef = 
                 app.getNodeMgr().getGeneralNodes().size();
-            app.getNodeMgr().getGeneralNodes().add(
-                app.getNodeMgr().getCurNode());
+            if(app.getNodeMgr().getCurNode() instanceof PSGeneralNode) {
+                app.getNodeMgr().getGeneralNodes().add(
+                (PSGeneralNode) app.getNodeMgr().getCurNode());
+            } else {
+                app.getNodeMgr().getReturnNodes().add(
+                (PSReturnNode) app.getNodeMgr().getCurNode());
+            }
+            
             this.mNumOfNodesAft = 
                 app.getPtCurveMgr().getPtCurves().size();
             return true;

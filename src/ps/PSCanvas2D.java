@@ -115,11 +115,17 @@ public class PSCanvas2D extends JPanel {
     }
     
     private void drawCurNode(Graphics2D g2) {
-        PSGeneralNode node = this.mApp.getNodeMgr().getCurNode();
+        PSNode node = this.mApp.getNodeMgr().getCurNode();
         if (node != null) { 
-            // draw ellipse
-            this.drawGeneralNode(g2, node, PSCanvas2D.COLOR_CUR_NODE_ELLIPSE,
-                PSCanvas2D.STROKE_CUR_NODE_ELLIPSE);
+            if (node instanceof PSGeneralNode) {
+                this.drawGeneralNode(g2, (PSGeneralNode) node, 
+                    PSCanvas2D.COLOR_CUR_NODE_ELLIPSE,
+                    PSCanvas2D.STROKE_CUR_NODE_ELLIPSE);
+            } else {
+                this.drawReturnNode(g2, (PSReturnNode) node, 
+                    PSCanvas2D.COLOR_CUR_NODE_ELLIPSE,
+                    PSCanvas2D.STROKE_CUR_NODE_ELLIPSE);
+            }
         }
     }
     

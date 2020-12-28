@@ -152,7 +152,7 @@ public class PSDrawNodeScenario extends XScenario {
             PSApp app = (PSApp) this.mScenario.getApp();
             Point pt = e.getPoint();
             Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
-            PSGeneralNode node = app.getNodeMgr().getCurNode();
+            PSGeneralNode node = (PSGeneralNode) app.getNodeMgr().getCurNode();
             // if the mouse press inside of ellipse, make node name
             if (node.getBound().contains(mWorldPt)) {
                 PSCmdToCreateCurPtCurve.execute(app, pt);
@@ -212,7 +212,7 @@ public class PSDrawNodeScenario extends XScenario {
                     break;
                 case KeyEvent.VK_DELETE:
                     PSCmdToDeleteEdgeOfNode.execute(app, 
-                        app.getNodeMgr().getCurNode());
+                        (PSGeneralNode) app.getNodeMgr().getCurNode());
                     app.getNodeMgr().setCurNode(null);                    
                     XCmdToChangeScene.execute(app, 
                         PSDefaultScenario.ReadyScene.getSingleton(), null);

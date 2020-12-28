@@ -10,6 +10,7 @@ import ps.PSEdge;
 import ps.PSEdgeCmd;
 import ps.PSEdgeInput;
 import ps.PSGeneralNode;
+import ps.PSReturnNode;
 import ps.PSScene;
 import ps.cmd.PSCmdToAddCurNodeToNodes;
 import ps.cmd.PSCmdToMoveNode;
@@ -71,8 +72,7 @@ public class PSMoveNodeScenario extends XScenario {
                 // the point is in node
                 if(app.getNodeMgr().getCurNode().getBound().contains(mWorldPt))
                 {
-                    PSCmdToSetMovePoint.execute(app, pt,
-                        app.getNodeMgr().getCurNode());
+                    PSCmdToSetMovePoint.execute(app, pt, app.getNodeMgr().getCurNode());
                     XCmdToChangeScene.execute(app,
                         PSMoveNodeScenario.MoveNodeScene.getSingleton(),
                         this.mReturnScene);
@@ -95,15 +95,32 @@ public class PSMoveNodeScenario extends XScenario {
             // if Pt is out of node, do not anything
             // else, move the node.
             if (app.getNodeMgr().getCurNode() != null) {
-                PSCmdToSetMovePoint.execute(app, pt,
+                PSCmdToSetMovePoint.execute(app, pt, 
                     app.getNodeMgr().getCurNode());
                 XCmdToChangeScene.execute(app,
                     PSMoveNodeScenario.MoveNodeScene.getSingleton(),
                     this.mReturnScene);
+                return;
             }
             
-            
-            
+            ArrayList<PSReturnNode> rNodes = app.getNodeMgr().getReturnNodes();
+            for (int i = 0; i < nodes.size(); i ++) {
+                PSReturnNode rNode = rNodes.get(i);
+                // if the point is in node.
+                if (rNode.getBound().contains(mWorldPt)) {
+                    app.getNodeMgr().setCurNode(rNode);
+                    app.getNodeMgr().removeReturnNode(i);
+                    break;
+                }
+            }
+            if (app.getNodeMgr().getCurNode() != null) {
+                PSCmdToSetMovePoint.execute(app, pt, 
+                    app.getNodeMgr().getCurNode());
+                XCmdToChangeScene.execute(app,
+                    PSMoveNodeScenario.MoveNodeScene.getSingleton(),
+                    this.mReturnScene);
+                return;
+            }
         }
 
         @Override

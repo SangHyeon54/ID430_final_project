@@ -1,6 +1,7 @@
 package ps.cmd;
 
 import ps.PSApp;
+import ps.PSGeneralNode;
 import x.XApp;
 import x.XLoggableCmd;
 
@@ -21,9 +22,9 @@ public class PSCmdToAddCurPtCurveToNodeName extends XLoggableCmd {
     protected boolean defineCmd() {
         PSApp app = (PSApp) this.mApp;
         if (app.getPtCurveMgr().getCurPtCurve() != null) {
-            app.getNodeMgr().getCurNode().addNamePtCurve(
-                app.getPtCurveMgr().getCurPtCurve());
-            return true; 
+            PSGeneralNode cNode = (PSGeneralNode) app.getNodeMgr().getCurNode();
+            cNode.addNamePtCurve(app.getPtCurveMgr().getCurPtCurve());
+            return true;
         }
         return false;
     }

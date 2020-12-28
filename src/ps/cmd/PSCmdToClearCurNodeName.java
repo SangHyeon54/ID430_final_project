@@ -1,6 +1,7 @@
 package ps.cmd;
 
 import ps.PSApp;
+import ps.PSGeneralNode;
 import x.XApp;
 import x.XLoggableCmd;
 
@@ -19,7 +20,8 @@ public class PSCmdToClearCurNodeName extends XLoggableCmd {
     @Override
     protected boolean defineCmd() {
         PSApp app = (PSApp) this.mApp;
-        app.getNodeMgr().getCurNode().clearNamePtCurve();
+        PSGeneralNode cNode = (PSGeneralNode) app.getNodeMgr().getCurNode();
+        cNode.clearNamePtCurve();
         return true;
     }
 

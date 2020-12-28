@@ -15,11 +15,11 @@ public class PSNodeMgr {
     
     // fields
     // CurNode is for edit, move
-    private PSGeneralNode mCurNode = null;
-    public PSGeneralNode getCurNode() {
+    private PSNode mCurNode = null;
+    public PSNode getCurNode() {
         return this.mCurNode;
     }
-    public void setCurNode(PSGeneralNode ptCurve) {
+    public void setCurNode(PSNode ptCurve) {
         this.mCurNode = ptCurve;
     }
     
