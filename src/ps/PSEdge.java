@@ -285,4 +285,18 @@ public class PSEdge {
 
         this.mCenter = new Point.Double(posX, posY);
     }
+    
+    public void cutArrow(double distance) {
+        double dx = this.mEndingPt.x - this.mStartingPt.x;
+        double dy = this.mEndingPt.y - this.mStartingPt.y;
+        
+        double cutX = dx / Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)) * 
+            distance;
+        double cutY = dy / Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)) * 
+            distance;
+        
+        Point.Double newEndingPt = new Point.Double(this.mEndingPt.x - cutX, 
+            this.mEndingPt.y - cutY);
+        this.mEndingPt = newEndingPt;
+    }
 }

@@ -2,11 +2,13 @@ package ps.cmd;
 
 import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import ps.PSApp;
 import ps.PSEdge;
 import ps.PSEdgeMgr;
 import ps.PSGeneralNode;
 import ps.PSNode;
+import ps.PSReturnNode;
 import x.XApp;
 import x.XLoggableCmd;
 
@@ -37,6 +39,9 @@ public class PSCmdToDeleteEdge extends XLoggableCmd {
         // delete the edge info in the related nodes.
         this.mStartNode.removeEdgeStart(this.mEdge);
         this.mEndNode.removeEdgeEnd(this.mEdge);
+        if(this.mEndNode instanceof PSReturnNode) {
+            app.getNodeMgr().removeReturnNode((PSReturnNode) this.mEndNode);
+        }
         return true;
     }
 

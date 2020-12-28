@@ -54,4 +54,8 @@ public class PSNodeMgr {
     public void removeReturnNode(int index) {
         this.mReturnNodes.remove(index);
     }
+    
+    public void removeReturnNode(PSReturnNode node) {
+        this.mReturnNodes.remove(node);
+    }
 }

@@ -6,6 +6,7 @@ import ps.PSApp;
 import ps.PSEdge;
 import ps.PSEdgeMgr;
 import ps.PSGeneralNode;
+import ps.PSReturnNode;
 import x.XApp;
 import x.XLoggableCmd;
 
@@ -28,6 +29,10 @@ public class PSCmdToDeleteEdgeOfNode extends XLoggableCmd {
         PSApp app = (PSApp) this.mApp;
         PSEdgeMgr edgeMgr = app.getEdgeMgr();
         for(PSEdge edge : this.mNode.getEdgeStart()) {
+            if(edge.getEndingNode() instanceof PSReturnNode) {
+                app.getNodeMgr().removeReturnNode(
+                    (PSReturnNode) edge.getEndingNode());
+            }
             edgeMgr.removeEdge(edge);
         }
         for(PSEdge edge : this.mNode.getEdgeEnd()) {

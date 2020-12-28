@@ -105,21 +105,25 @@ public class PSCanvas2D extends JPanel {
     
     private void drawNodes(Graphics2D g2) {
         for (PSGeneralNode node : this.mApp.getNodeMgr().getGeneralNodes()) {
-            this.drawNode(g2, node, PSCanvas2D.COLOR_NODE_ELLIPSE,
+            this.drawGeneralNode(g2, node, PSCanvas2D.COLOR_NODE_ELLIPSE,
                 PSCanvas2D.STROKE_NODE_ELLIPSE);
-        }    
+        }
+        for (PSReturnNode node : this.mApp.getNodeMgr().getReturnNodes()) {
+            this.drawReturnNode(g2, node, PSCanvas2D.COLOR_NODE_ELLIPSE,
+                PSCanvas2D.STROKE_NODE_ELLIPSE);
+        }
     }
     
     private void drawCurNode(Graphics2D g2) {
         PSGeneralNode node = this.mApp.getNodeMgr().getCurNode();
         if (node != null) { 
             // draw ellipse
-            this.drawNode(g2, node, PSCanvas2D.COLOR_CUR_NODE_ELLIPSE,
+            this.drawGeneralNode(g2, node, PSCanvas2D.COLOR_CUR_NODE_ELLIPSE,
                 PSCanvas2D.STROKE_CUR_NODE_ELLIPSE);
         }
     }
     
-    private void drawNode(Graphics2D g2, PSGeneralNode node, Color c, Stroke s) {
+    private void drawGeneralNode(Graphics2D g2, PSGeneralNode node, Color c, Stroke s) {
         // draw basic shape of the node
         node.drawNode(g2, c, s);
         
@@ -142,6 +146,19 @@ public class PSCanvas2D extends JPanel {
                     namePtCurve.getColor(),
                     namePtCurve.getStroke());
         }
+    }
+    
+    private void drawReturnNode(Graphics2D g2, PSReturnNode node, Color c, Stroke s) {
+        // draw basic shape of the node
+        node.drawNode(g2, c, s);
+        
+        // draw(write) mode of node
+        g2.setFont(PSCanvas2D.FONT_MODE_INFO);
+        
+        int x_R = (int) Math.round(node.getCenter().x - 10);
+        int y_R = (int) Math.round(node.getCenter().y + 10);
+
+        g2.drawString("R", x_R, y_R);
     }
     
     private void drawEdges (Graphics2D g2) {

@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import ps.PSApp;
 import ps.PSCanvas2D;
@@ -12,6 +13,7 @@ import ps.PSNode;
 import ps.PSEdge;
 import ps.PSEdgeCmd;
 import ps.PSEdgeInput;
+import ps.PSReturnNode;
 import ps.PSScene;
 import ps.cmd.PSCmdToAddCurEdgeToEdges;
 import ps.cmd.PSCmdToAddCurPtCurveToEdgeCmd;
@@ -150,9 +152,17 @@ public class PSDrawEdgeScenario extends XScenario {
                 }
             } else {
                 //Not in node, so invalid => set current edge null
-                app.getEdgeMgr().setCurEdge(null);
-                XCmdToChangeScene.execute(app, 
-                    PSDefaultScenario.ReadyScene.getSingleton(), null);
+//                app.getEdgeMgr().setCurEdge(null);
+//                XCmdToChangeScene.execute(app, 
+//                    PSDefaultScenario.ReadyScene.getSingleton(), null);
+                if (app.getEdgeMgr().getCurEdge() != null) {
+                    mNode = new PSReturnNode(mWorldPt);
+                    app.getNodeMgr().addReturnNode((PSReturnNode)mNode);
+                    app.getEdgeMgr().getCurEdge().cutArrow(20);
+                    PSCmdToSaveCurEdge.execute(app, pt, mNode);
+                    XCmdToChangeScene.execute(app, PSDrawEdgeScenario.
+                        EditEdgeReadyScene.getSingleton(), null);
+                }
             }
         }
 
