@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class PSPenMark {
     // constants
-    public static final double MIN_DIST_BTWN_PTS = 5.0;
+    public static final double MIN_DIST_BTWN_PTS = 2.0;
     
     // fields
     private ArrayList<Point> mPts = null;

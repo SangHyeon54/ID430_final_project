@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class PSPtCurve {
     //constant
-    public static final double MIN_DIS_BTW_PTS = 5.0;
+    public static final double MIN_DIS_BTW_PTS = 2.0;
     //define member variables here
     private ArrayList<Point2D.Double> mPts = null;
     //getter function to get member variable

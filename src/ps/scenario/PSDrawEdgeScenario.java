@@ -110,6 +110,8 @@ public class PSDrawEdgeScenario extends XScenario {
                 for (PSGeneralNode mNode : mNodes) {
                     if (mNode.getBound().contains(mWorldPt)) {
                         isInNode = true;
+                        curEdge.setEndingNode(mNode);
+                        curEdge.calcArrowEnd();
                         if (mNode == startingNode) {
                             isSelfLoopCondition = true;
                         }
@@ -158,7 +160,7 @@ public class PSDrawEdgeScenario extends XScenario {
                 if (app.getEdgeMgr().getCurEdge() != null) {
                     mNode = new PSReturnNode(mWorldPt);
                     app.getNodeMgr().addReturnNode((PSReturnNode)mNode);
-                    app.getEdgeMgr().getCurEdge().cutArrow(20);
+                    app.getEdgeMgr().getCurEdge().cutArrowEnd(20);
                     PSCmdToSaveCurEdge.execute(app, pt, mNode);
                     XCmdToChangeScene.execute(app, PSDrawEdgeScenario.
                         EditEdgeReadyScene.getSingleton(), null);
@@ -553,6 +555,7 @@ public class PSDrawEdgeScenario extends XScenario {
     private PSEdge mEdge = null;
     public PSEdge getEdge() {
         return mEdge;
+        
     }
     public void setEdge (PSEdge edge) {
         this.mEdge = edge;

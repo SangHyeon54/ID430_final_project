@@ -104,7 +104,7 @@ public class PSMoveNodeScenario extends XScenario {
             }
             
             ArrayList<PSReturnNode> rNodes = app.getNodeMgr().getReturnNodes();
-            for (int i = 0; i < nodes.size(); i ++) {
+            for (int i = 0; i < rNodes.size(); i ++) {
                 PSReturnNode rNode = rNodes.get(i);
                 // if the point is in node.
                 if (rNode.getBound().contains(mWorldPt)) {

@@ -54,6 +54,12 @@ public class PSEdge {
         this.mStartingNode = node;
     }
     
+    // Angle of Input in Starting Node
+    private double mAngle;
+    public double getAngle() {
+        return this.mAngle;
+    }
+    
     private PSNode mEndingNode;
     public PSNode getEndingNode() {
         return this.mEndingNode;
@@ -110,6 +116,11 @@ public class PSEdge {
         this.calculateStartOfArrow();
         this.calculateInputPos();
         this.mInput.setCenter(mInputPos);
+        
+        double input_x = pt.x - node.getCenter().x;
+        double input_y = pt.y - node.getCenter().y;
+        this.mAngle = Math.atan((double)input_y / input_x);
+        System.out.println(this.mAngle);
     }
     
     public void drawEdge(Graphics2D g2, Color c, Stroke s) {
@@ -149,7 +160,7 @@ public class PSEdge {
                 this.mCmd.updateEdgeCmd(new Point.Double(
                     posX, posY - DIST_BETW_ARROW_AND_CMD));
                 g2.drawString(this.getReturnScene(), 
-                    posX, posY + DIST_BETW_ARROW_AND_CMD);
+                    posX - 20 , posY + DIST_BETW_ARROW_AND_CMD);
             }
             this.mCmd.drawCmd(g2, c, s);
         }        
@@ -286,7 +297,7 @@ public class PSEdge {
         this.mCenter = new Point.Double(posX, posY);
     }
     
-    public void cutArrow(double distance) {
+    public void cutArrowEnd(double distance) {
         double dx = this.mEndingPt.x - this.mStartingPt.x;
         double dy = this.mEndingPt.y - this.mStartingPt.y;
         
@@ -298,5 +309,22 @@ public class PSEdge {
         Point.Double newEndingPt = new Point.Double(this.mEndingPt.x - cutX, 
             this.mEndingPt.y - cutY);
         this.mEndingPt = newEndingPt;
+    }
+    
+    public void calcArrowEnd() {
+        this.mEndingPt = this.mEndingNode.getCenter();
+        this.cutArrowEnd(this.mEndingNode.getRadius());
+    }
+    
+    public void calcArrowStart(Point.Double pt) {
+        double dx = pt.x - this.getStartingNode().getCenter().x;
+        double dy = pt.y - this.getStartingNode().getCenter().y;
+        this.mAngle = Math.atan((double)dy / dx);
+        
+        double new_x = this.mStartingNode.getCenter().x + Math.cos(this.mAngle);
+        double new_y = this.mStartingNode.getCenter().y + Math.sin(this.mAngle);
+        Point.Double new_pt = new Point.Double(new_x, new_y);
+        
+        this.mInput.moveInput(new_pt);
     }
 }

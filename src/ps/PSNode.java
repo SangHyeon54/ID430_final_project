@@ -116,9 +116,11 @@ public abstract class PSNode {
         for (PSEdge edge : this.mEdgeStart) {
             edge.moveStartOfArrow(dx, dy);
             edge.moveStartingPt(dx, dy);
+            edge.calcArrowEnd();
         }
         for (PSEdge edge : this.mEdgeEnd) {
             edge.moveEndingPt(dx, dy);
+            edge.calcArrowEnd();
         }
     }
 }

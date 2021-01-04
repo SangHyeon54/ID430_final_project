@@ -67,4 +67,13 @@ public class PSEdgeInput extends Ellipse2D.Double {
             pc.movePtCurve(dx, dy);
         }
     }
+    
+    public void moveInput(Point.Double pt) {
+        this.setFrame(pt.x - mRadius, pt.y - mRadius, mRadius * 2, mRadius * 2);
+        for(PSPtCurve pc : mInputPtCurve) {
+            pc.movePtCurve(pt.x - this.getCenter().x,
+                pt.y - this.getCenter().y);
+        }
+        this.setCenter(pt);
+    }
 }
