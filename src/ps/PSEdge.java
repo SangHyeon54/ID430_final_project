@@ -119,7 +119,7 @@ public class PSEdge {
         
         double input_x = pt.x - node.getCenter().x;
         double input_y = pt.y - node.getCenter().y;
-        this.mAngle = Math.atan((double)input_y / input_x);
+        this.mAngle = Math.atan2(input_y , input_x);
         System.out.println(this.mAngle);
     }
     
@@ -319,12 +319,16 @@ public class PSEdge {
     public void calcArrowStart(Point.Double pt) {
         double dx = pt.x - this.getStartingNode().getCenter().x;
         double dy = pt.y - this.getStartingNode().getCenter().y;
-        this.mAngle = Math.atan((double)dy / dx);
+        this.mAngle = Math.atan2(dy , dx);
         
-        double new_x = this.mStartingNode.getCenter().x + Math.cos(this.mAngle);
-        double new_y = this.mStartingNode.getCenter().y + Math.sin(this.mAngle);
+        double new_x = this.mStartingNode.getCenter().x + 
+            this.mStartingNode.getRadius() * Math.cos(this.mAngle);
+        double new_y = this.mStartingNode.getCenter().y + 
+            this.mStartingNode.getRadius() * Math.sin(this.mAngle);
         Point.Double new_pt = new Point.Double(new_x, new_y);
         
         this.mInput.moveInput(new_pt);
+        this.mStartingPt = new_pt;
+        this.mStartOfArrow = new_pt;
     }
 }

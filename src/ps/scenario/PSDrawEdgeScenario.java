@@ -59,6 +59,10 @@ public class PSDrawEdgeScenario extends XScenario {
             createSingleton(this));
         this.addScene(PSDrawEdgeScenario.ClearEdgeInputOrCmdScene.
             createSingleton(this));
+        this.addScene(PSDrawEdgeScenario.MoveEdgeReadyScene.
+            createSingleton(this));
+        this.addScene(PSDrawEdgeScenario.MoveEdgeInputScene.
+            createSingleton(this));
     }
     
     public static class DrawEdgeScene extends PSScene {
@@ -270,6 +274,10 @@ public class PSDrawEdgeScenario extends XScenario {
                 case KeyEvent.VK_C:
                     XCmdToChangeScene.execute(app, PSDrawEdgeScenario.
                         ClearEdgeInputOrCmdScene.getSingleton(), this);
+                    break;
+                case KeyEvent.VK_SHIFT:
+                    XCmdToChangeScene.execute(app, PSDrawEdgeScenario.
+                        MoveEdgeReadyScene.getSingleton(), this);
                     break;
             }
         }
@@ -549,6 +557,178 @@ public class PSDrawEdgeScenario extends XScenario {
         public void wrapUp() {
             PSApp app = (PSApp) this.mScenario.getApp();
             app.getPtCurveMgr().setCurPtCurve(null);
+        }
+    }
+    
+    public static class MoveEdgeReadyScene extends PSScene {
+        private static MoveEdgeReadyScene mSingleton = null;
+        public static MoveEdgeReadyScene getSingleton() {
+            assert(MoveEdgeReadyScene.mSingleton != null);
+            return MoveEdgeReadyScene.mSingleton;
+        }
+        
+        public static MoveEdgeReadyScene createSingleton(
+            XScenario scenario) {
+            assert(MoveEdgeReadyScene.mSingleton == null);
+            MoveEdgeReadyScene.mSingleton = 
+                new MoveEdgeReadyScene(scenario);
+            return MoveEdgeReadyScene.mSingleton;
+        }
+        
+        private MoveEdgeReadyScene(XScenario scenario) {
+            super(scenario);
+        }
+        
+        @Override
+        public void handleMousePress(MouseEvent e) {
+            PSApp app = (PSApp) this.mScenario.getApp();
+            Point pt = e.getPoint();
+            Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
+            PSEdgeInput edgeInput = app.getEdgeMgr().getCurEdge().getInput();
+            PSEdgeCmd edgeCmd = app.getEdgeMgr().getCurEdge().getCmd();
+            
+            // depending on clicked mouse position, clear either input or cmd
+            if (edgeInput.contains(mWorldPt)) {
+                XCmdToChangeScene.execute(app, 
+                        PSDrawEdgeScenario.MoveEdgeInputScene.getSingleton(),
+                        null);
+            } else if (edgeCmd.contains(mWorldPt)) {
+//                XCmdToChangeScene.execute(app, 
+//                        PSDrawEdgeScenario.MoveEdgeCmdScene.getSingleton(),
+//                        null);
+            }
+        }
+
+        @Override
+        public void handleMouseDrag(MouseEvent e) {
+        }
+
+        @Override
+        public void handleMouseRelease(MouseEvent e) {
+        }
+
+        @Override
+        public void handleKeyDown(KeyEvent e) {
+            
+        }
+
+        @Override
+        public void handleKeyUp(KeyEvent e) {
+            int code = e.getKeyCode();
+            PSApp app = (PSApp)this.mScenario.getApp();
+            
+            switch (code) {
+                case KeyEvent.VK_SHIFT:
+                    XCmdToChangeScene.execute(app, 
+                        PSDrawEdgeScenario.EditEdgeReadyScene.getSingleton(),
+                        null);
+                    break;
+            }
+        }
+
+        @Override
+        public void updateSupportObjects() {
+        }
+
+        @Override
+        public void renderWorldOjbects(Graphics2D g2) {
+        }
+
+        @Override
+        public void renderScreenOjbects(Graphics2D g2) {
+            PSApp app = (PSApp) this.mScenario.getApp();
+            PSDrawEdgeScenario scenario = (PSDrawEdgeScenario) this.mScenario;
+            scenario.drawEdge(g2);
+        }
+
+        @Override
+        public void getReady() {
+        }
+
+        @Override
+        public void wrapUp() {
+        }
+    }
+    
+        public static class MoveEdgeInputScene extends PSScene {
+        private static MoveEdgeInputScene mSingleton = null;
+        public static MoveEdgeInputScene getSingleton() {
+            assert(MoveEdgeInputScene.mSingleton != null);
+            return MoveEdgeInputScene.mSingleton;
+        }
+        
+        public static MoveEdgeInputScene createSingleton(
+            XScenario scenario) {
+            assert(MoveEdgeInputScene.mSingleton == null);
+            MoveEdgeInputScene.mSingleton = 
+                new MoveEdgeInputScene(scenario);
+            return MoveEdgeInputScene.mSingleton;
+        }
+        
+        private MoveEdgeInputScene(XScenario scenario) {
+            super(scenario);
+        }
+        
+        @Override
+        public void handleMousePress(MouseEvent e) {
+        }
+
+        @Override
+        public void handleMouseDrag(MouseEvent e) {
+            PSApp app = (PSApp) this.mScenario.getApp();
+            Point pt = e.getPoint();
+            Point.Double mWorldPt = app.getXform().calcPtFromScreenToWorld(pt);
+            app.getEdgeMgr().getCurEdge().calcArrowStart(mWorldPt);
+        }
+
+        @Override
+        public void handleMouseRelease(MouseEvent e) {
+            PSApp app = (PSApp)this.mScenario.getApp();
+            XCmdToChangeScene.execute(app, 
+                PSDrawEdgeScenario.MoveEdgeReadyScene.getSingleton(),
+                null);
+        }
+
+        @Override
+        public void handleKeyDown(KeyEvent e) {
+            
+        }
+
+        @Override
+        public void handleKeyUp(KeyEvent e) {
+            int code = e.getKeyCode();
+            PSApp app = (PSApp)this.mScenario.getApp();
+            
+            switch (code) {
+                case KeyEvent.VK_SHIFT:
+                    XCmdToChangeScene.execute(app, 
+                        PSDrawEdgeScenario.EditEdgeReadyScene.getSingleton(),
+                        null);
+                    break;
+            }
+        }
+
+        @Override
+        public void updateSupportObjects() {
+        }
+
+        @Override
+        public void renderWorldOjbects(Graphics2D g2) {
+        }
+
+        @Override
+        public void renderScreenOjbects(Graphics2D g2) {
+            PSApp app = (PSApp) this.mScenario.getApp();
+            PSDrawEdgeScenario scenario = (PSDrawEdgeScenario) this.mScenario;
+            scenario.drawEdge(g2);
+        }
+
+        @Override
+        public void getReady() {
+        }
+
+        @Override
+        public void wrapUp() {
         }
     }
     
